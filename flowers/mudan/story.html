@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>《山家清供》·牡丹篇·第三章 读故事</title>
+<link rel="stylesheet" href="../../assets/ui/sjq-sound-control.css">
+<script src="../../assets/ui/sjq-sound-control.js" defer></script>
 <style>
 :root{--paper:#F7F1E7;--paper-soft:#FBF8F2;--card:#FFFDF8;--ink:#40382E;--muted:#8B7965;--gold:#C79F5D;--gold-light:#DFBD82;--green:#6F7959;--line:rgba(199,159,93,.22);--line-strong:rgba(199,159,93,.38);--radius-card:24px;--radius-panel:28px;--radius-pill:999px;--shadow:0 16px 38px rgba(85,65,31,.08);--shadow-soft:0 9px 22px rgba(85,65,31,.06);--header-h:76px;--font-serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;--font-title:"STKaiti","KaiTi","FangSong","Noto Serif SC",serif}
 *{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:var(--font-serif);font-size:15px;line-height:1.75;overflow:hidden}button{font:inherit;color:inherit}button:focus-visible{outline:2px solid rgba(199,159,93,.72);outline-offset:3px}
@@ -31,7 +33,7 @@
     <button type="button" data-nav="poem" aria-disabled="true">赏诗词</button>
     <button type="button" data-nav="meaning" aria-disabled="true">品意蕴</button>
   </nav>
-  <div class="site-tools"><button class="audio-button" id="audioBtn" type="button" aria-pressed="false" aria-label="切换山林清音"><span class="audio-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>山林清音</button><span class="flower-status">牡丹篇 · 第三章</span></div>
+  <div class="site-tools"><div class="sjq-sound-dock sjq-sound-dock--header" aria-label="背景音乐控制"><button class="sjq-sound-control" type="button" data-sjq-sound-toggle data-audio-target="#siteBgm" aria-label="播放山林清音" aria-pressed="false"><span class="sjq-sound-bars" aria-hidden="true"><i></i><i></i><i></i></span></button><span class="sjq-sound-tip" data-sjq-sound-tip aria-hidden="true">启清音</span></div><span class="flower-status">牡丹篇 · 第三章</span></div>
 </header>
 
 <main class="main">
@@ -71,6 +73,7 @@
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<audio class="sjq-bgm-audio" id="siteBgm" data-sjq-bgm loop preload="metadata" src="../../assets/audio/山林清音.m4a"></audio>
 <script>
 (() => {
   const STORIES=[
@@ -85,7 +88,7 @@
       {label:'贬至洛阳',hint:'离开宫苑之后，牡丹在洛阳重新盛放。',image:'assets/story-legend-03-luoyang.png',classical:'后怒，贬之洛阳。故今洛阳牡丹冠绝天下，不负其傲骨之名。',plain:'她因此发怒，把牡丹贬到洛阳。所以如今洛阳的牡丹冠绝天下，也不辜负它傲骨的名声。'}
     ]}
   ];
-  const tabs=[...document.querySelectorAll('.story-tab')],progress=[...document.querySelectorAll('.story-progress i')],image=document.getElementById('storyImage'),title=document.getElementById('storyTitle'),subtitle=document.getElementById('storySubtitle'),tag=document.getElementById('sourceTag'),readText=document.getElementById('readText'),readSource=document.getElementById('readSource'),insight=document.getElementById('insight'),count=document.getElementById('visualCount'),sceneLabel=document.getElementById('sceneLabel'),sceneHint=document.getElementById('sceneHint'),sceneNext=document.getElementById('sceneNext'),sceneTabs=[...document.querySelectorAll('[data-scene]')],nextBtn=document.getElementById('nextBtn'),prevBtn=document.getElementById('prevBtn'),toast=document.getElementById('toast'),audioBtn=document.getElementById('audioBtn');
+  const tabs=[...document.querySelectorAll('.story-tab')],progress=[...document.querySelectorAll('.story-progress i')],image=document.getElementById('storyImage'),title=document.getElementById('storyTitle'),subtitle=document.getElementById('storySubtitle'),tag=document.getElementById('sourceTag'),readText=document.getElementById('readText'),readSource=document.getElementById('readSource'),insight=document.getElementById('insight'),count=document.getElementById('visualCount'),sceneLabel=document.getElementById('sceneLabel'),sceneHint=document.getElementById('sceneHint'),sceneNext=document.getElementById('sceneNext'),sceneTabs=[...document.querySelectorAll('[data-scene]')],nextBtn=document.getElementById('nextBtn'),prevBtn=document.getElementById('prevBtn'),toast=document.getElementById('toast');
   const state={current:0,scene:0,visited:new Set([0]),read:'classical'};
   function showToast(t){toast.textContent=t;toast.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove('show'),1800)}
   function render(){const story=STORIES[state.current],scene=story.scenes[state.scene];tabs.forEach((tab,i)=>{tab.classList.toggle('active',i===state.current);tab.classList.toggle('visited',state.visited.has(i))});progress.forEach((bar,i)=>bar.classList.toggle('on',state.visited.has(i)));sceneTabs.forEach((btn,i)=>{btn.classList.toggle('active',i===state.scene);btn.classList.toggle('done',i<state.scene)});image.classList.remove('active');setTimeout(()=>{image.src=scene.image;image.alt=scene.hint;image.classList.add('active')},100);title.textContent=story.title;subtitle.textContent=story.sub;tag.textContent=story.tag;readText.textContent=state.read==='classical'?scene.classical:scene.plain;readSource.textContent=state.read==='classical'?story.source:'白话释义';insight.textContent=story.insight[state.scene];count.textContent=`0${state.scene+1} / 03`;sceneLabel.textContent=scene.label;sceneHint.textContent=scene.hint;sceneNext.textContent=state.scene<2?'继续 →':state.current===0?'下一则故事 →':'故事读完';nextBtn.disabled=false;nextBtn.textContent=state.scene<2?'继续 →':state.current===0?'下一则故事 →':state.visited.size===2?'进入第四章 · 赏诗词 →':'故事读完'}
@@ -93,7 +96,7 @@
   tabs.forEach((tab,i)=>tab.addEventListener('click',()=>{state.current=i;state.scene=0;state.visited.add(i);render()}));sceneTabs.forEach((btn,i)=>btn.addEventListener('click',()=>goScene(i)));sceneNext.addEventListener('click',()=>{if(state.scene<2){goScene(state.scene+1);return}if(state.current===0){state.current=1;state.scene=0;state.visited.add(1);render();return}showToast('两则故事已经读完。')});
   document.querySelectorAll('[data-read]').forEach(btn=>btn.addEventListener('click',()=>{state.read=btn.dataset.read;document.querySelectorAll('[data-read]').forEach(b=>{const active=b.dataset.read===state.read;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});render()}));
   prevBtn.addEventListener('click',()=>{window.location.href='recipe.html'});nextBtn.addEventListener('click',()=>{if(state.scene<2){goScene(state.scene+1);return}if(state.current===0){state.current=1;state.scene=0;state.visited.add(1);render();return}window.location.href='poetry.html'});
-  document.querySelectorAll('[data-nav]').forEach(btn=>btn.addEventListener('click',()=>{if(btn.getAttribute('aria-disabled')==='true'){showToast('该章节尚未接入。');return}if(btn.dataset.href){window.location.href=btn.dataset.href}}));audioBtn.addEventListener('click',()=>{const on=audioBtn.getAttribute('aria-pressed')==='true';audioBtn.setAttribute('aria-pressed',String(!on));showToast(on?'山林清音已暂停':'山林清音已开启')});
+  document.querySelectorAll('[data-nav]').forEach(btn=>btn.addEventListener('click',()=>{if(btn.getAttribute('aria-disabled')==='true'){showToast('该章节尚未接入。');return}if(btn.dataset.href){window.location.href=btn.dataset.href}}));
   render();
 })();
 </script>

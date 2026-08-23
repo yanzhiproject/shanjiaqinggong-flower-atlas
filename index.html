@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f1e5">
   <title>《山家清供》花馔图鉴</title>
+  <link rel="stylesheet" href="assets/ui/sjq-sound-control.css">
+  <script src="assets/ui/sjq-sound-control.js" defer></script>
   <style>
     @font-face {
       font-family: "WenYueGuTiFangSong";
@@ -1046,6 +1048,14 @@
       <span class="progress-dot" data-progress="3"><span class="sr-only">进入花馔图鉴</span></span>
     </nav>
   </main>
+
+  <div class="sjq-sound-dock sjq-sound-dock--home" aria-label="背景音乐控制">
+    <button class="sjq-sound-control" type="button" data-sjq-sound-toggle data-audio-target="#siteBgm" aria-label="播放山林清音" aria-pressed="false">
+      <span class="sjq-sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <span class="sjq-sound-tip" data-sjq-sound-tip aria-hidden="true">启清音</span>
+  </div>
+  <audio class="sjq-bgm-audio" id="siteBgm" data-sjq-bgm src="assets/audio/山林清音.m4a" loop preload="metadata"></audio>
 
   <script>
     (() => {

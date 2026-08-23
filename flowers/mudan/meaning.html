@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>《山家清供》· 牡丹 · 第五章 品意蕴</title>
+<link rel="stylesheet" href="../../assets/ui/sjq-sound-control.css">
+<script src="../../assets/ui/sjq-sound-control.js" defer></script>
 <style>
 :root{--paper:#f6f0e6;--card:#fffdf8;--ink:#40382e;--muted:#8b7965;--gold:#c79f5d;--gold2:#dfbd82;--green:#6f7959;--line:#eadbc3;--soft:#f2ebdf;--shadow:0 18px 48px rgba(93,72,43,.10)}
 *{box-sizing:border-box}
@@ -55,7 +57,7 @@ button,a{font:inherit}button{color:inherit}button:focus-visible,a:focus-visible{
       <a href="poetry.html">赏诗词</a>
       <span class="active" aria-current="page">品意蕴</span>
     </nav>
-    <button class="audio" id="audioBtn" type="button" aria-label="播放山林清音"><b>▥</b><span>山林清音</span></button>
+    <div class="sjq-sound-dock sjq-sound-dock--header" aria-label="背景音乐控制"><button class="sjq-sound-control" type="button" data-sjq-sound-toggle data-audio-target="#bgm" aria-label="播放山林清音" aria-pressed="false"><span class="sjq-sound-bars" aria-hidden="true"><i></i><i></i><i></i></span></button><span class="sjq-sound-tip" data-sjq-sound-tip aria-hidden="true">启清音</span></div>
   </header>
   <main class="stage" id="stage" aria-live="polite">
     <canvas id="petalCanvas" aria-hidden="true"></canvas>
@@ -77,7 +79,7 @@ button,a{font:inherit}button{color:inherit}button:focus-visible,a:focus-visible{
     </div>
   </div>
 </section>
-<audio id="bgm" src="assets-audio/山林清音.m4a" loop preload="metadata"></audio>
+<audio class="sjq-bgm-audio" id="bgm" data-sjq-bgm src="../../assets/audio/山林清音.m4a" loop preload="metadata"></audio>
 <script>
 const pages=[
   {topic:"牡丹 · 何以动人",lines:["一味牡丹，何以动人","世人看见它的国色天香","《山家清供》却让它走入寻常饮食"],hero:0},
@@ -99,8 +101,6 @@ function showFinish(){clearTimer();finish.classList.add('show');finish.setAttrib
 stage.addEventListener('click',advance);
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();advance()}else if(e.key==='ArrowLeft'&&pageIndex>0)go(pageIndex-1)});
 document.getElementById('backAtlas').addEventListener('click',()=>{location.href='../../index.html?home=1'});
-const bgm=document.getElementById('bgm'),audioBtn=document.getElementById('audioBtn');
-audioBtn.addEventListener('click',async e=>{e.stopPropagation();if(bgm.paused){try{await bgm.play();audioBtn.innerHTML='<b>Ⅱ</b><span>暂停清音</span>';audioBtn.setAttribute('aria-label','暂停山林清音')}catch{}}else{bgm.pause();audioBtn.innerHTML='<b>▥</b><span>山林清音</span>';audioBtn.setAttribute('aria-label','播放山林清音')}});
 const canvas=document.getElementById('petalCanvas'),ctx=canvas.getContext('2d');let petals=[];
 function resize(){const r=stage.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=r.width*dpr;canvas.height=r.height*dpr;canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';ctx.setTransform(dpr,0,0,dpr,0,0);petals=Array.from({length:22},()=>makePetal(r.width,r.height,true))}
 function makePetal(w,h,randomY=false){return{x:Math.random()*w,y:randomY?Math.random()*h:-20-Math.random()*100,s:3+Math.random()*5,v:.18+Math.random()*.32,drift:(Math.random()-.5)*.25,a:.12+Math.random()*.22,r:Math.random()*Math.PI}}

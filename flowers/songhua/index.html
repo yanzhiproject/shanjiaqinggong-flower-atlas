@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>松花篇｜《山家清供》花馔图鉴</title>
+<link rel="stylesheet" href="../../assets/ui/sjq-sound-control.css">
+<script src="../../assets/ui/sjq-sound-control.js" defer></script>
 <style>
 :root{--paper:#f7f1e7;--surface:#fffdf8;--ink:#40392f;--muted:#887b69;--gold:#c59b55;--gold-soft:#ddb970;--green:#6d7755;--line:rgba(197,155,85,.28);--header:72px;--footer:64px}
 *{box-sizing:border-box}
@@ -37,7 +39,7 @@ button:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(109,119,85,.24)}
   .site-header{grid-template-columns:112px minmax(400px,1fr) 112px;gap:10px;padding-left:14px;padding-right:14px}.chapter-nav button{padding:0 7px;font-size:14px}.music-button{min-width:108px;padding:0 11px}.chapter-stage{padding-left:14px;padding-right:14px}.chapter-panel{left:14px;right:14px}.chapter-footer{padding-left:14px;padding-right:14px}
 }
 @media(max-width:760px){
-  :root{--header:112px;--footer:60px}.site-header{grid-template-columns:1fr auto;grid-template-rows:52px 52px;grid-template-areas:"back music" "nav nav";gap:0 10px}.atlas-back{grid-area:back}.music-button{grid-area:music}.chapter-nav{grid-area:nav;width:100%;height:48px}.chapter-nav button{height:36px;font-size:12px}.chapter-stage{padding:8px}.chapter-panel{inset:8px}.chapter-frame{border-radius:16px}.chapter-footer{grid-template-columns:1fr 1fr}.chapter-status{display:none}.footer-button{min-width:0;width:min(150px,100%)}
+  :root{--header:112px;--footer:60px}.site-header{grid-template-columns:1fr auto;grid-template-rows:52px 52px;grid-template-areas:"back music" "nav nav";gap:0 10px}.atlas-back{grid-area:back}.sjq-sound-dock--header{grid-area:music}.chapter-nav{grid-area:nav;width:100%;height:48px}.chapter-nav button{height:36px;font-size:12px}.chapter-stage{padding:8px}.chapter-panel{inset:8px}.chapter-frame{border-radius:16px}.chapter-footer{grid-template-columns:1fr 1fr}.chapter-status{display:none}.footer-button{min-width:0;width:min(150px,100%)}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
@@ -54,7 +56,10 @@ button:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(109,119,85,.24)}
     <nav class="chapter-nav" aria-label="松花篇章节导航">
       <button data-index="0" aria-current="page">识名物</button><button data-index="1">看菜谱</button><button data-index="2">读故事</button><button data-index="3">赏诗词</button><button data-index="4">品意蕴</button>
     </nav>
-    <button class="music-button" id="musicButton" type="button" aria-pressed="false"><span class="music-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="musicLabel">开启山林清音</span></button>
+    <div class="sjq-sound-dock sjq-sound-dock--header" style="justify-self:end" aria-label="背景音乐控制">
+      <button class="sjq-sound-control" type="button" data-sjq-sound-toggle data-audio-target="#siteBgm" aria-label="播放山林清音" aria-pressed="false"><span class="sjq-sound-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+      <span class="sjq-sound-tip" data-sjq-sound-tip aria-hidden="true">启清音</span>
+    </div>
   </header>
   <main class="chapter-stage">
     <section class="chapter-panel active" data-index="0"><iframe class="chapter-frame" data-kind="identify" title="松花识名物" srcdoc="&lt;!doctype html&gt;
@@ -2602,9 +2607,7 @@ document.getElementById(&#x27;backAtlas&#x27;).onclick=()=&gt;{
     <button class="footer-button next" id="nextButton">看菜谱 →</button>
   </footer>
 </div>
-<audio id="siteBgm" loop preload="auto" autoplay playsinline>
-  <source src="assets/asset-025-8f0bb52f8b.mp4" type="audio/mp4">
-</audio>
+<audio class="sjq-bgm-audio" id="siteBgm" data-sjq-bgm loop preload="metadata" src="../../assets/audio/山林清音.m4a"></audio>
 <script>
 (()=>{
   const names=['识名物','看菜谱','读故事','赏诗词','品意蕴'];
@@ -2641,11 +2644,6 @@ document.getElementById(&#x27;backAtlas&#x27;).onclick=()=&gt;{
     const apply=()=>{try{const d=frame.contentDocument;if(!d?.head)return;let style=d.getElementById('sjq-shell-adapter');if(!style){style=d.createElement('style');style.id='sjq-shell-adapter';d.head.appendChild(style)}style.textContent=frameCss[frame.dataset.kind]||''}catch(error){}};
     frame.addEventListener('load',apply);apply();
   });
-  const audio=document.getElementById('siteBgm'),musicButton=document.getElementById('musicButton'),musicLabel=document.getElementById('musicLabel');
-  function syncMusic(){const playing=audio&&!audio.paused;musicButton.classList.toggle('playing',playing);musicButton.setAttribute('aria-pressed',playing?'true':'false');musicLabel.textContent=playing?'山林清音播放中':'开启山林清音'}
-  async function startMusic(){if(!audio)return;audio.loop=true;audio.volume=.22;try{await audio.play()}catch(error){}syncMusic()}
-  musicButton.addEventListener('click',async()=>{if(!audio)return;if(audio.paused)await startMusic();else audio.pause();syncMusic()});
-  startMusic();document.addEventListener('pointerdown',()=>{if(audio?.paused)startMusic()},{once:true,capture:true});
   show(0);
 })();
 </script>
