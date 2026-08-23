@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>《山家清供》·牡丹篇·第二章 看菜谱</title>
+<style>
+:root{
+  --paper:#F7F1E7;--paper-soft:#FBF8F2;--card:#FFFDF8;--ink:#40382E;--muted:#8B7965;
+  --gold:#C79F5D;--gold-light:#DFBD82;--green:#6F7959;--line:rgba(199,159,93,.22);--line-strong:rgba(199,159,93,.38);
+  --radius-card:24px;--radius-panel:28px;--radius-pill:999px;--shadow:0 16px 38px rgba(85,65,31,.08);--shadow-soft:0 9px 22px rgba(85,65,31,.06);
+  --header-h:76px;--font-serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;--font-title:"STKaiti","KaiTi","FangSong","Noto Serif SC",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;min-height:100%;background:var(--paper);color:var(--ink);font-family:var(--font-serif);font-size:15px;line-height:1.75;overflow:hidden}
+body{overflow-x:hidden}
+button{font:inherit;color:inherit}
+button:focus-visible{outline:2px solid rgba(199,159,93,.72);outline-offset:3px}
+.site-header{height:var(--header-h);padding:0 26px;display:grid;grid-template-columns:minmax(180px,1fr) minmax(500px,600px) minmax(180px,1fr);gap:20px;align-items:center;border-bottom:1px solid var(--line);background:rgba(251,248,242,.97);position:sticky;top:0;z-index:20}
+.site-back{color:var(--muted);text-decoration:none;padding:9px 0;white-space:nowrap}
+.site-back:hover{color:var(--ink)}
+.pill-nav{width:100%;height:52px;padding:5px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--line);border-radius:var(--radius-pill);background:var(--card);box-shadow:var(--shadow-soft)}
+.pill-nav button{border:0;border-radius:var(--radius-pill);background:transparent;color:var(--muted);cursor:pointer;transition:background .18s ease-out,color .18s ease-out,transform .18s ease-out}
+.pill-nav button:hover{transform:translateY(-1px);color:var(--ink)}
+.pill-nav button.active{background:var(--gold);color:#fff;box-shadow:0 8px 16px rgba(130,95,42,.12)}
+.pill-nav button[aria-disabled="true"]{cursor:default}
+.site-tools{justify-self:end;display:flex;align-items:center;gap:12px}
+.audio-button{min-width:142px;min-height:44px;padding:8px 15px;border:1px solid var(--line-strong);border-radius:var(--radius-pill);background:var(--card);color:var(--muted);cursor:pointer;white-space:nowrap}
+.audio-button[aria-pressed="true"]{background:#F4E8D2;color:var(--ink)}
+.audio-bars{display:inline-flex;align-items:end;gap:2px;height:13px;margin-right:8px;vertical-align:-1px}.audio-bars i{display:block;width:2px;border-radius:2px;background:var(--gold)}.audio-bars i:nth-child(1){height:5px}.audio-bars i:nth-child(2){height:11px}.audio-bars i:nth-child(3){height:8px}.audio-bars i:nth-child(4){height:13px}
+.flower-status{font-size:12px;color:var(--muted);white-space:nowrap}
+.main{max-width:1540px;margin:0 auto;height:calc(100vh - var(--header-h));padding:16px 22px 20px;overflow:hidden}
+.chapter-shell{display:grid;grid-template-columns:250px minmax(0,1fr) 390px;gap:18px;height:100%;min-height:0}
+.steps-card,.visual-panel,.info-card{border:1px solid var(--line);background:rgba(255,253,248,.95);box-shadow:var(--shadow-soft)}
+.steps-card,.info-card{border-radius:var(--radius-card);min-height:0;height:100%}
+.steps-card{padding:24px 16px 18px;display:flex;flex-direction:column}
+.steps-kicker{margin:0 4px 2px;color:var(--gold);font-size:12px;letter-spacing:.12em}.mini-title{font-family:var(--font-title);font-size:19px;letter-spacing:.08em;margin:2px 4px 5px}.mini-title::after{content:"";display:block;width:28px;height:2px;border-radius:99px;background:var(--gold);margin-top:8px;opacity:.75}.steps-subtitle{margin:0 4px 11px;color:var(--muted);font-size:12px}
+.progress{display:flex;gap:7px;margin:8px 2px 16px}.progress i{height:5px;flex:1;border-radius:var(--radius-pill);background:rgba(199,159,93,.16)}.progress i.on{background:var(--gold)}
+.step-list{display:grid;gap:11px;margin-top:1px}.step{position:relative;padding:13px 12px 13px 17px;border:1px solid var(--line);border-radius:16px;background:rgba(251,248,242,.72);font-size:14px;color:var(--muted);cursor:pointer;transition:background .18s ease-out,border-color .18s ease-out,transform .18s ease-out,opacity .18s ease-out}.step::before{content:"";position:absolute;left:-1px;top:50%;width:3px;height:0;border-radius:9px;background:var(--gold);transform:translateY(-50%);transition:height .18s ease-out}.step:hover{transform:translateX(2px);background:#FFFCF6}.step.active{background:#F5E9D3;color:var(--ink);border-color:var(--line-strong);box-shadow:0 8px 20px rgba(85,65,31,.05)}.step.active::before{height:24px}.step.complete::after{content:"✓";float:right;color:var(--green)}.step.locked{cursor:default;opacity:.44}.step.locked:hover{transform:none;background:rgba(251,248,242,.72)}
+.visual-panel{position:relative;min-height:0;height:100%;overflow:hidden;border-radius:var(--radius-panel);background:var(--paper-soft);isolation:isolate}
+.visual-panel::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.6);border-radius:inherit;pointer-events:none;z-index:10}
+.scene{position:absolute;inset:0;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .18s ease-out,transform .18s ease-out;transform:translateY(5px)}
+.scene.active{opacity:1;pointer-events:auto;transform:translateY(0)}
+.scene-image{width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none;transition:opacity .18s ease-out,transform .18s ease-out}.scene-image.swap{opacity:.28;transform:scale(.98)}
+.scene-image.contain{object-fit:cover;padding:0}
+.scene-hit{position:absolute;inset:0;border:0;background:transparent;cursor:pointer;z-index:3}
+.scene-hit:focus-visible{outline:2px solid rgba(199,159,93,.8);outline-offset:-7px}
+.scene.done .scene-image{filter:saturate(.9) brightness(1.03)}
+.scene-label{position:absolute;left:22px;bottom:22px;z-index:5;padding:8px 14px;border:1px solid var(--line);border-radius:var(--radius-pill);background:rgba(255,253,248,.92);color:var(--muted);font-size:12px}
+.done-mark{position:absolute;right:22px;top:22px;z-index:5;padding:7px 12px;border:1px solid rgba(111,121,89,.35);border-radius:var(--radius-pill);background:#EEF0E8;color:var(--green);font-size:12px;opacity:0;transition:opacity .18s ease-out}.scene.done .done-mark{opacity:1}
+.original-scene{padding:38px;background:url('assets/recipe-peony-original-bg.png') center/cover no-repeat}.original-sheet{width:min(78%,760px);padding:34px 38px;border:1px solid var(--line-strong);border-radius:20px;background:rgba(255,252,246,.94);box-shadow:var(--shadow);text-align:left}.original-sheet .kicker{font-size:12px;letter-spacing:.16em;color:var(--gold);text-align:center}.original-sheet h2{margin:8px 0 18px;text-align:center;font-family:var(--font-title);font-size:38px;font-weight:500;line-height:1.35}.original-sheet blockquote{margin:0;font-size:18px;line-height:2.05;color:#584C3D}.original-sheet .source{margin-top:16px;text-align:right;font-size:12px;color:var(--muted)}
+.info-card{padding:22px 22px 18px;display:flex;flex-direction:column}.mini{color:var(--gold);font-size:12px;letter-spacing:.12em}.info-card h1{margin:8px 0 7px;font-family:var(--font-title);font-size:30px;font-weight:500;line-height:1.35;text-wrap:balance}.lead{margin:0 0 11px;color:#655847;font-size:14px;line-height:1.9}.copy{padding:13px 14px;border-radius:16px;background:#FBF7EE;border:1px solid var(--line);font-size:13px;line-height:1.85;color:#655847}.copy strong{display:block;margin-bottom:3px;color:var(--gold);font-weight:500;letter-spacing:.06em}.task-status{margin-top:11px;padding:11px 12px;border-radius:14px;background:#F1F2EB;color:#5F684C;font-size:13px;line-height:1.7}.task-status.pending{background:#FBF7EE;color:var(--muted)}
+.culture-card{margin-top:12px;padding:13px 14px;border:1px solid var(--line);border-radius:16px;background:#FFF9EE;font-size:13px;line-height:1.85}.culture-card strong{display:block;color:var(--gold);font-weight:500;margin-bottom:3px}
+.recipe-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}.meta-card{padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:rgba(251,248,242,.76);font-size:12px;color:var(--muted);line-height:1.65}.meta-card strong{display:block;color:var(--ink);font-weight:500;font-size:13px;margin-bottom:2px}
+.card-actions{margin-top:auto;padding-top:18px;display:flex;align-items:center;justify-content:space-between;gap:10px}.btn-primary,.btn-secondary,.btn-text{min-height:46px;border-radius:var(--radius-pill);cursor:pointer;transition:transform .18s ease-out,box-shadow .18s ease-out,background .18s ease-out}.btn-primary{min-width:148px;padding:10px 22px;border:1px solid transparent;background:var(--gold);color:#fff;box-shadow:0 9px 20px rgba(130,95,42,.17)}.btn-primary:hover{transform:translateY(-1px)}.btn-primary:disabled{cursor:not-allowed;opacity:.38;box-shadow:none;transform:none}.btn-secondary{min-width:132px;padding:10px 20px;border:1px solid var(--line-strong);background:var(--card)}.btn-secondary:hover{transform:translateY(-1px);box-shadow:var(--shadow-soft)}.btn-text{padding:10px 8px;border:0;background:transparent;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:28px;z-index:40;transform:translate(-50%,18px);opacity:0;pointer-events:none;padding:10px 16px;border-radius:var(--radius-pill);background:rgba(64,56,46,.92);color:#fff;font-size:13px;transition:opacity .18s ease-out,transform .18s ease-out}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (max-width:1180px){.site-header{grid-template-columns:180px minmax(440px,1fr) 150px;gap:12px;padding-inline:18px}.flower-status{display:none}.main{padding-inline:14px}.chapter-shell{grid-template-columns:220px minmax(0,1fr) 340px;gap:12px}}
+@media (max-height:760px) and (min-width:921px){.site-header{height:68px;--header-h:68px}.main{height:calc(100vh - 68px);padding:10px 16px 12px}.chapter-shell{gap:12px}.steps-card{padding:16px 12px 12px}.info-card{padding:16px 18px 13px}.info-card h1{font-size:27px}.lead{font-size:13px;margin-bottom:7px}.copy{padding:10px 12px}.task-status{margin-top:8px;padding:8px 10px}.recipe-meta{margin-top:8px}.card-actions{padding-top:10px}.scene-label{bottom:15px}}
+@media (max-width:920px){.site-header{height:auto;min-height:var(--header-h);grid-template-columns:1fr auto;padding:10px 14px}.pill-nav{grid-column:1/-1;grid-row:2;width:100%;margin-top:2px}.site-tools{grid-column:2;grid-row:1}.main{height:auto;min-height:calc(100vh - var(--header-h));overflow:auto;padding:14px}.chapter-shell{height:auto;min-height:0;grid-template-columns:1fr}.steps-card{order:1;height:auto}.visual-panel{order:2;height:56vh;min-height:420px}.info-card{order:3;height:auto;min-height:460px}.step-list{grid-template-columns:repeat(4,minmax(0,1fr))}.step{font-size:13px}}
+@media (max-width:620px){.site-header{padding-inline:12px}.site-back{font-size:13px}.pill-nav{height:48px;grid-template-columns:repeat(5,minmax(70px,1fr));overflow:auto}.pill-nav button{font-size:13px}.main{padding:10px}.visual-panel{height:52vh;min-height:340px}.original-scene{padding:16px}.original-sheet{width:92%;padding:23px 20px}.original-sheet h2{font-size:29px}.original-sheet blockquote{font-size:15px;line-height:1.9}.info-card{padding:20px 18px 16px}.info-card h1{font-size:27px}.step-list{grid-template-columns:repeat(2,minmax(0,1fr))}.card-actions{align-items:stretch;flex-direction:column-reverse}.card-actions button{width:100%}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="site-back" href="identify.html">← 返回识名物</a>
+  <nav class="pill-nav" aria-label="章节导航">
+    <button type="button" data-nav="identify" aria-disabled="true">识名物</button>
+    <button type="button" class="active" aria-current="page">看菜谱</button>
+    <button type="button" data-nav="story" aria-disabled="true">读故事</button>
+    <button type="button" data-nav="poem" aria-disabled="true">赏诗词</button>
+    <button type="button" data-nav="meaning" aria-disabled="true">品意蕴</button>
+  </nav>
+  <div class="site-tools">
+    <button class="audio-button" id="audioBtn" type="button" aria-pressed="false" aria-label="切换山林清音">
+      <span class="audio-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>山林清音
+    </button>
+    <span class="flower-status">牡丹篇 · 第二章</span>
+  </div>
+</header>
+
+<main class="main">
+  <section class="chapter-shell" aria-label="牡丹生菜制作体验">
+    <aside class="steps-card" aria-label="制作步骤">
+      <div class="steps-kicker">牡丹生菜 · 依据原文</div>
+      <div class="mini-title">制作步骤</div>
+      <p class="steps-subtitle">四步完成一味清供</p>
+      <div class="progress" id="progress" aria-label="步骤进度"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="step-list" id="stepList">
+        <button class="step locked" type="button" data-step="0">01 · 采牡丹瓣</button>
+        <button class="step locked" type="button" data-step="1">02 · 和生菜</button>
+        <button class="step locked" type="button" data-step="2">03 · 襞薄面</button>
+        <button class="step locked" type="button" data-step="3">04 · 酥炸花瓣</button>
+      </div>
+    </aside>
+
+    <section class="visual-panel" aria-label="制作画面">
+      <div class="scene original-scene active" data-scene="original">
+        <div class="original-sheet">
+          <div class="kicker">《山家清供》·牡丹生菜</div>
+          <h2>原文</h2>
+          <blockquote>完璧喜清俭，不嗜荤。每令后苑进生菜，必采牡丹瓣和之。或用微面襞，炸之以酥。</blockquote>
+          <div class="source">——《山家清供·牡丹生菜》</div>
+        </div>
+        <div class="scene-label">牡丹生菜 · 原文卷页</div>
+      </div>
+
+      <div class="scene" data-scene="step0">
+        <img class="scene-image contain" src="assets/recipe-peony-pick-before.png" data-after="assets/recipe-peony-petals.png" alt="盛开的牡丹花与空竹盘">
+        <button class="scene-hit" type="button" data-complete="0" aria-label="点击采下牡丹花瓣"></button>
+        <div class="scene-label">第一步 · 取花瓣</div><div class="done-mark">本步完成</div>
+      </div>
+      <div class="scene" data-scene="step1">
+        <img class="scene-image contain" src="assets/recipe-peony-salad-before.png" data-after="assets/recipe-peony-salad.png" alt="青瓷盘中的单独生菜">
+        <button class="scene-hit" type="button" data-complete="1" aria-label="点击将牡丹花瓣与生菜相和"></button>
+        <div class="scene-label">第二步 · 和生菜</div><div class="done-mark">本步完成</div>
+      </div>
+      <div class="scene" data-scene="step2">
+        <img class="scene-image contain" src="assets/recipe-peony-flour-before.png" data-after="assets/recipe-peony-flour.png" alt="尚未裹面的牡丹花瓣与面粉">
+        <button class="scene-hit" type="button" data-complete="2" aria-label="点击为牡丹花瓣襞上薄面"></button>
+        <div class="scene-label">第三步 · 襞薄面</div><div class="done-mark">本步完成</div>
+      </div>
+      <div class="scene" data-scene="step3">
+        <img class="scene-image contain" src="assets/recipe-peony-fry-before.png" data-after="assets/recipe-peony-fry.png" alt="尚未起泡的油锅与裹面花瓣">
+        <button class="scene-hit" type="button" data-complete="3" aria-label="点击酥炸牡丹花瓣"></button>
+        <div class="scene-label">第四步 · 炸之以酥</div><div class="done-mark">本步完成</div>
+      </div>
+      <div class="scene" data-scene="complete">
+        <img class="scene-image contain" src="assets/recipe-peony-finished.png" alt="完成的酥炸牡丹花瓣">
+        <div class="scene-label">牡丹生菜 · 清芬入席</div>
+      </div>
+    </section>
+
+    <article class="info-card" id="infoCard">
+      <div class="mini">第二章 · 看菜谱</div>
+      <h1 id="title">从原文出发</h1>
+      <p class="lead" id="lead">林洪写得极简：牡丹花瓣可以和生菜同食，也可以薄面裹花，炸之以酥。</p>
+      <div class="copy" id="quote"><strong>原文依据</strong>“完璧喜清俭，不嗜荤。每令后苑进生菜，必采牡丹瓣和之。”</div>
+      <div class="task-status pending" id="taskStatus">先读原文，再点击“循原文做菜”，进入第一步。</div>
+      <div class="recipe-meta" id="recipeMeta">
+        <div class="meta-card"><strong>清供取法</strong><span id="methodMeta">和生菜 · 或酥炸</span></div>
+        <div class="meta-card"><strong>花瓣状态</strong><span id="stateMeta">初开、完整</span></div>
+      </div>
+      <div class="culture-card" id="culture" hidden><strong>这一道菜的妙处</strong>牡丹不是只供观赏的花。花瓣与生菜相和，清芬、脆嫩与春日的颜色一起入口，正是“山家清供”的生活趣味。</div>
+      <div class="card-actions">
+        <button class="btn-text" id="prevBtn" type="button">← 识名物</button>
+        <button class="btn-primary" id="nextBtn" type="button">循原文做菜 →</button>
+      </div>
+    </article>
+  </section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const steps = [...document.querySelectorAll('.step')];
+  const progress = [...document.querySelectorAll('#progress i')];
+  const scenes = [...document.querySelectorAll('.scene')];
+  const title = document.getElementById('title');
+  const lead = document.getElementById('lead');
+  const quote = document.getElementById('quote');
+  const taskStatus = document.getElementById('taskStatus');
+  const culture = document.getElementById('culture');
+  const methodMeta = document.getElementById('methodMeta');
+  const stateMeta = document.getElementById('stateMeta');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const toast = document.getElementById('toast');
+  const audioBtn = document.getElementById('audioBtn');
+  const state = {phase:'original', step:0, completed:[false,false,false,false]};
+  const data = [
+    {scene:'step0', title:'采牡丹瓣', lead:'取初开的牡丹花瓣，留下柔软、完整的瓣片。', quote:'“每令后苑进生菜，必采牡丹瓣和之。”', task:'点击中央画面，采下牡丹花瓣。',method:'采瓣入盘',state:'初开、完整'},
+    {scene:'step1', title:'与生菜相和', lead:'将花瓣与嫩生菜放在青瓷盘中，让两种春日的清脆相遇。', quote:'“必采牡丹瓣和之。”', task:'点击中央画面，将牡丹花瓣与生菜相和。',method:'花瓣和生菜',state:'清鲜、脆嫩'},
+    {scene:'step2', title:'襞薄面裹花', lead:'若想做成酥脆小食，可用薄面轻轻裹住花瓣。', quote:'“或用微面襞，炸之以酥。”', task:'点击中央画面，为牡丹花瓣襞上薄面。',method:'薄面裹花',state:'轻覆、待炸'},
+    {scene:'step3', title:'炸之以酥', lead:'入油轻炸，花瓣边缘微卷，薄面变得金黄酥松。', quote:'“炸之以酥。”', task:'点击中央画面，完成酥炸。',method:'入油酥炸',state:'金黄、酥松'}
+  ];
+  function showToast(text){toast.textContent=text;toast.classList.add('show');clearTimeout(showToast.t);showToast.t=setTimeout(()=>toast.classList.remove('show'),1800)}
+  function setScene(name){scenes.forEach(s=>s.classList.toggle('active',s.dataset.scene===name))}
+  function updateSteps(){steps.forEach((s,i)=>{s.className='step';if((state.phase==='original'&&i===0)||(state.phase==='steps'&&i===state.step))s.classList.add('active');if(state.completed[i])s.classList.add('complete');if(state.phase==='steps'&&i>state.step&&!state.completed[i-1])s.classList.add('locked');});progress.forEach((p,i)=>p.classList.toggle('on',state.phase==='complete'||(state.phase==='original'&&i===0)||(state.phase==='steps'&&i<=state.step)))}
+  function render(){
+    culture.hidden = state.phase!=='complete';
+    if(state.phase==='original'){
+      setScene('original'); updateSteps(); title.textContent='从原文出发'; lead.textContent='林洪写得极简：牡丹花瓣可以和生菜同食，也可以薄面裹花，炸之以酥。'; quote.innerHTML='<strong>原文依据</strong>“完璧喜清俭，不嗜荤。每令后苑进生菜，必采牡丹瓣和之。”'; taskStatus.textContent='先读原文，再点击“循原文做菜”，进入第一步。'; taskStatus.className='task-status pending'; methodMeta.textContent='和生菜 · 或酥炸'; stateMeta.textContent='初开、完整'; prevBtn.textContent='← 识名物'; nextBtn.textContent='循原文做菜 →'; nextBtn.disabled=false; return;
+    }
+    if(state.phase==='complete'){
+      setScene('complete'); updateSteps(); title.textContent='清芬入席'; lead.textContent='四步完成。牡丹花瓣既可和生菜相和，也可裹薄面酥炸。'; quote.innerHTML='<strong>原文依据</strong>“必采牡丹瓣和之。或用微面襞，炸之以酥。”'; taskStatus.textContent='牡丹生菜制作体验已完成。'; taskStatus.className='task-status'; methodMeta.textContent='清拌 · 酥炸'; stateMeta.textContent='成品入席'; prevBtn.textContent='← 回看第四步'; nextBtn.textContent='进入第三章 · 读故事 →'; nextBtn.disabled=false; return;
+    }
+    const d=data[state.step]; setScene(d.scene); updateSteps(); title.textContent=d.title; lead.textContent=d.lead; quote.innerHTML='<strong>原文依据</strong>'+d.quote; methodMeta.textContent=d.method; stateMeta.textContent=d.state; const done=state.completed[state.step]; taskStatus.textContent=done?'本步已完成，可以继续。':d.task; taskStatus.className='task-status'+(done?'':' pending'); prevBtn.textContent=state.step===0?'← 查看原文':'← 上一步'; nextBtn.textContent=state.step===3?'完成牡丹生菜 →':'下一步 →'; nextBtn.disabled=!done;
+  }
+  function begin(){state.phase='steps';state.step=0;render()}
+  function goStep(i){state.phase='steps';state.step=Math.max(0,Math.min(3,i));render()}
+  nextBtn.addEventListener('click',()=>{if(state.phase==='original'){begin();return}if(state.phase==='complete'){showToast('第三章页面尚未接入，先留在本章回看。');return}if(!state.completed[state.step]){showToast('先点击中央画面完成这一步。');return}if(state.step<3)goStep(state.step+1);else{state.phase='complete';render()}});
+  prevBtn.addEventListener('click',()=>{if(state.phase==='original'){window.location.href='identify.html';return}if(state.phase==='complete'){goStep(3);return}if(state.step===0){state.phase='original';render();return}goStep(state.step-1)});
+  steps.forEach((s,i)=>s.addEventListener('click',()=>{if(s.classList.contains('locked'))return;if(state.phase==='complete'||i<=state.step||state.completed[i-1])goStep(i)}));
+  document.querySelectorAll('[data-complete]').forEach(hit=>hit.addEventListener('click',()=>{const i=Number(hit.dataset.complete);if(state.phase!=='steps'||state.step!==i||state.completed[i])return;const scene=hit.closest('.scene');const image=scene.querySelector('.scene-image');state.completed[i]=true;scene.classList.add('done');image.classList.add('swap');setTimeout(()=>{image.src=image.dataset.after;image.classList.remove('swap');render();showToast('画面已变化 · 本步完成，可以继续');},180);}));
+  document.querySelectorAll('[data-nav]').forEach(btn=>btn.addEventListener('click',()=>showToast('其他章节将在整合版中接入。')));
+  audioBtn.addEventListener('click',()=>{const on=audioBtn.getAttribute('aria-pressed')==='true';audioBtn.setAttribute('aria-pressed',String(!on));showToast(on?'山林清音已暂停':'山林清音入口已开启');});
+  render();
+})();
+</script>
+</body>
+</html>

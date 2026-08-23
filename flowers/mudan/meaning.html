@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>《山家清供》· 牡丹 · 第五章 品意蕴</title>
+<style>
+:root{--paper:#f6f0e6;--card:#fffdf8;--ink:#40382e;--muted:#8b7965;--gold:#c79f5d;--gold2:#dfbd82;--green:#6f7959;--line:#eadbc3;--soft:#f2ebdf;--shadow:0 18px 48px rgba(93,72,43,.10)}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif}
+button,a{font:inherit}button{color:inherit}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.app{height:100%;display:flex;flex-direction:column}
+.topbar{height:76px;flex:0 0 76px;border-bottom:1px solid var(--line);background:rgba(255,253,248,.96);display:grid;grid-template-columns:minmax(220px,1fr) auto minmax(220px,1fr);align-items:center;padding:0 32px;position:relative;z-index:20}
+.brand{font-size:19px;color:#665743;white-space:nowrap}.brand span{color:var(--muted);margin-left:8px}
+.nav{display:flex;align-items:center;gap:5px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:0 7px 20px rgba(93,72,43,.05)}
+.nav a,.nav span{padding:10px 22px;border-radius:999px;font-size:16px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav .active{background:var(--gold2);color:#fff;box-shadow:0 5px 13px rgba(199,159,93,.26)}
+.audio{justify-self:end;border:1px solid var(--line);border-radius:999px;padding:10px 16px;color:var(--muted);font-size:14px;white-space:nowrap;background:var(--card);cursor:pointer}.audio b{color:var(--gold);margin-right:7px}
+.stage{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;isolation:isolate}
+#petalCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:.9;transition:opacity .18s ease}
+.landscape{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:34%;z-index:0;opacity:.075;pointer-events:none}
+.peony-mark{position:absolute;left:5vw;bottom:8vh;width:min(320px,24vw);height:auto;z-index:1;opacity:.07;pointer-events:none}
+.poem-box{position:relative;z-index:4;width:min(860px,82vw);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:30px 28px;transition:opacity .18s ease,transform .18s ease}
+.poem-box.out{opacity:0;transform:translateY(-10px)}
+.topic{margin:0 0 4px;color:var(--gold);font-size:13px;letter-spacing:.22em;opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease}
+.topic.show{opacity:1;transform:translateY(0)}
+.poem-line{margin:0;max-width:100%;color:#645545;font-size:clamp(17px,1.55vw,23px);line-height:1.75;letter-spacing:.13em;text-wrap:balance;opacity:0;transform:translateY(10px);transition:opacity .18s ease,transform .18s ease}
+.poem-line.show{opacity:1;transform:translateY(0)}
+.poem-line.hero{font-family:"STKaiti","KaiTi","FangSong",serif;color:var(--ink);font-size:clamp(31px,3.4vw,52px);line-height:1.35;letter-spacing:.16em;margin-bottom:7px}
+.poem-line.emphasis{color:#87683a;font-size:clamp(21px,2vw,30px);margin-top:5px}
+.page-4 .poem-line,.page-5 .poem-line{font-size:clamp(16px,1.38vw,21px);line-height:1.68}
+.page-5 .poem-line.hero{font-size:clamp(29px,3vw,45px)}
+.dock{position:absolute;left:50%;bottom:31px;z-index:8;transform:translateX(-50%);display:flex;gap:8px}
+.dock button{width:28px;height:5px;border:0;border-radius:999px;background:#e5d9c7;padding:0;cursor:pointer;transition:transform .18s ease,background .18s ease}
+.dock button.active{background:var(--gold);transform:scaleX(1.35)}
+.chapter-count{position:absolute;right:34px;bottom:27px;z-index:8;color:#b09d84;font-size:12px;font-variant-numeric:tabular-nums}
+.finish{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(246,240,230,.97);opacity:0;visibility:hidden;transition:opacity .18s ease}
+.finish.show{opacity:1;visibility:visible}
+.finish-card{width:min(620px,calc(100vw - 40px));border:1px solid var(--line);border-radius:26px;background:var(--card);box-shadow:var(--shadow);padding:46px;text-align:center}
+.finish-card .eyebrow{color:var(--gold);font-size:13px;letter-spacing:.18em}.finish-card h1{font-family:"STKaiti","KaiTi","FangSong",serif;font-weight:400;font-size:42px;margin:14px 0 10px;text-wrap:balance}.finish-card p{margin:0 auto 28px;max-width:450px;color:var(--muted);font-size:16px;line-height:1.9;text-wrap:pretty}
+.finish-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.secondary,.primary{border-radius:999px;padding:12px 21px;font-size:15px;cursor:pointer;text-decoration:none}.secondary{border:1px solid var(--line);background:var(--card);color:var(--muted)}.primary{border:1px solid var(--gold);background:var(--gold);color:#fff;box-shadow:0 10px 22px rgba(199,159,93,.24)}
+@media(max-width:1050px){.topbar{padding:0 16px;grid-template-columns:170px auto 170px}.brand{font-size:16px}.nav a,.nav span{padding:9px 12px;font-size:14px}.audio{padding:9px 12px}.poem-box{width:min(760px,82vw)}}
+@media(max-width:760px){.topbar{height:112px;flex-basis:112px;grid-template-columns:1fr auto;grid-template-rows:48px 50px;padding:6px 12px}.brand{font-size:15px}.audio{font-size:0}.audio b{font-size:15px;margin:0}.nav{grid-column:1/-1;grid-row:2;width:100%;justify-content:center}.nav a,.nav span{flex:1;text-align:center;padding:8px 3px;font-size:12px}.poem-box{width:94vw;padding:20px 12px;gap:13px}.peony-mark{width:42vw}.dock{bottom:23px}.chapter-count{right:16px;bottom:20px}.finish-card{padding:34px 24px}.finish-card h1{font-size:34px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}#petalCanvas{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <a class="brand" href="../../index.html?home=1" aria-label="返回花馔图鉴">《山家清供》<span>花鉴图录</span></a>
+    <nav class="nav" aria-label="章节导航">
+      <a href="identify.html">识名物</a>
+      <a href="recipe.html">看菜谱</a>
+      <a href="story.html">读故事</a>
+      <a href="poetry.html">赏诗词</a>
+      <span class="active" aria-current="page">品意蕴</span>
+    </nav>
+    <button class="audio" id="audioBtn" type="button" aria-label="播放山林清音"><b>▥</b><span>山林清音</span></button>
+  </header>
+  <main class="stage" id="stage" aria-live="polite">
+    <canvas id="petalCanvas" aria-hidden="true"></canvas>
+    <svg class="landscape" viewBox="0 0 1600 400" preserveAspectRatio="none" aria-hidden="true"><path d="M0 345C170 282 282 307 422 250C568 190 666 254 805 212C948 168 1030 230 1182 194C1330 159 1460 211 1600 150V400H0Z" fill="#6f7959"/></svg>
+    <svg class="peony-mark" viewBox="0 0 320 320" aria-hidden="true"><g fill="none" stroke="#8a6843" stroke-width="4"><path d="M157 276c-8-59 2-104 4-145M159 198c-36-23-53-42-72-68M160 177c35-24 57-46 73-75"/><path d="M79 125c20-6 41 2 55 20-25 11-47 5-55-20ZM225 95c-18 0-35 11-44 30 25 4 44-6 44-30Z"/><path d="M160 151c-45 4-78-23-73-59 5-34 37-58 73-48 28-24 70-10 77 24 32 9 44 48 23 72-20 24-63 27-100 11Z"/><circle cx="160" cy="103" r="21"/><path d="M160 51c-12 17-16 35 0 52 16-17 12-35 0-52ZM112 66c3 23 14 39 48 37-5-28-23-40-48-37ZM208 66c-25-3-43 9-48 37 34 2 45-14 48-37ZM102 113c18 17 37 21 58-10-26-13-46-7-58 10ZM218 113c-12-17-32-23-58-10 21 31 40 27 58 10Z"/></g></svg>
+    <section class="poem-box" id="poemBox"></section>
+    <nav class="dock" id="dock" aria-label="意蕴章节进度"></nav>
+    <div class="chapter-count" id="chapterCount">01 / 06</div>
+  </main>
+</div>
+<section class="finish" id="finish" aria-hidden="true">
+  <div class="finish-card">
+    <div class="eyebrow">《山家清供》· 牡丹篇</div>
+    <h1>一味清欢，余韵未尽</h1>
+    <p>从一朵牡丹出发，我们看见花形、清供、故事与诗心，也在盛大与平常之间，读到属于自己的从容。</p>
+    <div class="finish-actions">
+      <a class="secondary" href="poetry.html">返回第四章 · 赏诗词</a>
+      <button class="primary" id="backAtlas" type="button">返回花馔图鉴</button>
+    </div>
+  </div>
+</section>
+<audio id="bgm" src="assets-audio/山林清音.m4a" loop preload="metadata"></audio>
+<script>
+const pages=[
+  {topic:"牡丹 · 何以动人",lines:["一味牡丹，何以动人","世人看见它的国色天香","《山家清供》却让它走入寻常饮食"],hero:0},
+  {topic:"入馔",lines:["春深采瓣，和生菜而食","或以薄面轻裹，炸之酥香","富贵之花，也可以成为一味清供"],emphasis:2},
+  {topic:"入诗",lines:["刘禹锡看见“真国色”的盛大","白居易守着“两枝残”的不舍","同一朵牡丹，容得下两种诗心"],emphasis:2},
+  {topic:"审美意趣",lines:["牡丹之美，不只在花开时的盛大","它能动京城，也能走入一盘清供","繁华之中有清意","浓艳之中有分寸"],emphasis:3},
+  {topic:"人生态度",lines:["盛放时，不必收敛光芒","归于日常，也不失自己的本色","真正的从容，不是远离人间","而是在喧闹与平常之间，依然知道自己为何盛开"],emphasis:1},
+  {topic:"给今天的我们",lines:["不必争早，也不必争先","不因赞美而自矜，不因沉寂而自伤","认真生活，坦然盛放","一花可赏，一味可尝","人间有味，自有清欢"],hero:4}
+];
+let pageIndex=0,lineIndex=-1,timer=0,locked=false;
+const box=document.getElementById('poemBox'),dock=document.getElementById('dock'),count=document.getElementById('chapterCount'),finish=document.getElementById('finish'),stage=document.getElementById('stage');
+function clearTimer(){window.clearTimeout(timer)}
+function renderDock(){dock.innerHTML='';pages.forEach((p,i)=>{const b=document.createElement('button');b.type='button';b.className=i===pageIndex?'active':'';b.setAttribute('aria-label',`进入第${i+1}段：${p.topic}`);b.addEventListener('click',e=>{e.stopPropagation();go(i)});dock.appendChild(b)});count.textContent=`${String(pageIndex+1).padStart(2,'0')} / ${String(pages.length).padStart(2,'0')}`}
+function build(){clearTimer();locked=false;lineIndex=-1;const data=pages[pageIndex];box.className=`poem-box page-${pageIndex}`;box.innerHTML=`<p class="topic" id="topic">${data.topic}</p>`+data.lines.map((line,i)=>`<p class="poem-line${data.hero===i?' hero':''}${data.emphasis===i?' emphasis':''}" id="line-${i}">${line}</p>`).join('');renderDock();requestAnimationFrame(()=>document.getElementById('topic').classList.add('show'));timer=setTimeout(reveal,720);document.getElementById('petalCanvas').style.opacity=String(Math.max(.28,.9-pageIndex*.11))}
+function reveal(){clearTimer();const data=pages[pageIndex];if(lineIndex<data.lines.length-1){lineIndex++;document.getElementById(`line-${lineIndex}`)?.classList.add('show');timer=setTimeout(reveal,lineIndex===0?2200:1850);return}timer=setTimeout(()=>pageIndex===pages.length-1?showFinish():go(pageIndex+1),pageIndex===pages.length-1?4600:3000)}
+function advance(){if(locked||finish.classList.contains('show'))return;const data=pages[pageIndex];if(lineIndex<data.lines.length-1){reveal();return}pageIndex===pages.length-1?showFinish():go(pageIndex+1)}
+function go(target){if(locked||target<0||target>=pages.length||target===pageIndex)return;locked=true;clearTimer();box.classList.add('out');setTimeout(()=>{pageIndex=target;build()},180)}
+function showFinish(){clearTimer();finish.classList.add('show');finish.setAttribute('aria-hidden','false')}
+stage.addEventListener('click',advance);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();advance()}else if(e.key==='ArrowLeft'&&pageIndex>0)go(pageIndex-1)});
+document.getElementById('backAtlas').addEventListener('click',()=>{location.href='../../index.html?home=1'});
+const bgm=document.getElementById('bgm'),audioBtn=document.getElementById('audioBtn');
+audioBtn.addEventListener('click',async e=>{e.stopPropagation();if(bgm.paused){try{await bgm.play();audioBtn.innerHTML='<b>Ⅱ</b><span>暂停清音</span>';audioBtn.setAttribute('aria-label','暂停山林清音')}catch{}}else{bgm.pause();audioBtn.innerHTML='<b>▥</b><span>山林清音</span>';audioBtn.setAttribute('aria-label','播放山林清音')}});
+const canvas=document.getElementById('petalCanvas'),ctx=canvas.getContext('2d');let petals=[];
+function resize(){const r=stage.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=r.width*dpr;canvas.height=r.height*dpr;canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';ctx.setTransform(dpr,0,0,dpr,0,0);petals=Array.from({length:22},()=>makePetal(r.width,r.height,true))}
+function makePetal(w,h,randomY=false){return{x:Math.random()*w,y:randomY?Math.random()*h:-20-Math.random()*100,s:3+Math.random()*5,v:.18+Math.random()*.32,drift:(Math.random()-.5)*.25,a:.12+Math.random()*.22,r:Math.random()*Math.PI}}
+function draw(){const r=stage.getBoundingClientRect();ctx.clearRect(0,0,r.width,r.height);for(const p of petals){p.y+=p.v;p.x+=Math.sin(p.y*.012+p.r)*.18+p.drift;p.r+=.004;if(p.y>r.height+15||p.x<-20||p.x>r.width+20)Object.assign(p,makePetal(r.width,r.height));ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.globalAlpha=p.a;ctx.fillStyle='#c98b93';ctx.beginPath();ctx.ellipse(0,0,p.s*.62,p.s,0,0,Math.PI*2);ctx.fill();ctx.restore()}requestAnimationFrame(draw)}
+window.addEventListener('resize',resize);resize();draw();build();
+</script>
+</body>
+</html>

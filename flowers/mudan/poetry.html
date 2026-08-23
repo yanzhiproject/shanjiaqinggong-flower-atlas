@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>牡丹篇 · 赏诗词</title>
+<style>
+:root{--paper:#f6f0e6;--card:#fffdf8;--ink:#40382e;--muted:#8b7965;--gold:#c79f5d;--gold2:#dfbd82;--green:#6f7959;--line:#eadbc3;--soft:#f2ebdf;--shadow:0 18px 48px rgba(93,72,43,.10)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif}button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}.app{height:100%;display:flex;flex-direction:column}.topbar{height:76px;flex:0 0 76px;border-bottom:1px solid var(--line);background:rgba(255,253,248,.94);display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:relative;z-index:5}.brand{font-size:19px;letter-spacing:.08em;color:#665743;white-space:nowrap}.nav{display:flex;align-items:center;gap:5px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:0 7px 20px rgba(93,72,43,.05)}.nav a,.nav button{padding:10px 22px;border-radius:999px;font-size:16px;color:var(--muted);text-decoration:none;white-space:nowrap}.nav .active{background:var(--gold2);color:#fff;box-shadow:0 5px 13px rgba(199,159,93,.26)}.nav .disabled{opacity:.48;cursor:not-allowed}.audio{border:1px solid var(--line);border-radius:999px;padding:10px 16px;color:var(--muted);font-size:14px;white-space:nowrap;background:var(--card)}.audio b{color:var(--gold);margin-right:7px;font-size:15px}.main{flex:1;min-height:0;position:relative;padding:28px 32px 30px}.screen{height:100%;min-height:0;display:none}.screen.active{display:block}.selection{max-width:1180px;margin:0 auto;height:100%;display:flex;flex-direction:column;justify-content:center}.eyebrow{font-size:13px;color:var(--gold);letter-spacing:.18em;text-align:center}.selection h1{font-family:"STKaiti","KaiTi","FangSong",serif;font-weight:400;text-align:center;font-size:45px;letter-spacing:.16em;margin:10px 0 5px}.selection .lead{text-align:center;color:var(--muted);font-size:16px;margin:0 0 28px}.poem-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;min-height:390px}.poem-card{position:relative;border:1px solid var(--line);border-radius:26px;background:var(--card);box-shadow:var(--shadow);padding:34px 38px;display:flex;flex-direction:column;justify-content:space-between;text-align:left;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease}.poem-card:hover{transform:translateY(-3px);box-shadow:0 20px 45px rgba(93,72,43,.14)}.poem-card:after{content:"";position:absolute;inset:auto -36px -65px auto;width:220px;height:220px;border:1px solid #eee2d0;border-radius:50%;opacity:.8}.poem-card .no{font-size:13px;letter-spacing:.2em;color:var(--gold)}.poem-card h2{font-family:"STKaiti","KaiTi","FangSong",serif;font-weight:400;font-size:38px;margin:18px 0 4px}.poem-card .meta{color:var(--muted);font-size:15px}.poem-card .mood{color:var(--green);font-size:15px;letter-spacing:.08em;margin:18px 0}.poem-card blockquote{margin:0;color:#665743;font-size:18px;line-height:2;white-space:pre-line;max-width:430px}.poem-card .card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:24px}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 14px;color:var(--muted);font-size:13px;background:#fffcf6}.primary{background:var(--gold);color:#fff;border-radius:999px;padding:12px 21px;box-shadow:0 10px 22px rgba(199,159,93,.24);font-size:15px}.secondary{border:1px solid var(--line);border-radius:999px;padding:11px 19px;color:var(--muted);background:var(--card);font-size:15px}.reader{height:100%;display:grid;grid-template-columns:370px minmax(0,1fr);gap:24px;min-height:0}.poem-panel,.visual-panel,.deep-panel,.summary-panel{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);min-height:0}.poem-panel{padding:28px 30px;display:flex;flex-direction:column}.backline{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:14px;margin-bottom:24px}.backline button:hover{color:var(--ink)}.poem-panel h1{font-family:"STKaiti","KaiTi","FangSong",serif;font-size:39px;font-weight:400;margin:0 0 4px}.poem-panel .meta{color:var(--gold);font-size:14px;letter-spacing:.08em}.poem-panel .theme{color:var(--muted);font-size:15px;margin:9px 0 22px}.line-list{display:flex;flex-direction:column;gap:10px;overflow:auto;padding-right:5px}.poem-line{display:block;text-align:left;padding:12px 13px;border:1px solid transparent;border-radius:13px;line-height:1.7;font-size:19px;color:#5d5042;transition:background .16s,border-color .16s}.poem-line:hover{background:#faf5ec}.poem-line.active{background:#f2e7d1;border-color:#e8d2a9;color:#3d352b}.line-index{font-size:12px;color:var(--gold);display:inline-block;width:25px;vertical-align:top;padding-top:3px}.kw{border-bottom:1px dashed var(--gold);cursor:help}.panel-foot{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1.8}.visual-panel{display:flex;flex-direction:column;padding:18px;min-width:0}.visual-head{display:flex;align-items:center;justify-content:space-between;padding:5px 4px 15px;color:var(--muted);font-size:14px}.visual-head strong{color:var(--ink);font-size:19px;font-weight:400}.visual-frame{position:relative;flex:1;min-height:0;border-radius:19px;overflow:hidden;background:#eee5d5}.visual-frame img{width:100%;height:100%;display:block;object-fit:cover;transition:opacity .2s ease,transform .2s ease}.visual-caption{position:absolute;left:18px;right:18px;bottom:18px;background:rgba(255,253,248,.92);border:1px solid rgba(234,219,195,.94);border-radius:15px;padding:13px 16px;box-shadow:0 8px 22px rgba(57,45,30,.10)}.visual-caption .kicker{font-size:12px;color:var(--gold);letter-spacing:.1em}.visual-caption h3{font-family:"STKaiti","KaiTi","FangSong",serif;font-weight:400;font-size:24px;margin:4px 0 0}.visual-caption p{font-size:14px;color:var(--muted);margin:4px 0 0}.visual-controls{display:flex;align-items:center;justify-content:space-between;padding:14px 2px 0}.progress{display:flex;gap:6px}.progress i{display:block;width:28px;height:4px;border-radius:5px;background:#eadfce}.progress i.on{background:var(--gold)}.reader-actions{display:flex;gap:10px}.note{position:fixed;z-index:20;max-width:300px;padding:12px 15px;background:#4d473f;color:#fff;border-radius:12px;font-size:14px;line-height:1.6;box-shadow:0 12px 28px rgba(0,0,0,.16);pointer-events:none;opacity:0;transform:translateY(6px);transition:opacity .14s,transform .14s}.note.show{opacity:1;transform:translateY(0)}.deep-panel{height:100%;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:0;overflow:hidden}.deep-art{position:relative;min-width:0;background:#ebe1d1}.deep-art img{width:100%;height:100%;object-fit:cover;display:block}.deep-art .art-tag{position:absolute;top:20px;left:20px;border:1px solid rgba(255,255,255,.7);background:rgba(255,253,248,.88);border-radius:999px;padding:8px 13px;color:var(--muted);font-size:13px}.deep-copy{padding:34px 30px;display:flex;flex-direction:column;min-height:0}.deep-copy .meta{color:var(--gold);font-size:13px;letter-spacing:.14em}.deep-copy h2{font-family:"STKaiti","KaiTi","FangSong",serif;font-size:34px;font-weight:400;margin:10px 0 8px}.deep-copy .lead{font-size:16px;color:var(--muted);line-height:1.8;margin:0 0 20px}.deep-steps{display:flex;gap:7px;margin:0 0 16px}.deep-steps i{height:4px;flex:1;background:#eadfce;border-radius:4px}.deep-steps i.on{background:var(--gold)}.deep-copy .quote{border:1px solid var(--line);border-radius:14px;background:#fbf6ec;padding:16px;color:#5b4d3e;line-height:1.85;font-size:16px}.deep-copy .body{color:var(--muted);font-size:15px;line-height:1.9;margin:16px 0 0}.deep-copy .deep-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:22px}.deep-copy .deep-foot .count{color:#b2a18d;font-size:13px}.summary-panel{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px}.summary-inner{max-width:670px}.summary-inner .seal{color:var(--gold);letter-spacing:.18em;font-size:13px}.summary-inner h2{font-family:"STKaiti","KaiTi","FangSong",serif;font-size:42px;font-weight:400;margin:14px 0}.summary-inner p{color:var(--muted);line-height:2;font-size:17px;margin:0 auto 22px}.summary-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin:20px 0 28px}.summary-compare div{border:1px solid var(--line);border-radius:14px;padding:15px;background:#fcf8ef}.summary-compare strong{display:block;font-family:"STKaiti","KaiTi","FangSong",serif;font-size:22px;font-weight:400;margin-bottom:5px}.summary-compare span{font-size:14px;color:var(--muted)}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(10px);opacity:0;z-index:30;padding:11px 17px;border-radius:999px;background:#4d473f;color:#fff;font-size:14px;transition:opacity .16s,transform .16s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (max-width:1050px){.topbar{padding:0 16px}.brand{font-size:16px}.nav a,.nav button{padding:9px 12px;font-size:14px}.audio{display:none}.main{padding:20px}.reader{grid-template-columns:310px minmax(0,1fr)}.poem-panel{padding:22px}.poem-line{font-size:17px}.deep-panel{grid-template-columns:minmax(0,1fr) 310px}}
+@media (max-width:760px){html,body{overflow:auto}.app{min-height:100%}.topbar{height:auto;min-height:70px;flex-wrap:wrap;gap:10px;padding:11px 14px}.nav{order:3;width:100%;justify-content:center}.nav a,.nav button{flex:1;text-align:center;padding:8px 5px;font-size:13px}.main{padding:16px;min-height:calc(100vh - 120px)}.selection{height:auto;padding:15px 0 24px}.selection h1{font-size:36px}.poem-grid{grid-template-columns:1fr;min-height:0}.poem-card{min-height:330px}.reader{height:auto;grid-template-columns:1fr}.poem-panel{min-height:440px}.visual-panel{height:560px}.deep-panel{height:auto;grid-template-columns:1fr}.deep-art{height:420px}.deep-copy{min-height:480px}.summary-panel{min-height:600px}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+</style>
+<style>
+/* 装饰圆环不能覆盖卡片操作区 */
+.app{height:100dvh}
+.poem-card::after{pointer-events:none}
+/* 逐句阅读：给诗句更充足的横向空间 */
+.reader{grid-template-columns:minmax(500px,.78fr) minmax(0,1.22fr)}
+.poem-panel{padding:25px 27px}
+.poem-line{font-size:20px;padding:13px 12px}
+/* 深层赏析：压缩标题与正文间距，确保底部导航始终可见 */
+.deep-panel{grid-template-columns:minmax(0,1.15fr) minmax(430px,.85fr)}
+.deep-copy{padding:27px 27px 76px;overflow:hidden;position:relative}
+.deep-copy h2{font-size:30px;line-height:1.28;margin:8px 0 7px}
+.deep-copy .lead{font-size:15px;line-height:1.65;margin-bottom:14px}
+.deep-copy .quote{padding:13px 14px;font-size:15px;line-height:1.65}
+.deep-copy .body{font-size:14px;line-height:1.7;margin-top:12px}
+.deep-copy .deep-foot{padding-top:12px;position:absolute;left:27px;right:27px;bottom:22px;z-index:2;background:var(--card)}
+.deep-copy .deep-foot button{min-width:104px}
+.audio[aria-pressed="true"],#listenBtn[aria-pressed="true"]{border-color:var(--gold);color:var(--gold);background:#fbf4e7}
+.poem-card.locked{opacity:.68}
+.poem-card.locked:hover{transform:none;box-shadow:var(--shadow)}
+.primary:disabled{cursor:not-allowed;background:#d8c8ad;color:#fff;box-shadow:none}
+.back-actions{display:flex;align-items:center;gap:16px}
+.back-actions button+button{padding-left:16px;border-left:1px solid var(--line)}
+.summary-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.summary-compare{margin-bottom:18px}
+.summary-choice{width:100%;border:1px solid var(--line);border-radius:14px;padding:15px;background:#fcf8ef;text-align:left;transition:transform .18s ease,box-shadow .18s ease}
+.summary-choice:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(93,72,43,.09)}
+.summary-hint{margin:0;color:#ad9a83;font-size:13px}
+.summary-inner{width:min(820px,100%);max-width:none}
+.summary-inner h2{text-wrap:balance}
+.summary-inner>p{max-width:780px;text-align:left;text-indent:2em;text-wrap:pretty}
+.meaning-panel{height:100%;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:24px;background:var(--card);box-shadow:var(--shadow);padding:32px;text-align:center}
+.meaning-inner{max-width:720px}
+.meaning-inner .seal{font-size:13px;color:var(--gold)}
+.meaning-inner h2{font-family:"STKaiti","KaiTi","FangSong",serif;font-size:44px;font-weight:400;margin:14px 0}
+.meaning-inner p{font-size:18px;line-height:2;color:var(--muted);margin:0 0 28px}
+.toast{bottom:max(22px,env(safe-area-inset-bottom))}
+@media (max-width:1050px){.reader{grid-template-columns:350px minmax(0,1fr)}.deep-panel{grid-template-columns:minmax(0,1fr) 350px}}
+@media (max-width:760px){.reader{grid-template-columns:1fr}.deep-panel{grid-template-columns:1fr}.deep-copy{overflow:visible}.deep-art{height:420px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <a class="brand" href="../../index.html?home=1" aria-label="返回花馔图鉴">《山家清供》 · 花鉴图录</a>
+    <nav class="nav" aria-label="章节导航">
+      <a href="identify.html">识名物</a>
+      <a href="recipe.html">看菜谱</a>
+      <a href="story.html">读故事</a>
+      <button class="active" type="button">赏诗词</button>
+      <a href="meaning.html">品意蕴</a>
+    </nav>
+    <button class="audio" id="audioBtn" type="button" aria-pressed="false" aria-label="播放山林清音"><b id="audioIcon" aria-hidden="true">▥</b><span id="audioLabel">山林清音</span></button>
+  </header>
+  <main class="main">
+    <section id="selectionScreen" class="screen active" aria-label="选择诗作">
+      <div class="selection">
+        <div class="eyebrow">第四章 · 赏诗词</div>
+        <h1>一花两情，听牡丹入诗</h1>
+        <p class="lead">先读牡丹的盛大，再读它将谢时的温柔。</p>
+        <div class="poem-grid">
+          <article class="poem-card" id="baiCard">
+            <div><div class="no">诗卷 01</div><h2>《赏牡丹》</h2><div class="meta">唐 · 刘禹锡</div><div class="mood">国色 · 盛大赞赏</div><blockquote>庭前芍药妖无格，池上芙蕖净少情。
+唯有牡丹真国色，花开时节动京城。</blockquote></div>
+            <div class="card-foot"><span class="pill">由群芳写到一城</span><button class="primary" type="button" data-open-poem="liu">开始读诗 →</button></div>
+          </article>
+          <article class="poem-card">
+            <div><div class="no">诗卷 02</div><h2>《惜牡丹花》</h2><div class="meta">唐 · 白居易</div><div class="mood">惜花 · 温柔感伤</div><blockquote>惆怅阶前红牡丹，晚来唯有两枝残。
+明朝风起应吹尽，夜惜衰红把火看。</blockquote></div>
+            <div class="card-foot"><span class="pill" id="baiStatus">完成第一首后开启</span><button class="primary" id="baiOpen" type="button" data-open-poem="bai" disabled>尚未开启</button></div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="readerScreen" class="screen" aria-label="逐句读诗">
+      <div class="reader">
+        <aside class="poem-panel">
+          <div class="backline"><span class="back-actions"><button id="backSelection" type="button">← 返回诗选</button><button id="previousPoem" type="button" hidden>← 回看第一首</button></span><button id="listenBtn" type="button" aria-pressed="false">▶ 听原文</button></div>
+          <div class="meta" id="readerMeta"></div><h1 id="readerTitle"></h1><div class="theme" id="readerTheme"></div>
+          <div class="line-list" id="lineList"></div>
+          <div class="panel-foot">点击诗句，右侧画面随诗意转场；悬停关键词可见简注。</div>
+        </aside>
+        <section class="visual-panel">
+          <div class="visual-head"><strong id="visualTitle"></strong><span id="visualCount"></span></div>
+          <div class="visual-frame"><img id="visualImage" alt="诗意画面" /><div class="visual-caption"><div class="kicker" id="visualKicker"></div><h3 id="visualHeading"></h3><p id="visualCaption"></p></div></div>
+          <div class="visual-controls"><div class="progress" id="lineProgress" aria-label="诗句进度"></div><div class="reader-actions"><button class="secondary" id="deepBtn" type="button">进入深层赏析 →</button></div></div>
+        </section>
+      </div>
+    </section>
+    <section id="deepScreen" class="screen" aria-label="深层赏析">
+      <div class="deep-panel"><div class="deep-art"><img id="deepImage" alt="诗意画面"/><span class="art-tag" id="deepTag"></span></div><div class="deep-copy"><div class="meta" id="deepMeta"></div><h2 id="deepTitle"></h2><p class="lead" id="deepLead"></p><div class="deep-steps" id="deepSteps"></div><div class="quote" id="deepQuote"></div><p class="body" id="deepBody"></p><div class="deep-foot"><button class="secondary" id="deepPrev" type="button">← 上一步</button><span class="count" id="deepCount"></span><button class="primary" id="deepNext" type="button">下一层 →</button></div></div></div>
+    </section>
+    <section id="summaryScreen" class="screen" aria-label="两首诗对照">
+      <div class="summary-panel"><div class="summary-inner"><div class="seal">从《山家清供》，到诗中寄情</div><h2>一朵牡丹，两种诗心</h2><p>《山家清供》让牡丹进入饮食，成为可采、可焯、可品的山家清供；诗人又让牡丹进入情感，使它超越食物与花本身。刘禹锡借盛放的牡丹赞叹国色与京城盛景，白居易则借将谢的残红寄托惜时、惜美与不舍。同一牡丹意象，因诗人的观看与心境不同，承载了不同的情感。</p><div class="summary-compare"><button class="summary-choice" id="reviewLiu" type="button" aria-label="回看刘禹锡赏牡丹"><strong>《赏牡丹》</strong><span>由“真国色”写到“动京城” · 盛大、赞叹与自信</span></button><button class="summary-choice" id="reviewBai" type="button" aria-label="回看白居易惜牡丹花"><strong>《惜牡丹花》</strong><span>由“两枝残”写到“把火看” · 惜时、温柔与不舍</span></button></div><div class="summary-actions"><span class="summary-hint">点击诗卷可重新阅读，也可继续体会牡丹之意。</span><a class="primary" href="meaning.html">进入第五章 · 品意蕴 →</a></div></div></div>
+    </section>
+  </main>
+</div>
+<div id="note" class="note" role="status"></div><div id="toast" class="toast" role="status"></div>
+<audio id="siteBgm" loop preload="metadata" src="assets-audio/山林清音.m4a"></audio>
+<audio id="audioLiu" preload="metadata" src="assets-audio/赏牡丹.mp3"></audio>
+<audio id="audioBai" preload="metadata" src="assets-audio/惜牡丹花.mp3"></audio>
+<script>
+const IMG='assets-poem/';
+const POEMS={
+  liu:{meta:'唐 · 刘禹锡',title:'《赏牡丹》',theme:'国色 · 盛大赞赏',seal:'盛大而自信',deepTitle:'从“真国色”，到“动京城”',lead:'刘禹锡把牡丹从一枝花，写成一座城市共同的审美事件。',lines:[
+    {text:'庭前芍药妖无格，',kw:'妖无格',note:'这里的“妖”写艳丽，“无格”却说它少了端庄的品格。',img:'liu-01-compare.png',heading:'先写芍药作陪',caption:'艳丽并不等于真正的风骨。'},
+    {text:'池上芙蕖净少情。',kw:'净少情',note:'荷花洁净，却显得冷清；“少情”不是贬低，而是为牡丹的热烈蓄势。',img:'liu-02-contrast.png',heading:'再写芙蕖作陪',caption:'清洁之外，还少了一点动人的情致。'},
+    {text:'唯有牡丹真国色，',kw:'真国色',note:'“唯有”一转，把前两种花的优点收束到牡丹身上；“国色”是最高的赞誉。',img:'liu-03-national-color.png',heading:'牡丹真正成为主角',caption:'层层花瓣展开，华美与端庄同时抵达。'},
+    {text:'花开时节动京城。',kw:'动京城',note:'牡丹的美不只被一个人看见，而是让整座京城为之轰动。',img:'liu-04-city-bloom.png',heading:'一花惊动一城',caption:'牡丹的盛大，成为公共的春日事件。'}
+  ],deep:[
+    {title:'先以群芳作陪衬',quote:'“庭前芍药妖无格，池上芙蕖净少情。”',body:'诗人并不急着写牡丹，而是先列出两种熟悉的花：芍药有艳色，芙蕖有清姿。它们各自可爱，却都不是完整的答案。'},
+    {title:'“唯有”是全诗的转折',quote:'“唯有牡丹真国色”',body:'两个字把视线从群芳收回牡丹。“国色”不只是颜色之美，更是端庄、丰盛、足以代表一国审美的气度。'},
+    {title:'从一花到一城',quote:'“花开时节动京城。”',body:'结句把观看的范围推向城市。牡丹不再是案头的静物，而成为众人共同等待、共同谈论、共同奔赴的春日盛事。'},
+    {title:'盛大本身就是情感',quote:'“真国色” · “动京城”',body:'这首诗留下的不是孤独的赏花，而是一种明亮的自信：好花盛开，值得被看见，也值得让世界为之动容。'}
+  ]},
+  bai:{meta:'唐 · 白居易',title:'《惜牡丹花》',theme:'惜花 · 温柔感伤',seal:'温柔而感伤',deepTitle:'从“惆怅”，到“把火看”',lead:'白居易不写牡丹最盛的时刻，而在它将谢时留下一个人的挽留。',lines:[
+    {text:'惆怅阶前红牡丹，',kw:'惆怅',note:'“惆怅”先写心情，再写花；看花之人已经意识到盛放正在离去。',img:'bai-01-evening.png',heading:'黄昏先抵达心里',caption:'阶前的红牡丹，让人的情绪先沉了下来。'},
+    {text:'晚来唯有两枝残。',kw:'两枝残',note:'“唯有”在这里不再是赞叹，而是数清剩下的花：只剩两枝。',img:'bai-02-two-blooms.png',heading:'盛放只剩两枝',caption:'残不是败，而是曾经盛放过的证据。'},
+    {text:'明朝风起应吹尽，',kw:'吹尽',note:'明日的风还没有来，诗人却已经预见花瓣离枝。',img:'bai-03-wind.png',heading:'先替明日担心',caption:'惜花之情，来自对无可挽回的预感。'},
+    {text:'夜惜衰红把火看。',kw:'把火看',note:'夜里举灯看残红，是不肯让花在黑暗里悄然消失。',img:'bai-04-lamp.png',heading:'举灯守住残红',caption:'最后的动作很轻，却是全诗最深的挽留。'}
+  ],deep:[
+    {title:'美正在消逝，所以惆怅',quote:'“惆怅阶前红牡丹”',body:'诗人面对的不是一朵抽象的名花，而是阶前正在衰谢的红牡丹。花的变化立刻牵动了人的情绪。'},
+    {title:'“两枝残”把时间说具体',quote:'“晚来唯有两枝残。”',body:'晚来、唯有、两枝，每个词都在缩小范围。盛放的记忆越丰盛，眼前仅存的两枝就越显得珍贵。'},
+    {title:'还未发生的风，已经带来离别',quote:'“明朝风起应吹尽”',body:'诗人把目光投向明天。风还没有起，花却已经被想象成即将离去；惜花因此也成了惜时。'},
+    {title:'举灯看花，是不肯放手',quote:'“夜惜衰红把火看。”',body:'最后没有说教，也没有挽回花期，只写一个人提灯看花。温柔的凝视，让残红在夜里多留一刻。'}
+  ]}
+};
+let current='liu',lineIndex=0,deepIndex=0,readDone={liu:false,bai:false},noteTimer,activeAudio=null;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const AUDIO={liu:$('#audioLiu'),bai:$('#audioBai')};
+const siteBgm=$('#siteBgm');siteBgm.volume=.18;
+function screen(id){$$('.screen').forEach(el=>el.classList.toggle('active',el.id===id));}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function showNote(text,e){const n=$('#note');n.textContent=text; n.style.left=Math.min(window.innerWidth-320,Math.max(14,e.clientX+12))+'px'; n.style.top=Math.min(window.innerHeight-100,Math.max(14,e.clientY+12))+'px'; n.classList.add('show');clearTimeout(noteTimer);noteTimer=setTimeout(()=>n.classList.remove('show'),2800)}
+function setNarrationUI(playing){$('#listenBtn').textContent=playing?'Ⅱ 暂停朗读':'▶ 听原文';$('#listenBtn').setAttribute('aria-pressed',String(playing))}
+function setBgmUI(playing){$('#audioIcon').textContent=playing?'Ⅱ':'▥';$('#audioLabel').textContent=playing?'清音播放中':'山林清音';$('#audioBtn').setAttribute('aria-pressed',String(playing));$('#audioBtn').setAttribute('aria-label',playing?'暂停山林清音':'播放山林清音')}
+function pauseAudio(){Object.values(AUDIO).forEach(a=>a.pause());setNarrationUI(false)}
+function syncAudio(){const target=AUDIO[current];if(activeAudio&&activeAudio!==target)activeAudio.pause();activeAudio=target;setNarrationUI(!activeAudio.paused)}
+function toggleAudio(){syncAudio();if(activeAudio.paused){activeAudio.play().then(()=>setNarrationUI(true)).catch(()=>toast('朗读音频暂时无法播放，请检查文件是否与网页一同保存'))}else{activeAudio.pause();setNarrationUI(false)}}
+function toggleBgm(){if(siteBgm.paused){siteBgm.play().then(()=>setBgmUI(true)).catch(()=>toast('背景音乐暂时无法播放，请检查音频文件'))}else{siteBgm.pause();setBgmUI(false)}}
+Object.values(AUDIO).forEach(a=>{a.addEventListener('ended',()=>setNarrationUI(false));a.addEventListener('error',()=>toast('朗读音频加载失败，请保留 assets-audio 文件夹'))});
+siteBgm.addEventListener('error',()=>toast('山林清音加载失败，请保留 assets-audio 文件夹'));
+function updateSelectionState(){const open=readDone.liu;$('#baiOpen').disabled=!open;$('#baiOpen').textContent=open?'开始读诗 →':'尚未开启';$('#baiStatus').textContent=open?'由残红写到不舍':'完成第一首后开启';$('#baiCard').classList.toggle('locked',!open)}
+function renderSelection(){pauseAudio();updateSelectionState();screen('selectionScreen')}
+function renderReader(){const p=POEMS[current];screen('readerScreen');syncAudio();$('#previousPoem').hidden=current!=='bai';$('#readerMeta').textContent=p.meta;$('#readerTitle').textContent=p.title;$('#readerTheme').textContent=p.theme;$('#visualTitle').textContent=p.title.replace(/[《》]/g,'');renderLines();setLine(lineIndex)}
+function renderLines(){const p=POEMS[current],list=$('#lineList');list.innerHTML='';p.lines.forEach((l,i)=>{const b=document.createElement('button');b.type='button';b.className='poem-line';b.innerHTML='<span class="line-index">0'+(i+1)+'</span>'+l.text.replace(l.kw,'<span class="kw">'+l.kw+'</span>');b.addEventListener('click',()=>setLine(i));b.addEventListener('mousemove',ev=>{if(ev.target.classList.contains('kw'))showNote(l.note,ev)});b.addEventListener('focus',ev=>{const k=b.querySelector('.kw');if(k)showNote(l.note,{clientX:ev.target.getBoundingClientRect().left,clientY:ev.target.getBoundingClientRect().top})});list.appendChild(b)});}
+function setLine(i){lineIndex=i;const p=POEMS[current],l=p.lines[i];$$('.poem-line').forEach((el,j)=>el.classList.toggle('active',j===i));$('#visualImage').style.opacity='0';setTimeout(()=>{$('#visualImage').src=IMG+l.img;$('#visualImage').alt=l.heading;$('#visualImage').style.opacity='1'},90);$('#visualKicker').textContent='诗意观察 · 0'+(i+1);$('#visualHeading').textContent=l.heading;$('#visualCaption').textContent=l.caption;$('#visualCount').textContent='0'+(i+1)+' / 04';$('#lineProgress').innerHTML=p.lines.map((_,j)=>'<i class="'+(j<=i?'on':'')+'"></i>').join('');}
+function renderDeep(){pauseAudio();const p=POEMS[current],d=p.deep[deepIndex];screen('deepScreen');$('#deepMeta').textContent=p.meta+' · 深层赏析';$('#deepTitle').textContent=p.deepTitle;$('#deepLead').textContent=p.lead;$('#deepImage').src=IMG+p.lines[deepIndex].img;$('#deepTag').textContent=p.seal;$('#deepQuote').textContent=d.quote;$('#deepBody').textContent=d.body;$('#deepCount').textContent='0'+(deepIndex+1)+' / 04';$('#deepSteps').innerHTML=p.deep.map((_,j)=>'<i class="'+(j<=deepIndex?'on':'')+'"></i>').join('');$('#deepNext').textContent=deepIndex===3?(current==='liu'?'读第二首 →':'完成赏诗 →'):'下一层 →';$('#deepPrev').textContent=deepIndex===0?'← 返回诗句':'← 上一步';}
+function prevDeep(){if(deepIndex>0){deepIndex--;renderDeep()}else{renderReader()}}
+function nextDeep(){if(deepIndex<3){deepIndex++;renderDeep();return}readDone[current]=true;if(current==='liu'){current='bai';lineIndex=0;deepIndex=0;renderReader()}else{pauseAudio();screen('summaryScreen')}}
+function openPoem(key){if(key==='bai'&&!readDone.liu){toast('请先读完第一首《赏牡丹》');return}pauseAudio();current=key;lineIndex=0;deepIndex=0;renderReader()}
+$$('[data-open-poem]').forEach(b=>b.addEventListener('click',()=>openPoem(b.dataset.openPoem)));
+$('#backSelection').addEventListener('click',renderSelection);$('#previousPoem').addEventListener('click',()=>openPoem('liu'));$('#deepBtn').addEventListener('click',()=>{deepIndex=0;renderDeep()});$('#deepPrev').addEventListener('click',prevDeep);$('#deepNext').addEventListener('click',nextDeep);$('#listenBtn').addEventListener('click',toggleAudio);$('#audioBtn').addEventListener('click',toggleBgm);$('#reviewLiu').addEventListener('click',()=>openPoem('liu'));$('#reviewBai').addEventListener('click',()=>openPoem('bai'));
+updateSelectionState();setBgmUI(false);
+</script>
+</body>
+</html>
