@@ -33,8 +33,9 @@
 </div>
 <script>
 const openingShell=document.getElementById('openingShell');
-function closeOpening(){if(!openingShell)return;sessionStorage.setItem('sjq-opening-seen','1');openingShell.classList.add('done');window.setTimeout(()=>openingShell.remove(),200)}
+const openingParams=new URLSearchParams(location.search);
+function closeOpening(){if(!openingShell)return;sessionStorage.setItem('sjq-opening-seen-v2','1');openingShell.classList.add('done');window.setTimeout(()=>openingShell.remove(),200)}
 window.addEventListener('message',event=>{if(event.source===openingShell?.querySelector('iframe')?.contentWindow&&event.data?.type==='sjq-opening-complete')closeOpening()});
-if(new URLSearchParams(location.search).has('home')||sessionStorage.getItem('sjq-opening-seen'))openingShell.remove();
+if(!openingParams.has('opening')&&(openingParams.has('home')||sessionStorage.getItem('sjq-opening-seen-v2')))openingShell.remove();
 </script>
 </body></html>
