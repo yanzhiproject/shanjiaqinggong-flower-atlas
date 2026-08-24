@@ -19,11 +19,20 @@
 @media(max-width:900px){.garden-stage,.reveal-visual{width:min(72vw,620px);height:auto;aspect-ratio:1/1;min-height:0}}
 .garden-stage:before,.garden-stage:after,.reveal-visual:before,.reveal-visual:after{display:none}
 .reveal-main{min-height:0;padding-top:22px;padding-bottom:32px}.reveal-copy{padding:24px 30px 34px;max-height:calc(100vh - 132px);overflow:hidden}.reveal-copy .tags{margin-bottom:14px}.reveal-copy .lead{margin-bottom:14px}.reveal-copy .observe-tabs{margin:14px 0 10px}.reveal-copy .part-detail{min-height:100px;padding:15px 18px}.reveal-copy .reveal-actions{margin-top:15px;margin-bottom:7px}.reveal-visual{max-height:calc(100vh - 150px)}
-.guess-box.show{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;margin:0;padding:28px;background:rgba(64,56,46,.18);border:0;backdrop-filter:blur(5px)}.guess-card{width:min(460px,calc(100vw - 40px));padding:30px 32px 28px;border:1px solid var(--line);border-radius:24px;background:var(--card);box-shadow:0 24px 60px rgba(69,52,31,.22)}.guess-card .eyebrow{margin-bottom:10px}.guess-lead{margin:0 0 22px;color:var(--muted);font-size:15px;line-height:1.8}.guess-card .choices{margin-bottom:0}.guess-card .choice{min-width:76px}.guess-card .guess-status{margin-top:14px}
+.guess-box.show{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;margin:0;padding:28px;background:rgba(64,56,46,.18);border:0;backdrop-filter:blur(5px)}
+.guess-card{width:min(560px,calc(100vw - 44px));padding:34px 36px 32px;border:1px solid var(--line);border-radius:28px;background:var(--card);box-shadow:0 24px 60px rgba(69,52,31,.22);text-align:center}
+.guess-card .eyebrow{margin-bottom:10px;font-size:12px;letter-spacing:.18em}
+.guess-card .guess-title{margin:10px 0 10px;font-family:"SJQ WenYue","FangSong","STFangsong","Songti SC",serif;font-size:34px;font-weight:400;line-height:1.35;letter-spacing:.04em;text-wrap:balance}
+.guess-lead{max-width:430px;margin:0 auto 22px;color:var(--muted);font-size:15px;line-height:1.8;text-wrap:pretty}
+.guess-card .choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:0}
+.guess-card .choice{width:100%;min-width:0;min-height:48px;border-radius:16px;padding:11px 14px}
+.guess-card .guess-status{margin-top:14px}.guess-card #enterReveal{margin-top:12px}
 </style>
+<link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css">
+<script src="../../assets/ui/sjq-unified-header.js?v=20260824-2" defer></script>
 </head>
 <body>
-<header class="topbar">
+<header class="topbar sjq-unified-header">
   <a class="brand" href="../../index.html?home=1" aria-label="返回花馔图鉴">《山家清供》<span>花鉴图录</span></a>
   <nav class="chapter-nav" aria-label="章节导航">
     <a class="active" href="#experiencePage">识名物</a><a href="recipe.html">看菜谱</a><a href="story.html">读故事</a><a href="poetry.html">赏诗词</a><a href="meaning.html">品意蕴</a>
@@ -45,10 +54,10 @@
       <div class="step-labels"><span>萌发</span><span>抽枝</span><span>绽放</span></div>
       <div class="observation-note" id="observationNote">点击“开始生长”，让牡丹从根部向上生长。</div>
       <div class="button-row"><button class="primary" id="startGrowth">开始生长</button><button class="primary" id="openGuess" style="display:none">我看清了，开始猜花 →</button></div>
-      <div class="guess-box" id="guessBox">
-        <div class="guess-card">
+      <div class="guess-box" id="guessBox" aria-hidden="true">
+        <div class="guess-card" role="dialog" aria-modal="true" aria-labelledby="guessTitle">
           <div class="eyebrow">第一章 · 识名物</div>
-          <div class="guess-title">花已盛放，猜猜它是什么？</div>
+          <div class="guess-title" id="guessTitle">花已盛放，猜猜它是什么？</div>
           <p class="guess-lead">先看花瓣的层层展开，再凭眼前的形，选出它的名字。</p>
           <div class="choices"><button class="choice" data-answer="牡丹">牡丹</button><button class="choice" data-answer="芍药">芍药</button><button class="choice" data-answer="月季">月季</button></div>
           <div class="guess-status" id="guessStatus"></div>
@@ -62,7 +71,7 @@
 
 <main id="revealPage" class="page" hidden>
   <div class="reveal-main">
-    <section class="reveal-visual"><img id="detailImg" class="detail-img" src="assets/peony-root-danpi.png" alt="牡丹根部丹皮插图"><div class="visual-chip" id="visualChip">当前观察：根 · 丹皮</div></section>
+    <section class="reveal-visual"><img id="detailImg" class="detail-img" src="assets/peony-root-danpi.webp" alt="牡丹根部丹皮插图"><div class="visual-chip" id="visualChip">当前观察：根 · 丹皮</div></section>
     <aside class="reveal-copy">
       <div class="eyebrow">第一章 · 识名物</div>
       <h1>牡丹</h1>
@@ -84,32 +93,36 @@
 const $=s=>document.querySelector(s);
 const state={started:false,complete:false,guessCorrect:false};
 const detailData={
- root:{title:'根 · 丹皮',text:'根部粗壮盘错，可入药，称为丹皮。牡丹之名，也从这一抹赤色的根皮留下来。',img:'assets/peony-root-danpi.png',alt:'牡丹根部与丹皮插图',chip:'当前观察：根 · 丹皮'},
- branch:{title:'枝 · 老干',text:'老干苍劲，枝条从根部向上舒展，焦骨不折，托住春深时节才开的花。',img:'assets/peony-branch-bark.png',alt:'牡丹老枝与花蕾插图',chip:'当前观察：枝 · 老干'},
- leaf:{title:'叶 · 三叉九顶',text:'叶片分裂明显，常说“三叉九顶”。叶脉从叶柄向外展开，舒展而有层次。',img:'assets/peony-leaf-trifoliate.png',alt:'牡丹三叉九顶叶片插图',chip:'当前观察：叶 · 三叉九顶'},
- flower:{title:'花 · 千叶重台',text:'花瓣层层叠叠，花心繁复，百瓣攒心，是牡丹最醒目的形态，也是“花王”之称的由来。',img:'assets/peony-flower-layered.png',alt:'层叠牡丹花插图',chip:'当前观察：花 · 千叶重台'}
+ root:{title:'根 · 丹皮',text:'根部粗壮盘错，可入药，称为丹皮。牡丹之名，也从这一抹赤色的根皮留下来。',img:'assets/peony-root-danpi.webp',alt:'牡丹根部与丹皮插图',chip:'当前观察：根 · 丹皮'},
+ branch:{title:'枝 · 老干',text:'老干苍劲，枝条从根部向上舒展，焦骨不折，托住春深时节才开的花。',img:'assets/peony-branch-bark.webp',alt:'牡丹老枝与花蕾插图',chip:'当前观察：枝 · 老干'},
+ leaf:{title:'叶 · 三叉九顶',text:'叶片分裂明显，常说“三叉九顶”。叶脉从叶柄向外展开，舒展而有层次。',img:'assets/peony-leaf-trifoliate.webp',alt:'牡丹三叉九顶叶片插图',chip:'当前观察：叶 · 三叉九顶'},
+ flower:{title:'花 · 千叶重台',text:'花瓣层层叠叠，花心繁复，百瓣攒心，是牡丹最醒目的形态，也是“花王”之称的由来。',img:'assets/peony-flower-layered.webp',alt:'层叠牡丹花插图',chip:'当前观察：花 · 千叶重台'}
 };
 function setBars(n){['bar1','bar2','bar3'].forEach((id,i)=>$('#'+id).classList.toggle('on',i<n));}
 function onBloom(){if(state.complete)return;state.complete=true;$('#stageChip').textContent='花已盛放 · 可继续观察';$('#guideTitle').textContent='牡丹已开，请先看清它';$('#guideText').textContent='花瓣已经完整展开，花心、枝叶和花形都会停留在眼前。看清之后，再开始猜花。';$('#observationNote').textContent='不急着回答，先观察花瓣层叠与花心结构。';$('#startGrowth').style.display='none';$('#openGuess').style.display='inline-block';setBars(3);}
 function startGrowth(){if(state.started)return;state.started=true;$('#startGrowth').textContent='生长中…';$('#startGrowth').disabled=true;$('#stageChip').textContent='枝干向上生长 · 请耐心观察';$('#guideTitle').textContent='从根部到花心';$('#guideText').textContent='先看老干拔地，再看叶片舒展，最后花瓣一层层打开。';$('#observationNote').textContent='可移动鼠标，感受枝叶随风轻摆。';setBars(1);window.peonyStart&&window.peonyStart();}
 $('#startGrowth').addEventListener('click',startGrowth);
-$('#openGuess').addEventListener('click',()=>$('#guessBox').classList.add('show'));
+function openGuess(){const box=$('#guessBox');box.classList.add('show');box.setAttribute('aria-hidden','false');box.querySelector('.choice')?.focus();}
+function closeGuess(){const box=$('#guessBox');box.classList.remove('show');box.setAttribute('aria-hidden','true');$('#openGuess')?.focus();}
+$('#openGuess').addEventListener('click',openGuess);
+$('#guessBox').addEventListener('click',e=>{if(e.target===$('#guessBox'))closeGuess();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#guessBox').classList.contains('show'))closeGuess();});
 $('#gardenStage').addEventListener('click',e=>{if(!state.started && (e.target.id==='gardenStage'||e.target.closest('#p5Mount')))startGrowth();});
 document.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>{const right=btn.dataset.answer==='牡丹';document.querySelectorAll('.choice').forEach(b=>b.classList.remove('correct','wrong'));btn.classList.add(right?'correct':'wrong');$('#guessStatus').textContent=right?'猜对了，这是牡丹。它的花瓣重叠、花心丰厚，正是“花王”的气度。':'再看一看花瓣层叠的形态。它和芍药、月季都有相似之处，但花心更繁复。';if(right){state.guessCorrect=true;$('#enterReveal').style.display='inline-block';}}));
-$('#enterReveal').addEventListener('click',()=>{ $('#experiencePage').hidden=true;$('#revealPage').hidden=false;window.scrollTo(0,0);});
-$('#backToGuess').addEventListener('click',e=>{e.preventDefault();$('#revealPage').hidden=true;$('#experiencePage').hidden=false;$('#guessBox').classList.add('show');window.scrollTo(0,0);});
+$('#enterReveal').addEventListener('click',()=>{closeGuess();$('#experiencePage').hidden=true;$('#revealPage').hidden=false;window.scrollTo(0,0);});
+$('#backToGuess').addEventListener('click',e=>{e.preventDefault();$('#revealPage').hidden=true;$('#experiencePage').hidden=false;openGuess();window.scrollTo(0,0);});
 document.querySelectorAll('.observe-tab').forEach(tab=>tab.addEventListener('click',()=>{const d=detailData[tab.dataset.part];document.querySelectorAll('.observe-tab').forEach(t=>t.classList.toggle('active',t===tab));const img=$('#detailImg');img.style.opacity='0';setTimeout(()=>{img.src=d.img;img.alt=d.alt;img.onload=()=>img.style.opacity='1';},130);$('#visualChip').textContent=d.chip;$('#detailTitle').textContent=d.title;$('#detailText').textContent=d.text;}));
 $('#toRecipe').addEventListener('click',()=>{location.href='recipe.html';});
 
 
 let sketch;
 function makeSketch(){
-  sketch=new p5(p=>{let growth=0,isUnlocked=false,windForce=0,completeSent=false;const GOLDEN_ANGLE=137.5;
+  sketch=new p5(p=>{let growth=0,isUnlocked=false,unlockedAt=0,windForce=0,completeSent=false;const GOLDEN_ANGLE=137.5;
     p.setup=()=>{const el=$('#p5Mount');p.createCanvas(el.clientWidth||620,el.clientHeight||620);p.colorMode(p.HSB,360,100,100,100);p.noiseSeed(99);p.pixelDensity(Math.min(window.devicePixelRatio||1,2));};
     p.windowResized=()=>{const el=$('#p5Mount');p.resizeCanvas(el.clientWidth||620,el.clientHeight||620);};
-    p.draw=()=>{p.clear();if(isUnlocked)growth=p.lerp(growth,1,.012);const scale=Math.min(p.width/620,p.height/600);p.push();p.translate(p.width/2,p.height*.85);const top=drawBranch(300*scale,scale);p.push();p.translate(top.x,top.y);drawPeony(scale);p.pop();p.pop();windForce=p.lerp(windForce,0,.05);if(isUnlocked&&growth>.975&&!completeSent){completeSent=true;onBloom();}};
+    p.draw=()=>{p.clear();if(isUnlocked){const elapsed=Math.max(0,performance.now()-unlockedAt),t=Math.min(1,elapsed/9000);growth=1-Math.pow(1-t,2.2)}const scale=Math.min(p.width/620,p.height/600);p.push();p.translate(p.width/2,p.height*.85);const top=drawBranch(300*scale,scale);p.push();p.translate(top.x,top.y);drawPeony(scale);p.pop();p.pop();windForce=p.lerp(windForce,0,.05);if(isUnlocked&&growth>.975&&!completeSent){completeSent=true;onBloom();}};
     p.mouseMoved=()=>{const sp=p.dist(p.mouseX,p.mouseY,p.pmouseX,p.pmouseY);if(sp>8)windForce=p.constrain((p.mouseX-p.pmouseX)*.15,-12,12);};
-    window.peonyStart=()=>{isUnlocked=true;};
+    window.peonyStart=()=>{if(isUnlocked)return;isUnlocked=true;unlockedAt=performance.now();};
     function strokeSeg(x0,y0,x1,y1,w0,w1,old){let px=x0,py=y0;p.stroke(old?80:100,old?40:55,old?28:38,90);p.strokeCap(p.ROUND);for(let i=1;i<=15;i++){let t=i/15,nx=p.lerp(x0,x1,t)+(p.noise(t*5,p.frameCount*.01)-.5)*3*scale,ny=p.lerp(y0,y1,t);p.strokeWeight(p.lerp(w0,w1,t));p.line(px,py,nx,ny);px=nx;py=ny;}}
     function leafGroup(x,y,side,size){p.push();p.translate(x,y);p.rotate(p.radians((side<0?-135:-45)+windForce*.5));leaf(size,0);leaf(size*.75,-p.PI/5);leaf(size*.75,p.PI/5);p.pop();}
     function quad(x0,y0,cx,cy,x1,y1){for(let t=0;t<=1.001;t+=.08){const inv=1-t;p.vertex(inv*inv*x0+2*inv*t*cx+t*t*x1,inv*inv*y0+2*inv*t*cy+t*t*y1);}}

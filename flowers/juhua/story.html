@@ -1,0 +1,255 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f1e7">
+<title>《山家清供》· 菊花 · 第三章 读故事</title>
+<style>
+:root{
+  --sjq-paper:#F7F1E7;--sjq-paper-soft:#FBF8F2;--sjq-card:#FFFDF8;
+  --sjq-ink:#40382E;--sjq-muted:#8B7965;--sjq-gold:#C79F5D;--sjq-gold-light:#DFBD82;
+  --sjq-green:#6F7959;--sjq-line:rgba(199,159,93,.20);--sjq-line-strong:rgba(199,159,93,.34);
+  --sjq-shadow:0 16px 38px rgba(85,65,31,.08);--sjq-shadow-soft:0 9px 22px rgba(85,65,31,.06);
+  --sjq-radius-card:24px;--sjq-radius-panel:28px;--sjq-radius-pill:999px;
+  --sjq-motion-fast:.20s;--sjq-motion-base:.34s;--sjq-motion-slow:.68s;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--sjq-paper);color:var(--sjq-ink)}
+body{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.92),transparent 28%),linear-gradient(180deg,#FCFAF6 0%,var(--sjq-paper) 62%,#F2E9D9 100%);}
+button{font:inherit;color:inherit}
+.topbar{height:58px;padding:0 22px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;background:rgba(252,249,243,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--sjq-line);position:relative;z-index:50}
+.brand{font-size:12px;letter-spacing:.15em;white-space:nowrap}
+.chapter-tag{justify-self:end;font-size:11px;color:var(--sjq-muted);letter-spacing:.12em;white-space:nowrap}
+.pill-nav{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:3px;padding:5px;border-radius:999px;background:rgba(255,255,255,.68);border:1px solid var(--sjq-line);box-shadow:var(--sjq-shadow-soft);width:min(560px,46vw)}
+.pill-nav .slider{position:absolute;top:4px;left:4px;height:calc(100% - 8px);border-radius:999px;background:linear-gradient(180deg,var(--sjq-gold-light),var(--sjq-gold));box-shadow:0 7px 16px rgba(130,95,42,.14);transition:.34s cubic-bezier(.2,.8,.2,1)}
+.pill-nav button{position:relative;z-index:2;border:0;background:transparent;border-radius:999px;padding:8px 11px;cursor:pointer;color:#6D5F4E;font-size:13px}
+.pill-nav button.active{color:#fff}
+.app{height:calc(100vh - 58px);padding:14px 16px 16px}
+.workspace{height:100%;max-width:1680px;margin:0 auto;display:grid;grid-template-columns:148px minmax(0,1fr) 350px;gap:14px;align-items:center}
+.story-tabs{align-self:center;padding:10px;border-radius:22px;background:rgba(255,253,249,.78);border:1px solid var(--sjq-line);box-shadow:var(--sjq-shadow-soft);display:flex;flex-direction:column;gap:5px}
+.scene-btn{border:0;background:transparent;text-align:left;padding:10px 9px;border-radius:14px;cursor:pointer;transition:var(--sjq-motion-fast) ease;display:grid;grid-template-columns:27px 1fr;gap:9px;align-items:center}
+.scene-btn:hover{background:rgba(199,159,93,.07)}
+.scene-btn.active{background:rgba(199,159,93,.12);color:#8A6936}
+.scene-num{width:27px;height:27px;border-radius:50%;border:1px solid var(--sjq-line-strong);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--sjq-muted)}
+.scene-btn.active .scene-num{color:#8A6936;border-color:rgba(199,159,93,.48)}
+.scene-btn strong{font-size:13px;font-weight:500;white-space:nowrap}
+.visual-wrap{align-self:center;min-width:0;display:flex;justify-content:center;align-items:center;perspective:1000px}
+.stage{position:relative;width:100%;aspect-ratio:16/9;max-height:calc(100vh - 106px);border-radius:var(--sjq-radius-panel);overflow:hidden;border:1px solid var(--sjq-line);box-shadow:var(--sjq-shadow);background:#E8DDCB;transform:translateZ(0)}
+.scene-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.018);filter:blur(3px);transition:opacity .68s ease,transform 1.05s ease,filter .68s ease}
+.scene-image.active{opacity:1;transform:scale(1);filter:blur(0)}
+.stage::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(55,42,25,.00),rgba(55,42,25,.11));pointer-events:none}
+.stage-shade{position:absolute;inset:auto 0 0 0;height:24%;background:linear-gradient(180deg,transparent,rgba(41,31,20,.14));pointer-events:none;z-index:2}
+.scene-label{position:absolute;left:18px;bottom:16px;z-index:4;padding:9px 12px;border-radius:999px;background:rgba(255,253,248,.88);border:1px solid var(--sjq-line);box-shadow:var(--sjq-shadow-soft);backdrop-filter:blur(7px);font-size:12px;color:#6D5F4E;letter-spacing:.08em;transition:.34s ease}
+.hotspot-layer{position:absolute;inset:0;z-index:5}
+.hotspot{position:absolute;width:22px;height:22px;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(199,159,93,.72);background:rgba(255,253,248,.76);box-shadow:0 4px 14px rgba(85,65,31,.10);cursor:pointer;opacity:.58;transition:.2s ease}
+.hotspot::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--sjq-gold)}
+.hotspot:hover,.hotspot.active{opacity:1;transform:translate(-50%,-50%) scale(1.06)}
+.hotspot-note{position:absolute;left:18px;top:16px;z-index:6;max-width:330px;padding:11px 13px;border-radius:15px;background:rgba(255,253,248,.93);border:1px solid var(--sjq-line);box-shadow:var(--sjq-shadow-soft);font-size:12px;line-height:1.7;color:#675948;opacity:0;transform:translateY(-5px);pointer-events:none;transition:.25s ease}
+.hotspot-note.show{opacity:1;transform:none}
+.reading{align-self:center;height:min(650px,calc(100vh - 100px));min-height:520px;padding:20px 20px 16px;border-radius:var(--sjq-radius-panel);background:rgba(255,253,249,.88);border:1px solid var(--sjq-line);box-shadow:var(--sjq-shadow);display:flex;flex-direction:column;overflow:hidden}
+.reading-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kicker{font-size:10px;color:var(--sjq-gold);letter-spacing:.15em}
+.scene-count{font-size:10px;color:var(--sjq-muted);letter-spacing:.10em}
+.reading h1{font-size:26px;font-weight:500;margin:8px 0 14px}
+.original{padding:15px 16px;border-radius:18px;background:#FFF9EE;border:1px solid var(--sjq-line);font-size:15px;line-height:2;color:#4F4438}
+.original .term{border-bottom:1px dotted rgba(199,159,93,.65);cursor:pointer;padding-bottom:1px;transition:.2s ease}
+.original .term:hover,.original .term.active{color:#8A6936;background:rgba(199,159,93,.08)}
+.annotation{max-height:0;overflow:hidden;opacity:0;margin-top:0;padding:0 2px;color:#75634D;font-size:12px;line-height:1.75;transition:.3s ease}
+.annotation.show{max-height:78px;opacity:1;margin-top:9px}
+.narrative{font-size:14px;line-height:1.92;color:#665949;margin:16px 1px 0}
+.story-emphasis{margin-top:12px;font-size:12px;color:#806A4C;padding-left:11px;border-left:2px solid rgba(199,159,93,.52);line-height:1.75;opacity:.9}
+.controls{margin-top:auto;padding-top:16px}
+.progress{display:flex;gap:7px;margin-bottom:13px}
+.progress i{flex:1;height:4px;border-radius:999px;background:rgba(199,159,93,.14);transition:.25s ease}
+.progress i.on{background:var(--sjq-gold)}
+.control-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px}
+.btn-text{border:0;background:transparent;padding:8px 2px;cursor:pointer;color:#77634B;font-size:13px}
+.btn-text.next{justify-self:end}
+.btn-text span{display:inline-block;transition:.2s ease}
+.btn-text.prev:hover span{transform:translateX(-4px)} .btn-text.next:hover span{transform:translateX(4px)}
+.btn-audio{border:1px solid var(--sjq-line);border-radius:999px;padding:8px 12px;cursor:pointer;background:rgba(255,255,255,.68);font-size:12px;transition:.2s ease}
+.btn-audio:hover{transform:translateY(-1px);background:rgba(199,159,93,.07)}
+.keyboard-hint{text-align:center;margin-top:8px;font-size:9px;color:rgba(139,121,101,.72);letter-spacing:.08em}
+@media(max-width:1180px){
+  html,body{overflow:auto;height:auto}
+  .topbar{grid-template-columns:1fr auto;height:auto;min-height:58px;padding:8px 14px}
+  .pill-nav{grid-row:2;grid-column:1/-1;width:100%;margin-top:2px}
+  .chapter-tag{justify-self:end}
+  .app{height:auto;min-height:calc(100vh - 58px)}
+  .workspace{grid-template-columns:132px minmax(0,1fr);align-items:start}
+  .reading{grid-column:1/-1;width:100%;height:auto;min-height:0}
+  .visual-wrap{align-self:start}
+  .stage{max-height:none}
+}
+@media(max-width:760px){
+  .brand{font-size:11px} .chapter-tag{display:none}
+  .workspace{display:flex;flex-direction:column}
+  .story-tabs{width:100%;display:grid;grid-template-columns:repeat(5,1fr);padding:7px}
+  .scene-btn{display:flex;justify-content:center;padding:8px 4px} .scene-btn strong{display:none}
+  .scene-num{width:29px;height:29px}
+  .pill-nav{grid-template-columns:1fr;gap:4px;border-radius:22px} .pill-nav .slider{display:none} .pill-nav button.active{background:linear-gradient(180deg,var(--sjq-gold-light),var(--sjq-gold))}
+  .reading{padding:18px}
+}
+</style>
+<style>
+@media(max-width:760px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  .topbar{height:auto;min-height:58px;padding:10px 14px;display:flex;flex-wrap:wrap;gap:9px}
+  .brand{width:100%;font-size:11px}.chapter-tag{display:none}
+  .pill-nav{width:100%;max-width:none;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;padding:4px;border-radius:999px}
+  .pill-nav button{min-width:0;padding:8px 2px;font-size:11px;white-space:nowrap}
+  .app{height:auto;min-height:calc(100vh - 104px);padding:12px}
+  .workspace{width:100%;height:auto;display:flex;flex-direction:column;gap:12px}
+  .story-tabs,.visual-wrap,.reading{width:100%;max-width:100%;min-width:0;align-self:stretch}
+  .story-tabs{box-sizing:border-box;grid-template-columns:repeat(5,minmax(0,1fr));padding:7px}
+  .scene-btn{min-width:0}.reading{box-sizing:border-box;height:auto;min-height:0;padding:18px}
+}
+</style><style id="sjq-unified-header-v2">
+.topbar{box-sizing:border-box!important;height:76px!important;min-height:76px!important;padding:0 34px!important;display:grid!important;grid-template-columns:minmax(180px,1fr) minmax(420px,580px) minmax(180px,1fr)!important;gap:24px!important;align-items:center!important}
+.brand{font-size:15px!important;line-height:1!important;white-space:nowrap!important}
+.chapter,.chapter-tag{justify-self:end!important;font-size:12px!important;line-height:1.4!important;white-space:nowrap!important}
+.chapter-nav,.nav,.pill-nav{box-sizing:border-box!important;width:100%!important;max-width:580px!important;height:52px!important;min-height:52px!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;align-items:stretch!important;gap:3px!important;padding:5px!important;border-radius:999px!important}
+.chapter-nav>span,.nav>span,.pill-nav>button{box-sizing:border-box!important;min-width:0!important;height:40px!important;padding:0 12px!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:14px!important;line-height:1!important;white-space:nowrap!important}
+.pill-nav>.slider{top:5px!important;height:40px!important}
+@media(max-width:980px){.topbar{height:68px!important;min-height:68px!important;padding:0 18px!important;grid-template-columns:1fr auto!important;gap:12px!important}.chapter-nav,.nav,.pill-nav{display:grid!important;min-width:0!important;width:100%!important}.brand{font-size:13px!important}.chapter,.chapter-tag{display:block!important;font-size:11px!important}}
+</style><style id="sjq-story-header-v2">
+.app{height:calc(100vh - 76px)!important}.stage{max-height:calc(100vh - 124px)!important}.reading{height:min(650px,calc(100vh - 118px))!important}
+@media(max-width:980px){.app{height:auto!important;min-height:calc(100vh - 68px)!important}.reading{height:auto!important}}
+</style><link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css"><script src="../../assets/ui/sjq-unified-header.js" defer></script><style id="sjq-shell-normalize">
+html,body{overflow:hidden!important}
+.topbar{height:76px!important;min-height:76px!important;box-sizing:border-box!important}
+.chapter,.chapter-tag,.flower-status{padding-right:58px!important}
+.chapter-nav,.nav,.pill-nav{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;min-width:0!important;width:100%!important;max-width:580px!important}
+.chapter-nav>span,.nav>span,.pill-nav>button{font-size:14px!important;white-space:nowrap!important}
+@media(max-width:980px){
+  .topbar{height:76px!important;min-height:76px!important;padding:0 12px!important;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr)!important;gap:8px!important}
+  .chapter-nav,.nav,.pill-nav{display:grid!important;max-width:100%!important;gap:1px!important;padding:3px!important}
+  .chapter-nav>span,.nav>span,.pill-nav>button{height:40px!important;padding:0 3px!important;font-size:11px!important}
+}
+</style></head>
+<body>
+<header class="topbar">
+  <div class="brand">《山家清供》花馔图鉴</div>
+  <nav class="pill-nav" id="pillNav"><span class="slider"></span><button>识名物</button><button>看菜谱</button><button class="active">读故事</button><button>赏诗词</button><button>品意蕴</button></nav>
+  <div class="chapter-tag">菊花 · 第三章 · 读故事</div>
+</header>
+<div class="app">
+  <main class="workspace">
+    <aside class="story-tabs" aria-label="故事分幕"><button class="scene-btn active" data-i="0"><span class="scene-num">01</span><strong>春游西马塍</strong></button><button class="scene-btn " data-i="1"><span class="scene-num">02</span><strong>一赋一兰</strong></button><button class="scene-btn " data-i="2"><span class="scene-num">03</span><strong>数杯之后</strong></button><button class="scene-btn " data-i="3"><span class="scene-num">04</span><strong>菊苗入馔</strong></button><button class="scene-btn " data-i="4"><span class="scene-num">05</span><strong>楚畹之风</strong></button></aside>
+    <section class="visual-wrap">
+      <div class="stage" id="stage">
+        <img class="scene-image active" data-img="0" src="assets/asset-017-838a961712.webp" alt="春游西马塍"><img class="scene-image " data-img="1" src="assets/asset-018-e5ef42bf0e.webp" alt="一赋一兰"><img class="scene-image " data-img="2" src="assets/asset-019-24b38956a4.webp" alt="数杯之后"><img class="scene-image " data-img="3" src="assets/asset-020-c7cbc226b6.webp" alt="菊苗入馔"><img class="scene-image " data-img="4" src="assets/asset-021-9c83731eb6.webp" alt="楚畹之风">
+        <div class="stage-shade"></div>
+        <div class="hotspot-layer" id="hotspotLayer"></div>
+        <div class="hotspot-note" id="hotspotNote"></div>
+        <div class="scene-label" id="sceneLabel">第一幕 · 春游西马塍</div>
+      </div>
+    </section>
+    <aside class="reading" id="reading">
+      <div class="reading-head"><div class="kicker" id="rk">第三章 · 读故事</div><div class="scene-count" id="sceneCount">01 / 05</div></div>
+      <h1 id="rt"></h1>
+      <div class="original" id="original"></div>
+      <div class="annotation" id="annotation"></div>
+      <p class="narrative" id="narrative"></p>
+      <div class="story-emphasis" id="emphasis"></div>
+      <div class="controls">
+        <div class="progress" id="progress"></div>
+        <div class="control-row">
+          <button class="btn-text prev" id="prev"><span>←</span> 上一幕</button>
+          <button class="btn-audio" id="audioBtn">▶ 听原文</button>
+          <button class="btn-text next" id="next">下一幕 <span>→</span></button>
+        </div>
+        <div class="keyboard-hint">可使用键盘 ← → 切换故事</div>
+      </div>
+    </aside>
+  </main>
+</div>
+<script>
+const STORY_AUDIO=["assets/asset-022-239af34e0c.mp3","assets/asset-023-f56157509e.mp3","assets/asset-024-aa797aed5a.mp3","assets/asset-025-d6cc90b102.mp3","assets/asset-026-fbf5c280c6.mp3"];
+const storyAudio=new Audio();
+function stopStoryAudio(){storyAudio.pause();storyAudio.currentTime=0;const b=document.getElementById('audioBtn');if(b)b.textContent='▶ 听原文'};window.SJQStopAudio=stopStoryAudio;storyAudio.addEventListener('ended',()=>{document.getElementById('audioBtn').textContent='▶ 听原文'});
+const stories=[{"num": "01", "title": "春游西马塍", "image": "assets/asset-017-838a961712.webp", "original": "春游西马塍，会张将使元耕轩，留饮。", "narrative": "春日里，林洪来到西马塍游赏。花田之间，他恰好遇见张元将使，于是被留下饮酒。故事从一次春游与相逢开始。", "keywords": {"西马塍": "浙江余杭一带的著名花圃之地，宋代以种花闻名。", "留饮": "主人邀客留下饮酒，是文人交游中自然的一环。"}, "hotspots": [{"x": 36, "y": 56, "title": "林洪", "text": "故事从“游”开始。林洪只是春日来到花田闲游。"}, {"x": 79, "y": 42, "title": "相逢", "text": "远处的人影暗示下一步的相逢与留饮。"}]}, {"num": "02", "title": "一赋一兰", "image": "assets/asset-018-e5ef42bf0e.webp", "original": "命予作《菊田赋》诗，作墨兰。", "narrative": "席间，张元将使请林洪为眼前的菊田赋诗，又请他画一枝墨兰。游赏因此变成了一场文人雅集。", "keywords": {"菊田赋": "林洪应主人之请，以眼前菊田为题作赋。", "墨兰": "以水墨写兰，是文人借花寄意的一种雅事。"}, "hotspots": [{"x": 48, "y": 54, "title": "墨兰", "text": "画案上的墨兰，让“吃”之前先有诗画之雅。"}, {"x": 44, "y": 44, "title": "诗赋", "text": "诗、画与花田共同构成这次相聚的前半段。"}]}, {"num": "03", "title": "数杯之后", "image": "assets/asset-019-24b38956a4.webp", "original": "元甚喜，数杯后，出菊煎。", "narrative": "张元将使见诗与墨兰，很是欢喜。两人又饮了数杯。直到这时，菊煎才被端上来。", "keywords": {"数杯后": "这三个字说明先有相聚、诗画与饮酒，食物随后才出现。", "菊煎": "以鲜嫩菊苗为主料制成的清雅花馔。"}, "hotspots": [{"x": 33, "y": 50, "title": "菊煎初现", "text": "这一幕才第一次出现菊煎：它是相聚渐入佳境后的自然一味。"}, {"x": 57, "y": 59, "title": "数杯之后", "text": "酒杯让“数杯后”的时间顺序变得可见。"}]}, {"num": "04", "title": "菊苗入馔", "image": "assets/asset-020-c7cbc226b6.webp", "original": "法：采菊苗，汤瀹，用甘草水调山药粉，煎之以油。", "narrative": "鲜嫩菊苗先用热水焯过，再以甘草水调和山药粉，最后用油煎成。做法简洁，却嵌在春游、花田、朋友与诗画之间。", "keywords": {"汤瀹": "“瀹”有煮、焯之意，这里指用热水处理菊苗。", "甘草水": "以甘草煮水，用来调和山药粉。", "山药粉": "调成糊后裹住菊苗，再入油煎。"}, "hotspots": [{"x": 51, "y": 60, "title": "一味菊苗", "text": "此处的食物不是独立的“菜品展示”，而仍属于这场雅集。"}]}, {"num": "05", "title": "楚畹之风", "image": "assets/asset-021-9c83731eb6.webp", "original": "爽然有楚畹之风。张，深于药者，亦谓“菊以紫茎为正”云。", "narrative": "林洪没有以“香”“酥”“鲜”收尾，而说“爽然有楚畹之风”。一味菊苗留下的，是花田、诗赋、墨兰、朋友相逢与春日清风。", "keywords": {"爽然": "清爽、舒畅的感受。", "楚畹": "泛指兰圃，也带有《楚辞》式的幽芳与清雅意象。", "紫茎为正": "当时关于甘菊品类的一种辨识观念。"}, "hotspots": [{"x": 29, "y": 58, "title": "兰意", "text": "“楚畹”把味觉带回兰圃般的幽芳与清气。"}, {"x": 61, "y": 41, "title": "余韵", "text": "最后留下的不是“吃了什么”，而是一整段春日生活。"}]}];
+let current=0;
+const btns=[...document.querySelectorAll('.scene-btn')];
+const imgs=[...document.querySelectorAll('[data-img]')];
+const rt=document.getElementById('rt'),orig=document.getElementById('original'),annotation=document.getElementById('annotation'),nar=document.getElementById('narrative'),emphasis=document.getElementById('emphasis'),prog=document.getElementById('progress'),sceneLabel=document.getElementById('sceneLabel'),sceneCount=document.getElementById('sceneCount'),hotspotLayer=document.getElementById('hotspotLayer'),hotspotNote=document.getElementById('hotspotNote');
+const emphasisText=[
+  '故事从“游”开始，而不是从一道菜开始。',
+  '在菊煎出现之前，先有诗，先有画。',
+  '“数杯后”三个字，把食物放回了相聚的时间顺序里。',
+  '一味菊苗，是这场春日雅集中的一环。',
+  '入口的是菊，留下的是一段春日生活。'
+];
+function renderOriginal(s){
+  let text=s.original;
+  const terms=Object.keys(s.keywords).sort((a,b)=>b.length-a.length);
+  terms.forEach(term=>{text=text.split(term).join(`<span class="term" data-term="${term}">${term}</span>`)});
+  orig.innerHTML=text;
+  orig.querySelectorAll('.term').forEach(el=>el.addEventListener('click',()=>{
+    const already=el.classList.contains('active');
+    orig.querySelectorAll('.term').forEach(x=>x.classList.remove('active'));
+    if(already){annotation.classList.remove('show');annotation.textContent='';return}
+    el.classList.add('active');annotation.textContent=s.keywords[el.dataset.term];annotation.classList.add('show');
+  }));
+}
+function renderHotspots(s){
+  hotspotLayer.innerHTML='';hotspotNote.classList.remove('show');hotspotNote.textContent='';
+  (s.hotspots||[]).forEach(h=>{
+    const b=document.createElement('button');b.className='hotspot';b.style.left=h.x+'%';b.style.top=h.y+'%';b.setAttribute('aria-label',h.title);
+    b.addEventListener('click',()=>{
+      [...hotspotLayer.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');hotspotNote.innerHTML='<b>'+h.title+'</b><br>'+h.text;hotspotNote.classList.add('show');
+    });hotspotLayer.appendChild(b);
+  })
+}
+function render(i){stopStoryAudio();
+  current=i;const s=stories[i];
+  btns.forEach((b,j)=>b.classList.toggle('active',j===i));imgs.forEach((im,j)=>im.classList.toggle('active',j===i));
+  rt.style.opacity=.18;nar.style.opacity=.18;sceneLabel.style.opacity=.2;
+  setTimeout(()=>{
+    rt.textContent=s.title;nar.textContent=s.narrative;emphasis.textContent=emphasisText[i];renderOriginal(s);annotation.textContent='';annotation.classList.remove('show');
+    prog.innerHTML=stories.map((_,j)=>'<i class="'+(j<=i?'on':'')+'"></i>').join('');sceneLabel.textContent='第'+['一','二','三','四','五'][i]+'幕 · '+s.title;sceneCount.textContent=s.num+' / 05';
+    const prevBtn=document.getElementById('prev');prevBtn.style.visibility='visible';prevBtn.innerHTML=i===0?'<span>\u2190</span> \u8fd4\u56de\u83dc\u8c31':'<span>\u2190</span> \u4e0a\u4e00\u5e55';document.getElementById('next').innerHTML=i===stories.length-1?'\u8d4f\u8bd7\u8bcd <span>\u2192</span>':'\u4e0b\u4e00\u5e55 <span>\u2192</span>';
+    renderHotspots(s);rt.style.opacity=1;nar.style.opacity=1;sceneLabel.style.opacity=1;
+  },150)
+}
+btns.forEach((b,i)=>b.addEventListener('click',()=>render(i)));
+document.getElementById('prev').addEventListener('click',()=>{if(current>0)render(current-1);else parent.SJQShow('recipe')});
+document.getElementById('next').addEventListener('click',()=>{if(current<stories.length-1)render(current+1);else parent.SJQShow('poetry')});
+document.getElementById('audioBtn').addEventListener('click',async()=>{const b=document.getElementById('audioBtn');if(!storyAudio.paused){storyAudio.pause();b.textContent='▶ 继续听';return}const track=STORY_AUDIO[current];if(storyAudio.dataset.track!==track){storyAudio.src=track;storyAudio.dataset.track=track;storyAudio.currentTime=0}try{await storyAudio.play();b.textContent='Ⅱ 暂停'}catch(e){b.textContent='▶ 听原文'}});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&current<stories.length-1)render(current+1);if(e.key==='ArrowLeft'&&current>0)render(current-1)});
+const stage=document.getElementById('stage');
+stage.addEventListener('mousemove',e=>{const r=stage.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;const im=imgs[current];im.style.transform=`scale(1.006) translate(${-x*3}px,${-y*2}px)`});
+stage.addEventListener('mouseleave',()=>{imgs[current].style.transform=''});
+const nav=document.getElementById('pillNav'),slider=nav.querySelector('.slider');function moveSlider(){const active=nav.querySelector('button.active'),nr=nav.getBoundingClientRect(),r=active.getBoundingClientRect();slider.style.left=(r.left-nr.left)+'px';slider.style.width=r.width+'px'}requestAnimationFrame(moveSlider);addEventListener('resize',moveSlider);
+render(0);
+</script>
+<script>
+(()=>{
+  const send=section=>parent.postMessage({type:'sjq-section',section},'*');
+  const bind=(el,section)=>{
+    if(!el)return;
+    el.setAttribute('role','button');el.setAttribute('tabindex','0');el.style.cursor='pointer';
+    const go=e=>{e.preventDefault();e.stopImmediatePropagation();send(section)};
+    el.addEventListener('click',go,true);
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){go(e)}},true);
+  };
+  document.querySelectorAll('.chapter-nav span,.nav span,.pill-nav button').forEach(el=>{
+    const text=el.textContent.trim();
+    if(text==='\u8bc6\u540d\u7269')bind(el,'identify');
+    if(text==='\u770b\u83dc\u8c31')bind(el,'recipe');
+    if(text==='\u8bfb\u6545\u4e8b')bind(el,'story');
+  });
+  bind(document.getElementById('toRecipe'),'recipe');
+})();
+</script><script>
+(()=>{
+  const send=section=>parent.postMessage({type:'sjq-section',section},'*');
+  const bind=(el,section)=>{if(!el||el.dataset.sjqFourBound)return;el.dataset.sjqFourBound='1';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.style.cursor='pointer';const go=e=>{e.preventDefault();e.stopImmediatePropagation();send(section)};el.addEventListener('click',go,true);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){go(e)}},true)};
+  document.querySelectorAll('.chapter-nav span,.nav span,.pill-nav button').forEach(el=>{const text=el.textContent.trim();if(text==='\u8bc6\u540d\u7269')bind(el,'identify');if(text==='\u770b\u83dc\u8c31')bind(el,'recipe');if(text==='\u8bfb\u6545\u4e8b')bind(el,'story');if(text==='\u8d4f\u8bd7\u8bcd')bind(el,'poetry')});
+  bind(document.getElementById('toRecipe'),'recipe');
+})();
+</script><script>
+(()=>{const send=section=>parent.postMessage({type:'sjq-section',section},'*');const bind=(el,section)=>{if(!el)return;el.dataset.sjqFiveBound='1';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.setAttribute('onclick',`event.preventDefault();event.stopImmediatePropagation();parent.postMessage({type:'sjq-section',section:'${section}'},'*')`);el.style.cursor='pointer';el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();send(section)}},true)};document.querySelectorAll('.chapter-nav span,.nav span,.pill-nav button').forEach(old=>{const t=old.textContent.trim(),section=t==='\u8bc6\u540d\u7269'?'identify':t==='\u770b\u83dc\u8c31'?'recipe':t==='\u8bfb\u6545\u4e8b'?'story':t==='\u8d4f\u8bd7\u8bcd'?'poetry':t==='\u54c1\u610f\u8574'?'meaning':'';if(!section)return;const el=old.cloneNode(true);old.replaceWith(el);bind(el,section)});const oldNext=document.getElementById('toRecipe');if(oldNext){const next=oldNext.cloneNode(true);oldNext.replaceWith(next);bind(next,'recipe')}})();
+</script></body>
+</html>

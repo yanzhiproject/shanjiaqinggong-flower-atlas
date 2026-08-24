@@ -1,0 +1,247 @@
+@font-face{
+  font-family:"SJQ WenYue";
+  src:url("./sjq-wenyue-guti-fangsong.otf") format("opentype");
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+
+:root{
+  --sjq-header-height:76px;
+  --sjq-header-paper:#fbf8f2;
+  --sjq-header-card:#fffdf8;
+  --sjq-header-ink:#40382e;
+  --sjq-header-muted:#8b7965;
+  --sjq-header-gold:#c79f5d;
+  --sjq-header-line:rgba(199,159,93,.25);
+}
+
+.sjq-unified-header{
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:var(--sjq-header-height)!important;
+  min-height:var(--sjq-header-height)!important;
+  display:grid!important;
+  grid-template-columns:minmax(190px,1fr) minmax(500px,640px) minmax(230px,1fr)!important;
+  align-items:center!important;
+  gap:22px!important;
+  padding:0 max(26px,env(safe-area-inset-right)) 0 max(26px,env(safe-area-inset-left))!important;
+  border-bottom:1px solid var(--sjq-header-line)!important;
+  background:rgba(251,248,242,.97)!important;
+  color:var(--sjq-header-ink)!important;
+  font-family:"SJQ WenYue","FangSong","STFangsong","Songti SC",serif!important;
+  z-index:220!important;
+}
+
+.sjq-unified-header .sjq-header-home{
+  justify-self:start!important;
+  min-width:0!important;
+  min-height:42px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  padding:0 10px!important;
+  border:1px solid transparent!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:var(--sjq-header-muted)!important;
+  font:15px/1 "SJQ WenYue","FangSong","STFangsong",serif!important;
+  letter-spacing:.03em!important;
+  text-decoration:none!important;
+  white-space:nowrap!important;
+  cursor:pointer!important;
+  transition:color 160ms ease-out,border-color 160ms ease-out,background-color 160ms ease-out!important;
+}
+
+.sjq-unified-header .sjq-header-home:hover{
+  color:var(--sjq-header-ink)!important;
+  border-color:var(--sjq-header-line)!important;
+  background:var(--sjq-header-card)!important;
+}
+
+.sjq-unified-header .sjq-header-nav{
+  position:relative!important;
+  justify-self:center!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:640px!important;
+  height:52px!important;
+  min-height:52px!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  align-items:stretch!important;
+  gap:3px!important;
+  padding:5px!important;
+  overflow:hidden!important;
+  border:1px solid var(--sjq-header-line)!important;
+  border-radius:999px!important;
+  background:rgba(255,253,248,.9)!important;
+  box-shadow:0 8px 22px rgba(85,65,31,.05)!important;
+}
+
+.sjq-unified-header .sjq-header-nav>.slider{
+  display:none!important;
+}
+
+.sjq-unified-header .sjq-header-nav>.sjq-header-nav-item{
+  position:relative!important;
+  z-index:1!important;
+  box-sizing:border-box!important;
+  min-width:0!important;
+  width:auto!important;
+  height:40px!important;
+  min-height:40px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0 10px!important;
+  border:0!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:var(--sjq-header-muted)!important;
+  font:15px/1 "SJQ WenYue","FangSong","STFangsong",serif!important;
+  letter-spacing:.03em!important;
+  text-decoration:none!important;
+  white-space:nowrap!important;
+  cursor:pointer!important;
+  opacity:1!important;
+  transition:color 160ms ease-out,background-color 160ms ease-out!important;
+}
+
+.sjq-unified-header .sjq-header-nav>.sjq-header-nav-item:hover{
+  color:var(--sjq-header-ink)!important;
+  background:rgba(223,189,130,.15)!important;
+}
+
+.sjq-unified-header .sjq-header-nav>.sjq-header-nav-item.active,
+.sjq-unified-header .sjq-header-nav>.sjq-header-nav-item[aria-current="page"]{
+  color:#fff!important;
+  background:var(--sjq-header-gold)!important;
+  box-shadow:0 7px 16px rgba(130,95,42,.14)!important;
+}
+
+.sjq-unified-header .sjq-header-meta{
+  justify-self:end!important;
+  min-width:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:12px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+}
+
+.sjq-unified-header .sjq-header-chapter{
+  display:block!important;
+  max-width:190px!important;
+  overflow:hidden!important;
+  color:var(--sjq-header-muted)!important;
+  font:14px/1.35 "SJQ WenYue","FangSong","STFangsong",serif!important;
+  letter-spacing:.04em!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+
+.sjq-unified-header .sjq-sound-dock--header,
+.sjq-unified-header .sjq-header-sound-wrap{
+  position:relative!important;
+  inset:auto!important;
+  flex:0 0 auto!important;
+  justify-self:auto!important;
+  margin:0!important;
+}
+
+.sjq-unified-header .sjq-header-sound-button{
+  width:42px!important;
+  min-width:42px!important;
+  height:42px!important;
+  min-height:42px!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  border:1px solid var(--sjq-header-line)!important;
+  border-radius:50%!important;
+  background:var(--sjq-header-card)!important;
+  color:var(--sjq-header-gold)!important;
+  box-shadow:0 7px 18px rgba(85,65,31,.06)!important;
+  cursor:pointer!important;
+}
+
+.sjq-unified-header .sjq-header-sound-bars{
+  width:17px!important;
+  height:17px!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+  gap:2px!important;
+}
+
+.sjq-unified-header .sjq-header-sound-bars i{
+  display:block!important;
+  width:2px!important;
+  border-radius:2px!important;
+  background:currentColor!important;
+}
+.sjq-unified-header .sjq-header-sound-bars i:nth-child(1){height:8px!important}
+.sjq-unified-header .sjq-header-sound-bars i:nth-child(2){height:15px!important}
+.sjq-unified-header .sjq-header-sound-bars i:nth-child(3){height:11px!important}
+
+.sjq-unified-header :is(a,button,[role="button"]):focus-visible{
+  outline:2px solid rgba(111,121,89,.72)!important;
+  outline-offset:3px!important;
+}
+
+.sjq-sr-only{
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;
+  border:0!important;
+}
+
+/* Shared display typography for chapter entrances, observation prompts and quiz dialogs. */
+:is(.overlay,.intro,.intro-inner,.intro-copy,.dialog,.dialog-inner,.guess-card,
+    .question-card,.success-card,.complete-box,.entry-copy,.chapter-intro,
+    .transition-card,.guide-panel,.reveal-copy)
+  :is(h1,h2,h3,.title,.guess-title,.learn-title),
+.learn-title,
+.story-title{
+  font-family:"SJQ WenYue","FangSong","STFangsong","Songti SC",serif!important;
+  font-weight:400!important;
+  text-wrap:balance;
+}
+
+@media(max-width:1180px){
+  .sjq-unified-header{
+    grid-template-columns:minmax(155px,1fr) minmax(460px,590px) minmax(190px,1fr)!important;
+    gap:12px!important;
+    padding-left:16px!important;
+    padding-right:16px!important;
+  }
+  .sjq-unified-header .sjq-header-chapter{max-width:125px!important;font-size:13px!important}
+  .sjq-unified-header .sjq-header-nav>.sjq-header-nav-item{font-size:14px!important;padding:0 6px!important}
+}
+
+@media(max-width:900px){
+  :root{--sjq-header-height:112px}
+  .sjq-unified-header{
+    grid-template-columns:1fr auto!important;
+    grid-template-rows:52px 52px!important;
+    grid-template-areas:"home meta" "nav nav"!important;
+    gap:0 8px!important;
+    padding:4px 10px!important;
+  }
+  .sjq-unified-header .sjq-header-home{grid-area:home!important;font-size:13px!important;padding:0 6px!important}
+  .sjq-unified-header .sjq-header-nav{grid-area:nav!important;max-width:none!important;height:48px!important;min-height:48px!important;padding:4px!important}
+  .sjq-unified-header .sjq-header-nav>.sjq-header-nav-item{height:38px!important;min-height:38px!important;font-size:12px!important;padding:0 3px!important}
+  .sjq-unified-header .sjq-header-meta{grid-area:meta!important}
+  .sjq-unified-header .sjq-header-chapter{display:none!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .sjq-unified-header *{transition:none!important}
+}

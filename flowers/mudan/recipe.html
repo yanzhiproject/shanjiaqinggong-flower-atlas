@@ -50,7 +50,7 @@ button:focus-visible{outline:2px solid rgba(199,159,93,.72);outline-offset:3px}
 .scene.done .scene-image{filter:saturate(.9) brightness(1.03)}
 .scene-label{position:absolute;left:22px;bottom:22px;z-index:5;padding:8px 14px;border:1px solid var(--line);border-radius:var(--radius-pill);background:rgba(255,253,248,.92);color:var(--muted);font-size:12px}
 .done-mark{position:absolute;right:22px;top:22px;z-index:5;padding:7px 12px;border:1px solid rgba(111,121,89,.35);border-radius:var(--radius-pill);background:#EEF0E8;color:var(--green);font-size:12px;opacity:0;transition:opacity .18s ease-out}.scene.done .done-mark{opacity:1}
-.original-scene{padding:38px;background:url('assets/recipe-peony-original-bg.png') center/cover no-repeat}.original-sheet{width:min(78%,760px);padding:34px 38px;border:1px solid var(--line-strong);border-radius:20px;background:rgba(255,252,246,.94);box-shadow:var(--shadow);text-align:left}.original-sheet .kicker{font-size:12px;letter-spacing:.16em;color:var(--gold);text-align:center}.original-sheet h2{margin:8px 0 18px;text-align:center;font-family:var(--font-title);font-size:38px;font-weight:500;line-height:1.35}.original-sheet blockquote{margin:0;font-size:18px;line-height:2.05;color:#584C3D}.original-sheet .source{margin-top:16px;text-align:right;font-size:12px;color:var(--muted)}
+.original-scene{padding:38px;background:url('assets/recipe-peony-original-bg.webp') center/cover no-repeat}.original-sheet{width:min(78%,760px);padding:34px 38px;border:1px solid var(--line-strong);border-radius:20px;background:rgba(255,252,246,.94);box-shadow:var(--shadow);text-align:left}.original-sheet .kicker{font-size:12px;letter-spacing:.16em;color:var(--gold);text-align:center}.original-sheet h2{margin:8px 0 18px;text-align:center;font-family:var(--font-title);font-size:38px;font-weight:500;line-height:1.35}.original-sheet blockquote{margin:0;font-size:18px;line-height:2.05;color:#584C3D}.original-sheet .source{margin-top:16px;text-align:right;font-size:12px;color:var(--muted)}
 .info-card{padding:22px 22px 18px;display:flex;flex-direction:column}.mini{color:var(--gold);font-size:12px;letter-spacing:.12em}.info-card h1{margin:8px 0 7px;font-family:var(--font-title);font-size:30px;font-weight:500;line-height:1.35;text-wrap:balance}.lead{margin:0 0 11px;color:#655847;font-size:14px;line-height:1.9}.copy{padding:13px 14px;border-radius:16px;background:#FBF7EE;border:1px solid var(--line);font-size:13px;line-height:1.85;color:#655847}.copy strong{display:block;margin-bottom:3px;color:var(--gold);font-weight:500;letter-spacing:.06em}.task-status{margin-top:11px;padding:11px 12px;border-radius:14px;background:#F1F2EB;color:#5F684C;font-size:13px;line-height:1.7}.task-status.pending{background:#FBF7EE;color:var(--muted)}
 .culture-card{margin-top:12px;padding:13px 14px;border:1px solid var(--line);border-radius:16px;background:#FFF9EE;font-size:13px;line-height:1.85}.culture-card strong{display:block;color:var(--gold);font-weight:500;margin-bottom:3px}
 .recipe-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}.meta-card{padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:rgba(251,248,242,.76);font-size:12px;color:var(--muted);line-height:1.65}.meta-card strong{display:block;color:var(--ink);font-weight:500;font-size:13px;margin-bottom:2px}
@@ -62,16 +62,18 @@ button:focus-visible{outline:2px solid rgba(199,159,93,.72);outline-offset:3px}
 @media (max-width:620px){.site-header{padding-inline:12px}.site-back{font-size:13px}.pill-nav{height:48px;grid-template-columns:repeat(5,minmax(70px,1fr));overflow:auto}.pill-nav button{font-size:13px}.main{padding:10px}.visual-panel{height:52vh;min-height:340px}.original-scene{padding:16px}.original-sheet{width:92%;padding:23px 20px}.original-sheet h2{font-size:29px}.original-sheet blockquote{font-size:15px;line-height:1.9}.info-card{padding:20px 18px 16px}.info-card h1{font-size:27px}.step-list{grid-template-columns:repeat(2,minmax(0,1fr))}.card-actions{align-items:stretch;flex-direction:column-reverse}.card-actions button{width:100%}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important}}
 </style>
+<link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css">
+<script src="../../assets/ui/sjq-unified-header.js?v=20260824-2" defer></script>
 </head>
 <body>
-<header class="site-header">
+<header class="site-header sjq-unified-header">
   <a class="site-back" href="identify.html">← 返回识名物</a>
   <nav class="pill-nav" aria-label="章节导航">
-    <button type="button" data-nav="identify" aria-disabled="true">识名物</button>
+    <button type="button" data-nav="identify" data-href="identify.html">识名物</button>
     <button type="button" class="active" aria-current="page">看菜谱</button>
-    <button type="button" data-nav="story" aria-disabled="true">读故事</button>
-    <button type="button" data-nav="poem" aria-disabled="true">赏诗词</button>
-    <button type="button" data-nav="meaning" aria-disabled="true">品意蕴</button>
+    <button type="button" data-nav="story" data-href="story.html">读故事</button>
+    <button type="button" data-nav="poem" data-href="poetry.html">赏诗词</button>
+    <button type="button" data-nav="meaning" data-href="meaning.html">品意蕴</button>
   </nav>
   <div class="site-tools">
     <div class="sjq-sound-dock sjq-sound-dock--header" aria-label="背景音乐控制"><button class="sjq-sound-control" type="button" data-sjq-sound-toggle data-audio-target="#siteBgm" aria-label="播放山林清音" aria-pressed="false"><span class="sjq-sound-bars" aria-hidden="true"><i></i><i></i><i></i></span></button><span class="sjq-sound-tip" data-sjq-sound-tip aria-hidden="true">启清音</span></div>
@@ -106,27 +108,27 @@ button:focus-visible{outline:2px solid rgba(199,159,93,.72);outline-offset:3px}
       </div>
 
       <div class="scene" data-scene="step0">
-        <img class="scene-image contain" src="assets/recipe-peony-pick-before.png" data-after="assets/recipe-peony-petals.png" alt="盛开的牡丹花与空竹盘">
+        <img class="scene-image contain" src="assets/recipe-peony-pick-before.webp" data-after="assets/recipe-peony-petals.webp" alt="盛开的牡丹花与空竹盘">
         <button class="scene-hit" type="button" data-complete="0" aria-label="点击采下牡丹花瓣"></button>
         <div class="scene-label">第一步 · 取花瓣</div><div class="done-mark">本步完成</div>
       </div>
       <div class="scene" data-scene="step1">
-        <img class="scene-image contain" src="assets/recipe-peony-salad-before.png" data-after="assets/recipe-peony-salad.png" alt="青瓷盘中的单独生菜">
+        <img class="scene-image contain" src="assets/recipe-peony-salad-before.webp" data-after="assets/recipe-peony-salad.webp" alt="青瓷盘中的单独生菜">
         <button class="scene-hit" type="button" data-complete="1" aria-label="点击将牡丹花瓣与生菜相和"></button>
         <div class="scene-label">第二步 · 和生菜</div><div class="done-mark">本步完成</div>
       </div>
       <div class="scene" data-scene="step2">
-        <img class="scene-image contain" src="assets/recipe-peony-flour-before.png" data-after="assets/recipe-peony-flour.png" alt="尚未裹面的牡丹花瓣与面粉">
+        <img class="scene-image contain" src="assets/recipe-peony-flour-before.webp" data-after="assets/recipe-peony-flour.webp" alt="尚未裹面的牡丹花瓣与面粉">
         <button class="scene-hit" type="button" data-complete="2" aria-label="点击为牡丹花瓣襞上薄面"></button>
         <div class="scene-label">第三步 · 襞薄面</div><div class="done-mark">本步完成</div>
       </div>
       <div class="scene" data-scene="step3">
-        <img class="scene-image contain" src="assets/recipe-peony-fry-before.png" data-after="assets/recipe-peony-fry.png" alt="尚未起泡的油锅与裹面花瓣">
+        <img class="scene-image contain" src="assets/recipe-peony-fry-before.webp" data-after="assets/recipe-peony-fry.webp" alt="尚未起泡的油锅与裹面花瓣">
         <button class="scene-hit" type="button" data-complete="3" aria-label="点击酥炸牡丹花瓣"></button>
         <div class="scene-label">第四步 · 炸之以酥</div><div class="done-mark">本步完成</div>
       </div>
       <div class="scene" data-scene="complete">
-        <img class="scene-image contain" src="assets/recipe-peony-finished.png" alt="完成的酥炸牡丹花瓣">
+        <img class="scene-image contain" src="assets/recipe-peony-finished.webp" alt="完成的酥炸牡丹花瓣">
         <div class="scene-label">牡丹生菜 · 清芬入席</div>
       </div>
     </section>
@@ -189,11 +191,11 @@ button:focus-visible{outline:2px solid rgba(199,159,93,.72);outline-offset:3px}
   }
   function begin(){state.phase='steps';state.step=0;render()}
   function goStep(i){state.phase='steps';state.step=Math.max(0,Math.min(3,i));render()}
-  nextBtn.addEventListener('click',()=>{if(state.phase==='original'){begin();return}if(state.phase==='complete'){showToast('第三章页面尚未接入，先留在本章回看。');return}if(!state.completed[state.step]){showToast('先点击中央画面完成这一步。');return}if(state.step<3)goStep(state.step+1);else{state.phase='complete';render()}});
+  nextBtn.addEventListener('click',()=>{if(state.phase==='original'){begin();return}if(state.phase==='complete'){window.location.href='story.html';return}if(!state.completed[state.step]){showToast('先点击中央画面完成这一步。');return}if(state.step<3)goStep(state.step+1);else{state.phase='complete';render()}});
   prevBtn.addEventListener('click',()=>{if(state.phase==='original'){window.location.href='identify.html';return}if(state.phase==='complete'){goStep(3);return}if(state.step===0){state.phase='original';render();return}goStep(state.step-1)});
   steps.forEach((s,i)=>s.addEventListener('click',()=>{if(s.classList.contains('locked'))return;if(state.phase==='complete'||i<=state.step||state.completed[i-1])goStep(i)}));
   document.querySelectorAll('[data-complete]').forEach(hit=>hit.addEventListener('click',()=>{const i=Number(hit.dataset.complete);if(state.phase!=='steps'||state.step!==i||state.completed[i])return;const scene=hit.closest('.scene');const image=scene.querySelector('.scene-image');state.completed[i]=true;scene.classList.add('done');image.classList.add('swap');setTimeout(()=>{image.src=image.dataset.after;image.classList.remove('swap');render();showToast('画面已变化 · 本步完成，可以继续');},180);}));
-  document.querySelectorAll('[data-nav]').forEach(btn=>btn.addEventListener('click',()=>showToast('其他章节将在整合版中接入。')));
+  document.querySelectorAll('[data-nav]').forEach(btn=>btn.addEventListener('click',()=>{if(btn.dataset.href)window.location.href=btn.dataset.href}));
   render();
 })();
 </script>

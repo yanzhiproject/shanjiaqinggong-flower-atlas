@@ -1157,15 +1157,10 @@
       });
 
       const openingParams = new URLSearchParams(window.location.search);
-      const forceOpening = openingParams.has('opening');
-      let openingSeen = false;
-      try {
-        openingSeen = sessionStorage.getItem('sjq-opening-seen-v3') === '1';
-      } catch (error) {
-        openingSeen = false;
-      }
 
-      if (!forceOpening && (openingParams.has('home') || openingSeen)) {
+      // Only an explicit return from a flower chapter skips the opening.
+      // Opening the site directly always plays the prologue again.
+      if (openingParams.has('home')) {
         showScene(3);
       } else {
         playOpening();

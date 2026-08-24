@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="../../assets/ui/sjq-sound-control.css">
 <script src="../../assets/ui/sjq-sound-control.js" defer></script>
 <style>
-:root{--paper:#f7f1e7;--surface:#fffdf8;--ink:#40392f;--muted:#887b69;--gold:#c59b55;--gold-soft:#ddb970;--green:#6d7755;--line:rgba(197,155,85,.28);--header:72px;--footer:64px}
+:root{--paper:#f7f1e7;--surface:#fffdf8;--ink:#40392f;--muted:#887b69;--gold:#c59b55;--gold-soft:#ddb970;--green:#6d7755;--line:rgba(197,155,85,.28);--header:76px;--footer:64px}
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--paper)}
 body{font-family:"Noto Serif SC","Songti SC","STSong","SimSun",serif;color:var(--ink)}
@@ -48,10 +48,10 @@ button:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(109,119,85,.24)}
 .chapter-footer{display:none!important}
 .chapter-stage{padding-bottom:14px!important}
 .chapter-panel{bottom:14px!important}
-</style></head>
+</style><link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css"><script src="../../assets/ui/sjq-unified-header.js" defer></script></head>
 <body>
 <div class="app">
-  <header class="site-header">
+  <header class="site-header sjq-unified-header">
     <button class="atlas-back" id="atlasBack">← 返回花馔图鉴</button>
     <nav class="chapter-nav" aria-label="松花篇章节导航">
       <button data-index="0" aria-current="page">识名物</button><button data-index="1">看菜谱</button><button data-index="2">读故事</button><button data-index="3">赏诗词</button><button data-index="4">品意蕴</button>
@@ -1534,8 +1534,8 @@ function renderTurn(){
 
   const lastTurn=turnIndex===scene.turns.length-1;
   const lastScene=current===scenes.length-1;
-  next.textContent=lastTurn ? (lastScene?&#x27;故事读毕&#x27;:&#x27;下一幕&#x27;) : &#x27;继续&#x27;;
-  next.disabled=lastTurn &amp;&amp; lastScene;
+  next.textContent=lastTurn ? (lastScene?&#x27;进入赏诗词&#x27;:&#x27;下一幕&#x27;) : &#x27;继续&#x27;;
+  next.disabled=false;
 
   renderTimer=setTimeout(()=&gt;{
     if(token!==renderToken) return;
@@ -1583,6 +1583,11 @@ next.onclick=()=&gt;{
   }else if(current&lt;scenes.length-1){
     current++;
     turnIndex=0;
+  }else{
+    try{
+      window.parent.postMessage({type:&#x27;openPoetryChapter&#x27;},&#x27;*&#x27;);
+    }catch(e){}
+    return;
   }
   renderTurn();
 };
@@ -2633,6 +2638,7 @@ document.getElementById(&#x27;backAtlas&#x27;).onclick=()=&gt;{
     if(Object.prototype.hasOwnProperty.call(map,event.data?.type))show(map[event.data.type]);
     if(event.data?.type==='returnFlowerAtlas')location.href='../../index.html?home=1';
   });
+  const commonFrameTitleCss=`@font-face{font-family:"SJQ WenYue";src:url("../../assets/ui/sjq-wenyue-guti-fangsong.otf") format("opentype");font-style:normal;font-weight:400;font-display:swap}h1,h2,h3,.title,.intro-title,.question-title,.chapter-title{font-family:"SJQ WenYue","FangSong","STFangsong","Songti SC",serif!important;font-weight:400!important;text-wrap:balance}`;
   const frameCss={
     identify:`html,body{padding:0!important}body,button{font-family:"Noto Serif SC","Songti SC","SimSun",serif!important}h1,h2,h3,.title{font-family:"STKaiti","KaiTi","FangSong",serif!important;font-weight:500!important}header,footer{display:none!important}.page{height:100%!important;grid-template-rows:minmax(0,1fr)!important;padding:8px 20px!important}main{width:min(1160px,100%)!important;margin:auto!important;grid-template-columns:minmax(0,1fr) 250px!important;gap:30px!important}.stage{width:min(72vh,520px,56vw)!important}.side{padding-left:22px!important}#introScreen{grid-template-rows:minmax(0,1fr)!important;padding:10px 28px!important}.intro-main{height:100%!important;padding:0!important;gap:44px!important}.intro-visual{min-height:0!important;height:min(68vh,500px)!important}.intro-copy h1{font-size:46px!important}@media(max-width:900px){main{grid-template-columns:1fr!important}.side{display:none!important}.stage{width:min(72vw,70vh,500px)!important}.intro-main{grid-template-columns:1fr!important}.intro-visual{display:none!important}}`,
     recipe:`html,body{padding:0!important}body,button{font-family:"Noto Serif SC","Songti SC","SimSun",serif!important}h1,h2,h3,.title{font-family:"STKaiti","KaiTi","FangSong",serif!important;font-weight:500!important}header,footer{display:none!important}.page{height:100%!important;grid-template-rows:minmax(0,1fr)!important;padding:0 24px!important}main{height:100%!important}.panel,.viewer{height:calc(100vh - 8px)!important;max-height:710px!important}`,
@@ -2641,7 +2647,7 @@ document.getElementById(&#x27;backAtlas&#x27;).onclick=()=&gt;{
     meaning:`html,body{padding:0!important}body,button{font-family:"Noto Serif SC","Songti SC","SimSun",serif!important}.topbar{top:14px!important;left:22px!important;right:22px!important}.content{min-height:0!important;height:100%!important;padding:48px 0 22px!important}.title{margin:10px 0 18px!important;font-size:clamp(32px,4vw,44px)!important}.block{font-size:clamp(15px,1.5vw,19px)!important;line-height:1.8!important}.block+.block{margin-top:14px!important}.divider{margin:15px auto!important}.actions{margin-top:20px!important}`
   };
   document.querySelectorAll('.chapter-frame').forEach(frame=>{
-    const apply=()=>{try{const d=frame.contentDocument;if(!d?.head)return;let style=d.getElementById('sjq-shell-adapter');if(!style){style=d.createElement('style');style.id='sjq-shell-adapter';d.head.appendChild(style)}style.textContent=frameCss[frame.dataset.kind]||''}catch(error){}};
+    const apply=()=>{try{const d=frame.contentDocument;if(!d?.head)return;let style=d.getElementById('sjq-shell-adapter');if(!style){style=d.createElement('style');style.id='sjq-shell-adapter';d.head.appendChild(style)}style.textContent=(frameCss[frame.dataset.kind]||'')+commonFrameTitleCss}catch(error){}};
     frame.addEventListener('load',apply);apply();
   });
   show(0);

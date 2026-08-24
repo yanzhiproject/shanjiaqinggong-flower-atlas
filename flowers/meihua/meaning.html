@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>第五章 · 品意蕴｜梅不止于花</title>
+<style>
+:root{
+  --paper:#f5efe4;
+  --paper2:#fbf7ee;
+  --ink:#413a31;
+  --muted:#82735f;
+  --gold:#c49c50;
+  --gold-soft:rgba(196,156,80,.28);
+  --line:rgba(196,156,80,.30);
+  --olive:#6f7657;
+  --olive-dark:#626949;
+  --plum:#9a5f63;
+  --shadow:0 24px 72px rgba(69,51,30,.105);
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--ink)}
+body{
+  font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  background:
+    radial-gradient(circle at 50% 34%,rgba(255,255,255,.72) 0 22%,rgba(255,255,255,.20) 56%,transparent 82%),
+    linear-gradient(180deg,#f8f2e7 0%,#f3eadc 100%);
+}
+button{font:inherit}
+.app{position:relative;width:100%;height:100%;overflow:hidden}
+.texture{
+  position:absolute;inset:0;pointer-events:none;opacity:.28;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(102,82,52,.024) 0, rgba(102,82,52,.024) 1px, transparent 1px, transparent 5px);
+  mix-blend-mode:multiply;
+}
+
+/* decorative plum branches */
+.branch{position:absolute;height:5px;background:linear-gradient(90deg,#7f5b46,#5e4838);border-radius:999px;opacity:.09;transform-origin:left center}
+.branch.b1{width:420px;left:-40px;top:105px;transform:rotate(12deg)}
+.branch.b2{width:330px;right:-95px;bottom:120px;transform:rotate(168deg)}
+.twig{position:absolute;height:4px;background:#72523f;border-radius:999px;opacity:.07;transform-origin:left center}
+.twig.t1{width:170px;left:180px;top:117px;transform:rotate(-24deg)}
+.twig.t2{width:140px;left:278px;top:146px;transform:rotate(22deg)}
+.twig.t3{width:150px;right:105px;bottom:165px;transform:rotate(205deg)}
+.flower{position:absolute;width:34px;height:34px;opacity:.09}
+.flower i{position:absolute;width:15px;height:15px;border-radius:50% 50% 48% 52%;background:#cfaaa3;transform-origin:17px 17px}
+.flower i:nth-child(1){transform:rotate(0deg) translateY(-9px)}
+.flower i:nth-child(2){transform:rotate(72deg) translateY(-9px)}
+.flower i:nth-child(3){transform:rotate(144deg) translateY(-9px)}
+.flower i:nth-child(4){transform:rotate(216deg) translateY(-9px)}
+.flower i:nth-child(5){transform:rotate(288deg) translateY(-9px)}
+.flower:after{content:"";position:absolute;left:13px;top:13px;width:8px;height:8px;border-radius:50%;background:#b88a75}
+.f1{left:116px;top:88px}.f2{left:285px;top:123px;transform:scale(.72)}.f3{right:130px;bottom:112px;transform:scale(.82)}
+.f4{right:275px;bottom:148px;transform:scale(.58)}
+
+.topbar{
+  position:absolute;z-index:50;top:0;left:0;right:0;height:76px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 30px;
+  border-bottom:1px solid rgba(177,139,72,.24);background:rgba(250,247,240,.96);
+}
+.brand{font-family:"STKaiti","KaiTi",serif;font-size:22px;white-space:nowrap;color:#40382f}
+.site-nav{color:#8c7f70;font-size:15px;white-space:nowrap}
+.site-nav b{color:#a9575d;font-weight:400}
+
+.scene{
+  position:absolute;inset:76px 0 0;display:flex;align-items:center;justify-content:center;
+  padding:28px 34px 92px;opacity:0;pointer-events:none;transform:translateY(18px);
+  transition:opacity .65s ease, transform .65s ease;
+}
+.scene.active{opacity:1;pointer-events:auto;transform:none}
+.panel{
+  width:min(1020px,90vw);height:min(555px,calc(100vh - 205px));
+  background:
+    linear-gradient(90deg,rgba(196,156,80,.055),transparent 7%),
+    rgba(251,247,238,.955);
+  backdrop-filter:blur(4px);
+  border:1px solid var(--gold-soft);
+  border-radius:22px;box-shadow:var(--shadow);
+  padding:36px 56px 30px 66px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;
+}
+.panel:before{
+  content:"";position:absolute;left:34px;top:40px;bottom:40px;width:1px;
+  background:linear-gradient(to bottom,transparent,var(--gold),var(--gold),transparent);
+  opacity:.28;
+}
+.panel:after{
+  content:"梅";position:absolute;right:28px;top:22px;
+  width:42px;height:42px;border:1px solid rgba(154,95,99,.28);
+  display:grid;place-items:center;color:rgba(154,95,99,.52);
+  font-size:18px;transform:rotate(-4deg);
+}
+.eyebrow{font-size:13px;letter-spacing:.30em;color:#a47f4f;margin-bottom:13px}
+h1,h2{margin:0;font-weight:500}
+h1{font-size:40px;letter-spacing:.085em;font-family:"ShanjiaTitle","Songti SC","STSong","SimSun",serif}
+h2{font-size:32px;letter-spacing:.07em;font-family:"ShanjiaTitle","Songti SC","STSong","SimSun",serif}
+.rule{width:62px;height:1px;background:var(--gold);margin:20px 0 23px;opacity:.9}
+.copy{
+  font-size:18px;line-height:1.78;letter-spacing:.02em;color:#51483c;
+}
+.copy p{margin:0 0 9px}
+.keywords{
+  display:flex;align-items:center;gap:0;flex-wrap:nowrap;
+  margin-top:18px;width:max-content;max-width:100%;
+  padding:9px 0;border-top:1px solid rgba(196,156,80,.22);
+  border-bottom:1px solid rgba(196,156,80,.22);
+}
+.keyword{
+  position:relative;min-width:auto;padding:0 20px;border:none;border-radius:0;
+  text-align:center;background:transparent;color:#6d614f;font-size:18px;
+  letter-spacing:.10em;box-shadow:none;
+}
+.keyword:not(:last-child):after{
+  content:"·";position:absolute;right:-3px;top:50%;
+  transform:translateY(-52%);color:rgba(154,95,99,.45);font-size:16px;
+}
+.keyword.big{font-size:18px;padding:0 22px}
+.keywords-with-notes .keyword{display:flex;align-items:baseline;gap:6px}
+.keyword b{font-weight:500;font-size:19px}
+.keyword small{font-size:11px;letter-spacing:.06em;color:#a18a6d}
+
+.quote{
+  position:relative;margin-top:20px;padding:16px 42px;text-align:center;
+  border-top:1px solid rgba(196,156,80,.34);border-bottom:1px solid rgba(196,156,80,.34);
+  font-size:24px;letter-spacing:.065em;line-height:1.55;color:#5d553f;
+}
+.quote:before,.quote:after{
+  position:absolute;top:50%;transform:translateY(-54%);
+  color:rgba(154,95,99,.30);font-size:34px;font-family:serif;
+}
+.quote:before{content:"“";left:22px}.quote:after{content:"”";right:22px}
+.final-block{text-align:center;padding:18px 16px 5px;margin-top:4px;background:linear-gradient(90deg,transparent,rgba(196,156,80,.045),transparent)}
+.final-pre{font-size:19px;line-height:1.72;color:#6a5947;margin-bottom:18px}
+.title-font-placeholder{font-family:"ShanjiaTitle","Songti SC","STSong","SimSun",serif}
+.final-line{
+  font-size:29px;line-height:1.58;letter-spacing:.065em;color:#504837;
+  font-weight:500;font-family:"Songti SC","STSong","SimSun",serif;
+}
+.ending-mark{width:44px;height:1px;background:#baa27b;margin:18px auto 0}
+.final-status{margin:16px auto 0;width:max-content;padding:5px 15px;border-top:1px solid rgba(196,156,80,.26);color:#9a8364;font-size:12px;letter-spacing:.24em}
+
+.nav{
+  position:absolute;z-index:30;left:50%;bottom:18px;transform:translateX(-50%);
+  display:flex;gap:12px;align-items:center;
+}
+.btn{
+  border:1px solid #dfcba8;background:rgba(255,250,241,.92);color:#735f49;
+  padding:11px 23px;border-radius:999px;cursor:pointer;transition:.22s ease;
+  box-shadow:0 8px 24px rgba(84,65,40,.06);font-size:17px;
+}
+.btn:hover{transform:translateY(-1px);background:#fffdf7}
+.btn.primary{
+  border-color:var(--olive);background:var(--olive);color:#fff;min-width:154px;
+}
+.btn.primary:hover,.btn.primary:active,.btn.primary:focus,.btn.primary:focus-visible{
+  background:var(--olive-dark)!important;color:#fff!important;border-color:var(--olive-dark)!important;
+  outline:none;box-shadow:0 8px 24px rgba(84,65,40,.08)!important;
+}
+.btn[disabled]{opacity:.4;cursor:default;transform:none}
+.scene-index{
+  position:absolute;right:26px;top:50%;transform:translateY(-50%);z-index:20;
+  writing-mode:vertical-rl;letter-spacing:.28em;color:#ad916a;font-size:12px;opacity:.75;
+}
+.fade-up{opacity:0;transform:translateY(12px);animation:fadeUp .75s forwards}
+.d1{animation-delay:.14s}.d2{animation-delay:.28s}.d3{animation-delay:.44s}.d4{animation-delay:.62s}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+
+/* Embedded chapter: use the parent header and keep navigation clear of the panel. */
+.topbar{display:none!important}
+.scene{inset:0!important;padding:24px 34px 88px!important}
+.panel{height:min(555px,calc(100vh - 118px))!important}
+.nav{bottom:14px!important}
+.btn{min-height:44px!important;white-space:nowrap!important}
+
+@media (max-height:760px){
+  .scene{padding:16px 26px 70px!important}
+  .panel{height:calc(100vh - 88px)!important;padding:24px 40px 22px 52px}
+  .panel:before{left:24px;top:24px;bottom:24px}
+  h1{font-size:34px} h2{font-size:28px}
+  .copy{font-size:16.5px;line-height:1.66}
+  .copy p{margin-bottom:7px}
+  .keywords{margin-top:13px;padding:7px 0}
+  .keyword,.keyword.big{font-size:16px;padding-left:17px;padding-right:17px}
+  .keyword b{font-size:17px}.keyword small{font-size:10px}
+  .quote{font-size:21px;margin-top:13px;padding:12px 20px}
+  .final-pre{font-size:17px;line-height:1.6;margin-bottom:12px}
+  .final-line{font-size:25px;line-height:1.48}
+  .nav{bottom:10px}
+}
+@media (max-width:700px){
+ .topbar{width:calc(100% - 28px)}
+  .chapter .name{font-size:18px}
+  .scene{padding:78px 14px 84px}
+  .panel{width:100%;padding:30px 23px 28px 34px;border-radius:23px}
+  .panel:before{left:17px;top:26px;bottom:26px}.panel:after{right:18px;top:16px;transform:scale(.85) rotate(-4deg)}
+  h1{font-size:34px}h2{font-size:28px}.copy{font-size:17px;line-height:1.8}
+  .quote{font-size:23px}
+  .title-font-placeholder{font-family:"ShanjiaTitle","Songti SC","STSong","SimSun",serif}
+.final-line{font-size:28px}
+  .scene-index{display:none}
+  .keyword{font-size:18px;padding:11px 18px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="texture"></div>
+  <div class="branch b1"></div><div class="branch b2"></div>
+  <div class="twig t1"></div><div class="twig t2"></div><div class="twig t3"></div>
+  <div class="flower f1"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="flower f2"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="flower f3"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="flower f4"><i></i><i></i><i></i><i></i><i></i></div>
+
+  <header class="topbar">
+    <div class="brand">《山家清供》花馔图鉴</div>
+    <div class="site-nav">识名物 · 看菜谱 · 读故事 · 赏诗词 · <b>品意蕴</b></div>
+  </header>
+
+  <div class="scene-index">梅不止于花</div>
+
+  <section class="scene active" data-scene="0">
+    <article class="panel">
+      <div class="eyebrow fade-up d1">梅 · 入日常</div>
+      <h1 class="fade-up d1">梅不止于花</h1>
+      <div class="rule fade-up d2"></div>
+      <div class="copy fade-up d2">
+        <p>对林洪而言，梅花从来不只是一枝远观的花。</p>
+        <p>它可以赏，可以闻，也可以进入杯盏与餐桌。蜜渍梅花、梅花汤饼、梅粥、汤绽梅……一枝梅，从庭院走入饮食，也从风景走进了日常生活。</p>
+      </div>
+      <div class="keywords keywords-with-notes fade-up d3">
+        <span class="keyword"><b>赏</b><small>赏花</small></span>
+        <span class="keyword"><b>闻</b><small>闻香</small></span>
+        <span class="keyword"><b>饮</b><small>入饮</small></span>
+        <span class="keyword"><b>食</b><small>入馔</small></span>
+      </div>
+      <div class="quote fade-up d4">一枝梅，从风景走进了日常生活。</div>
+    </article>
+  </section>
+
+  <section class="scene" data-scene="1">
+    <article class="panel">
+      <div class="eyebrow fade-up d1">梅 · 寄情</div>
+      <h2 class="fade-up d1">梅花，寄托了什么？</h2>
+      <div class="rule fade-up d2"></div>
+      <div class="copy fade-up d2">
+        <p>梅花开在寒冬，也开在等待之中。</p>
+        <p>它不以繁盛取胜，却在清寒里留下幽香。因此，梅在文人的笔下，渐渐成为一种精神寄托：清而不冷，雅而不奢，身处尘世，却仍保有自己的气节。</p>
+        <p>到了林洪笔下，这份“梅意”并没有停留在诗里。他把梅花做成可以入口的滋味，让清雅不只可见、可闻，也可以被真正品尝。</p>
+      </div>
+      <div class="keywords fade-up d3">
+        <span class="keyword big">清雅</span>
+        <span class="keyword big">耐心</span>
+        <span class="keyword big">自守</span>
+      </div>
+      <div class="quote fade-up d4">风雅，不必远离烟火。</div>
+    </article>
+  </section>
+
+  <section class="scene" data-scene="2">
+    <article class="panel">
+      <div class="eyebrow fade-up d1">梅 · 留意</div>
+      <h2 class="fade-up d1">从枝头，到案头</h2>
+      <div class="rule fade-up d2"></div>
+      <div class="copy fade-up d2">
+        <p>林洪写梅花，写的也不只是味道。</p>
+        <p>从枝头的幽香，到杯盏中的清味，梅花的形态虽然改变了，但它所寄托的清雅、耐心与自守并没有消失。</p>
+        <p>当梅花被做成一道道花馔，它便不再只是寒冬里的一处风景，而成为一种可以进入日常生活的文人情趣。</p>
+      </div>
+      <div class="final-block fade-up d3">
+        <div class="final-pre">古人赏梅，也食梅。<br>看的是花，尝的是味，品的却是其中的“梅意”。</div>
+        <div class="final-line title-font-placeholder">从枝头到案头，变的是形态，<br>不变的是那一份清雅。</div>
+        <div class="ending-mark"></div>
+        <div class="final-status">梅意 · 已品</div>
+      </div>
+    </article>
+  </section>
+
+  <nav class="nav">
+    <button class="btn" id="prevBtn">返回上一幕</button>
+    <button class="btn primary" id="nextBtn">继续品梅</button>
+  </nav>
+</div>
+
+<script>
+(() => {
+  const scenes=[...document.querySelectorAll('.scene')];
+  const dots=[...document.querySelectorAll('.dot')];
+  const prev=document.getElementById('prevBtn');
+  const next=document.getElementById('nextBtn');
+  let index=0;
+
+  function retrigger(scene){
+    scene.querySelectorAll('.fade-up').forEach(el=>{
+      el.style.animation='none';
+      void el.offsetWidth;
+      el.style.animation='';
+    });
+  }
+  function show(i){
+    index=Math.max(0,Math.min(scenes.length-1,i));
+    scenes.forEach((s,n)=>s.classList.toggle('active',n===index));
+    dots.forEach((d,n)=>d.classList.toggle('active',n===index));
+    retrigger(scenes[index]);
+    const isFirst=index===0;
+    const isLast=index===scenes.length-1;
+    prev.style.display=(isFirst||isLast)?'none':'';
+    next.textContent=isLast?'返回花馔图鉴':'继续品梅';
+    next.disabled=false;
+  }
+  prev.addEventListener('click',()=>show(index-1));
+  next.addEventListener('click',()=>{
+    if(index<scenes.length-1){ show(index+1); return; }
+    parent.postMessage({type:'meihua-return-home'},'*');
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight' && index<scenes.length-1) show(index+1);
+    if(e.key==='ArrowLeft' && index>0) show(index-1);
+  });
+  show(0);
+})();
+</script>
+
+<script>
+window.addEventListener('message', function(event){
+  if(event.data && event.data.type==='meihua-shared-font' && event.data.url){
+    if(!document.getElementById('sharedTitleFont')){
+      const style=document.createElement('style');
+      style.id='sharedTitleFont';
+      style.textContent='@font-face{font-family:"ShanjiaTitle";src:url("'+event.data.url+'") format("opentype");font-display:swap;}';
+      document.head.appendChild(style);
+    }
+  }
+  if(event.data && event.data.type==='meihua-prev-step'){
+    if(typeof index==='number' && index>0){ show(index-1); }
+    else { parent.postMessage({type:'meihua-request-back-chapter'},'*'); }
+  }
+});
+</script>
+</body>
+</html>

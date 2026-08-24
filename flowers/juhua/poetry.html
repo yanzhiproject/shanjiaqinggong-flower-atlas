@@ -1,0 +1,377 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f1e7">
+<title>《山家清供》· 菊花 · 第四章 赏诗词</title>
+<style>
+:root{
+ --paper:#F7F1E7;--paper2:#FBF8F2;--card:#FFFDF8;--ink:#40382E;--muted:#8B7965;
+ --gold:#C79F5D;--gold2:#DFBD82;--green:#6F7959;--line:rgba(199,159,93,.23);
+ --shadow:0 16px 38px rgba(85,65,31,.08);--shadow2:0 9px 22px rgba(85,65,31,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--paper);color:var(--ink)}
+body{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;
+background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.92),transparent 27%),linear-gradient(180deg,#FCFAF6,var(--paper) 62%,#F2E9D9)}
+button{font:inherit;color:inherit}
+.topbar{height:58px;padding:0 22px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;
+background:rgba(252,249,243,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);position:relative;z-index:20}
+.brand{font-size:12px;letter-spacing:.15em;white-space:nowrap}
+.chapter-tag{justify-self:end;font-size:11px;color:var(--muted);letter-spacing:.12em;white-space:nowrap}
+.pill-nav{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:3px;padding:5px;border-radius:999px;
+background:rgba(255,255,255,.68);border:1px solid var(--line);box-shadow:var(--shadow2);width:min(560px,46vw)}
+.pill-nav .slider{position:absolute;top:4px;left:60%;width:20%;height:calc(100% - 8px);border-radius:999px;
+background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 7px 16px rgba(130,95,42,.14)}
+.pill-nav button{position:relative;z-index:2;border:0;background:transparent;border-radius:999px;padding:8px 11px;font-size:13px;color:#6D5F4E}
+.pill-nav button.active{color:#fff}
+.app{height:calc(100vh - 58px);padding:14px 18px 16px}
+.shell{height:100%;max-width:1620px;margin:0 auto}
+.screen{height:100%;display:none}
+.screen.active{display:block}
+
+/* selection */
+.select-layout{height:100%;display:grid;grid-template-rows:auto 1fr;gap:16px}
+.select-head{display:flex;align-items:end;justify-content:space-between;padding:4px 8px 0}
+.select-head h1{margin:0;font-size:34px;font-weight:600;letter-spacing:.05em}
+.select-head .mini{font-size:12px;color:var(--muted);letter-spacing:.12em}
+.poem-choices{min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}
+.poem-ticket{position:relative;border:1px solid var(--line);background:rgba(255,253,248,.84);border-radius:28px;box-shadow:var(--shadow);
+overflow:hidden;cursor:pointer;text-align:left;padding:30px 32px;display:grid;grid-template-columns:1fr 150px;align-items:center;transition:.25s ease}
+.poem-ticket:hover{transform:translateY(-2px);background:#FFFDF8}
+.ticket-num{font-size:12px;color:var(--muted);letter-spacing:.14em}
+.ticket-title{font-size:31px;margin:12px 0 6px;font-weight:600}
+.ticket-author{font-size:14px;color:#6D5F4E}
+.ticket-quote{margin-top:24px;font-size:19px;line-height:2;color:#5B4E3F;max-width:560px}
+.ticket-tag{display:inline-flex;margin-top:20px;padding:7px 12px;border-radius:999px;background:rgba(111,121,89,.09);color:var(--green);font-size:12px}
+.chrys-seal{width:132px;height:132px;justify-self:end;opacity:.86}
+.watermark{position:absolute;right:-34px;bottom:-54px;font-size:160px;color:rgba(199,159,93,.055);line-height:1;pointer-events:none}
+
+/* reader */
+.reader-layout{height:100%;display:grid;grid-template-columns:minmax(0,58%) minmax(420px,42%);gap:18px}
+.poem-panel{height:100%;min-width:0;border-radius:28px;background:rgba(255,253,248,.83);border:1px solid var(--line);box-shadow:var(--shadow);
+padding:22px 24px;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
+.poem-header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.back{border:0;background:transparent;color:#8A6936;cursor:pointer;padding:0;font-size:13px}
+.meta{font-size:12px;color:var(--muted);letter-spacing:.12em;margin-top:12px}
+.poem-title{font-size:28px;font-weight:600;margin:5px 0 0}
+.motif{padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(199,159,93,.08);color:#8A6936;font-size:13px}
+.poem-main{min-height:0;display:flex;align-items:center;justify-content:center;padding:16px 20px}
+.lines{width:min(640px,90%);display:flex;flex-direction:column;gap:12px}
+.line{font-size:24px;line-height:1.95;padding:7px 14px;border-radius:14px;cursor:pointer;transition:.22s ease;letter-spacing:.04em}
+.line:hover{background:rgba(199,159,93,.05)}
+.line.active{background:rgba(199,159,93,.10);color:#7A5B30}
+.kw{border-bottom:1px dashed rgba(199,159,93,.72);padding-bottom:1px}
+.poem-tools{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px}
+.progress{display:flex;gap:6px}
+.progress span{width:34px;height:4px;border-radius:999px;background:rgba(199,159,93,.16)}
+.progress span.on{background:linear-gradient(90deg,var(--gold2),var(--gold))}
+.actions{display:flex;gap:9px}
+.btn{border:1px solid var(--line);background:rgba(255,255,255,.7);border-radius:999px;padding:9px 14px;cursor:pointer;box-shadow:var(--shadow2)}
+.btn.gold{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#fff;border-color:transparent}
+
+/* visual card */
+.visual-panel{height:100%;border-radius:28px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);padding:14px;display:grid;grid-template-rows:1fr auto;gap:10px;overflow:hidden;min-width:0}
+.visual-frame{position:relative;min-height:0;border-radius:22px;overflow:hidden;background:#E9DECC}
+.visual-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:opacity .35s ease,transform .65s ease;transform:scale(1.015)}
+.visual-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(55,42,25,.10));pointer-events:none}
+.visual-caption{position:absolute;left:14px;right:14px;bottom:14px;z-index:4;padding:10px 12px;border-radius:16px;background:rgba(255,253,248,.88);
+border:1px solid var(--line);backdrop-filter:blur(8px);font-size:12px;line-height:1.7;color:#5B4E3F}
+.visual-ornament{display:flex;align-items:center;justify-content:space-between;padding:0 4px 2px}
+.visual-ornament span{font-size:12px;color:var(--muted)}
+.visual-ornament b{font-size:12px;font-weight:400;color:#8A6936}
+
+/* note popover */
+.note-pop{position:fixed;z-index:80;max-width:330px;padding:13px 15px;border-radius:17px;background:rgba(255,253,248,.97);border:1px solid var(--line);
+box-shadow:var(--shadow);font-size:13px;line-height:1.8;color:#564A3A;opacity:0;pointer-events:none;transform:translateY(6px);transition:.2s ease}
+.note-pop.show{opacity:1;transform:translateY(0)}
+
+/* deep */
+.deep-layout{height:100%;display:grid;grid-template-columns:minmax(0,60%) minmax(440px,40%);gap:18px}
+.deep-card{height:100%;border-radius:28px;background:rgba(255,253,248,.86);border:1px solid var(--line);box-shadow:var(--shadow);padding:28px 28px;
+display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
+.deep-card h2{font-size:34px;margin:0 0 12px;font-weight:700;letter-spacing:.03em}
+.deep-card .lead{display:inline-block;max-width:560px;font-size:19px;color:#5B4E3F;line-height:1.9;padding:14px 22px;border-radius:20px;background:rgba(199,159,93,.08);border:1px solid var(--line)}
+.deep-steps{min-height:0;display:grid;place-items:center;align-items:start;padding-top:28px}
+.deep-step{display:none;width:min(650px,86%);font-size:21px;line-height:2.05;color:#4F4437;font-weight:500}
+.deep-step.active{display:block}
+.deep-step p{margin:0}
+.deep-seal{display:inline-flex;margin-top:26px;padding:9px 16px;border-radius:999px;background:rgba(111,121,89,.10);color:var(--green);font-size:14px}
+.deep-footer{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--line)}
+
+@media(max-width:1180px){
+ html,body{overflow:auto}
+ .app{height:auto;min-height:calc(100vh - 58px)}
+ .reader-layout,.deep-layout,.poem-choices{grid-template-columns:1fr}
+ .screen{height:auto;min-height:calc(100vh - 90px)}
+ .visual-panel{min-height:420px}
+ .poem-panel,.deep-card{min-height:620px}
+}
+</style>
+<style id="sjq-unified-header-v2">
+.topbar{box-sizing:border-box!important;height:76px!important;min-height:76px!important;padding:0 34px!important;display:grid!important;grid-template-columns:minmax(180px,1fr) minmax(420px,580px) minmax(180px,1fr)!important;gap:24px!important;align-items:center!important}.brand{font-size:15px!important;line-height:1!important;white-space:nowrap!important}.chapter,.chapter-tag{justify-self:end!important;font-size:12px!important;line-height:1.4!important;white-space:nowrap!important}.chapter-nav,.nav,.pill-nav{box-sizing:border-box!important;width:100%!important;max-width:580px!important;height:52px!important;min-height:52px!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;align-items:stretch!important;gap:3px!important;padding:5px!important;border-radius:999px!important}.chapter-nav>span,.nav>span,.pill-nav>button{box-sizing:border-box!important;min-width:0!important;height:40px!important;padding:0 12px!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:14px!important;line-height:1!important;white-space:nowrap!important}.pill-nav>.slider{top:5px!important;height:40px!important}@media(max-width:980px){.topbar{height:68px!important;min-height:68px!important;padding:0 18px!important;grid-template-columns:1fr auto!important;gap:12px!important}.chapter-nav,.nav,.pill-nav{display:grid!important;min-width:0!important;width:100%!important}.brand{font-size:13px!important}.chapter,.chapter-tag{display:block!important;font-size:11px!important}}
+</style>
+<style id="sjq-poetry-polish-v1">
+.app{height:calc(100vh - 76px)!important}.select-head h1{font-size:31px!important;text-wrap:balance}.ticket-title{font-size:29px!important}.ticket-quote{font-size:18px!important}.poem-title{font-size:30px!important}.note-pop{transition:opacity .16s ease-out,transform .16s ease-out!important}.select-back-story{flex:0 0 auto}.audio-playing{color:#8a6936!important;border-color:rgba(199,159,93,.55)!important}@media(max-width:980px){.app{height:auto!important;min-height:calc(100vh - 68px)!important}.select-head h1{font-size:27px!important}}
+</style><link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css"><script src="../../assets/ui/sjq-unified-header.js" defer></script><style id="sjq-shell-normalize">
+html,body{overflow:hidden!important}
+.topbar{height:76px!important;min-height:76px!important;box-sizing:border-box!important}
+.chapter,.chapter-tag,.flower-status{padding-right:58px!important}
+.chapter-nav,.nav,.pill-nav{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;min-width:0!important;width:100%!important;max-width:580px!important}
+.chapter-nav>span,.nav>span,.pill-nav>button{font-size:14px!important;white-space:nowrap!important}
+@media(max-width:980px){
+  .topbar{height:76px!important;min-height:76px!important;padding:0 12px!important;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr)!important;gap:8px!important}
+  .chapter-nav,.nav,.pill-nav{display:grid!important;max-width:100%!important;gap:1px!important;padding:3px!important}
+  .chapter-nav>span,.nav>span,.pill-nav>button{height:40px!important;padding:0 3px!important;font-size:11px!important}
+}
+</style></head>
+<body>
+<header class="topbar">
+  <div class="brand">《山家清供》花馔图鉴</div>
+  <nav class="pill-nav">
+    <div class="slider"></div>
+    <button>识名物</button><button>看菜谱</button><button>读故事</button><button class="active">赏诗词</button><button>品意蕴</button>
+  </nav>
+  <div class="chapter-tag">菊花 · 第四章 · 赏诗词</div>
+</header>
+
+<div class="app"><div class="shell">
+<section class="screen active" id="selectScreen">
+  <div class="select-layout">
+    <div class="select-head">
+      <div><div class="mini">第四章 · 赏诗词</div><h1>从一枝秋菊，看见两种人生</h1></div><button class="back select-back-story" id="backStory">← 返回故事</button>
+    </div>
+    <div class="poem-choices">
+      <button class="poem-ticket" data-poem="yuanmao">
+        <div>
+          <div class="ticket-num">01</div>
+          <div class="ticket-title">霜后之菊</div>
+          <div class="ticket-author">宋 · 石涧元茂　《菊叶诗》</div>
+          <div class="ticket-quote">“曾是往来篱下读，<br>一枝开弄被风吹。”</div>
+          <span class="ticket-tag">清介之志</span>
+        </div>
+        <svg class="chrys-seal" viewBox="0 0 160 160" aria-hidden="true">
+          <g transform="translate(80 76)" fill="none" stroke="#C79F5D" stroke-width="2.2">
+            <ellipse rx="10" ry="42" transform="rotate(0)"/>
+            <ellipse rx="10" ry="42" transform="rotate(30)"/>
+            <ellipse rx="10" ry="42" transform="rotate(60)"/>
+            <ellipse rx="10" ry="42" transform="rotate(90)"/>
+            <ellipse rx="10" ry="42" transform="rotate(120)"/>
+            <ellipse rx="10" ry="42" transform="rotate(150)"/>
+            <circle r="12" fill="rgba(199,159,93,.16)"/>
+          </g>
+          <path d="M79 119 C83 131 83 142 80 153" stroke="#6F7959" stroke-width="3" fill="none"/>
+          <path d="M82 135 C97 128 105 130 112 140 C99 144 90 144 82 135Z" fill="rgba(111,121,89,.13)" stroke="#6F7959"/>
+        </svg>
+        <div class="watermark">菊</div>
+      </button>
+
+      <button class="poem-ticket" data-poem="tao">
+        <div>
+          <div class="ticket-num">02</div>
+          <div class="ticket-title">东篱之菊</div>
+          <div class="ticket-author">东晋 · 陶渊明　《饮酒·其五》</div>
+          <div class="ticket-quote">“采菊东篱下，<br>悠然见南山。”</div>
+          <span class="ticket-tag">悠然之心</span>
+        </div>
+        <svg class="chrys-seal" viewBox="0 0 160 160" aria-hidden="true">
+          <g transform="translate(80 76)" fill="none" stroke="#C79F5D" stroke-width="2.2">
+            <ellipse rx="10" ry="42" transform="rotate(15)"/>
+            <ellipse rx="10" ry="42" transform="rotate(45)"/>
+            <ellipse rx="10" ry="42" transform="rotate(75)"/>
+            <ellipse rx="10" ry="42" transform="rotate(105)"/>
+            <ellipse rx="10" ry="42" transform="rotate(135)"/>
+            <ellipse rx="10" ry="42" transform="rotate(165)"/>
+            <circle r="12" fill="rgba(199,159,93,.16)"/>
+          </g>
+          <path d="M79 119 C83 131 83 142 80 153" stroke="#6F7959" stroke-width="3" fill="none"/>
+          <path d="M78 136 C63 130 55 132 48 141 C61 145 70 145 78 136Z" fill="rgba(111,121,89,.13)" stroke="#6F7959"/>
+        </svg>
+        <div class="watermark">篱</div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="readerScreen">
+  <div class="reader-layout">
+    <div class="poem-panel">
+      <div class="poem-header">
+        <div><button class="back" id="backSelect">← 返回选诗</button><div class="meta" id="poemMeta"></div><div class="poem-title" id="poemTitle"></div></div>
+        <div class="motif" id="poemMotif"></div>
+      </div>
+      <div class="poem-main"><div class="lines" id="lines"></div></div>
+      <div class="poem-tools">
+        <div class="progress" id="lineProgress"></div>
+        <div class="actions"><button class="btn" id="audioBtn">听诵读</button><button class="btn" id="prevLine">上一句</button><button class="btn gold" id="nextLine">下一句</button></div>
+      </div>
+    </div>
+    <aside class="visual-panel">
+      <div class="visual-frame" id="visualFrame">
+        <img id="visualImg" src="assets/asset-027-f5c7528485.webp" alt="菊花诗词意境图">
+        <div class="visual-caption" id="visualCaption"></div>
+      </div>
+      <div class="visual-ornament"><span id="visualIndex"></span><b id="visualHint">意境随诗句切换</b></div>
+    </aside>
+  </div>
+</section>
+
+<section class="screen" id="deepScreen">
+  <div class="deep-layout">
+    <div class="deep-card">
+      <div><button class="back" id="backReader">← 返回读诗</button><div class="meta" id="deepMeta"></div><h2 id="deepTitle"></h2><div class="lead" id="deepLead"></div></div>
+      <div class="deep-steps" id="deepSteps"></div>
+      <div class="deep-footer"><div class="progress" id="deepProgress"></div><div class="actions"><button class="btn" id="deepPrev">上一步</button><button class="btn gold" id="deepNext">继续</button></div></div>
+    </div>
+    <aside class="visual-panel">
+      <div class="visual-frame">
+        <img id="deepImg" src="assets/asset-027-f5c7528485.webp" alt="菊花深读意境图">
+        <div class="visual-caption" id="deepCaption"></div>
+      </div>
+      <div class="visual-ornament"><span>深读 · 意境图</span><b id="deepSeal"></b></div>
+    </aside>
+  </div>
+</section>
+</div></div>
+
+<div class="note-pop" id="notePop"></div>
+
+<script>
+const IMG = "assets/asset-017-838a961712.webp";
+const DRINK1 = "assets/asset-028-a84c307b66.webp";
+const DRINK2 = "assets/asset-029-5b2240459e.webp";
+const DRINK3 = "assets/asset-027-f5c7528485.webp";
+const DRINK4 = "assets/asset-030-e7817bd2a1.webp";
+const DRINK5 = "assets/asset-031-752fc026f4.webp";
+const JUYE1 = "assets/asset-032-9fae17bd57.webp";
+const JUYE2 = "assets/asset-033-b76aa379ec.webp";
+const JUYE3 = "assets/asset-034-b585b25cd1.webp";
+const JUYE4 = "assets/asset-035-0cb5d68662.webp";
+const POEM_AUDIO={yuanmao:'assets/asset-036-cf483ee7b7.mp3',tao:'assets/asset-037-40293c6332.mp3'};
+const poemAudio=new Audio();
+function stopPoemAudio(){poemAudio.pause();poemAudio.currentTime=0;const b=document.getElementById('audioBtn');if(b){b.textContent='听诵读';b.classList.remove('audio-playing')}};window.SJQStopAudio=stopPoemAudio;poemAudio.addEventListener('ended',stopPoemAudio);
+const poems = {
+ yuanmao:{
+  meta:"宋 · 石涧元茂", title:"《菊叶诗》", motif:"清介之志",
+  lines:[
+   {html:'何年<span class="kw" data-note="霜后">霜后</span>黄花叶，',cap:"秋霜之后，草木渐衰，菊色仍在。",img:JUYE1,pos:"45% 58%",filter:"sepia(.12) saturate(.78) brightness(.96)",scale:"1.07"},
+   {html:'色蠹犹存旧卷诗。',cap:"旧卷与菊影相伴，爱菊也进入日常的读书生活。",img:JUYE2,pos:"52% 46%",filter:"sepia(.18) saturate(.75) brightness(.95)",scale:"1.08"},
+   {html:'曾是往来<span class="kw" data-note="篱下">篱下</span>读，',cap:"篱边读书，不在繁华中央，却自有清简之境。",img:JUYE3,pos:"38% 56%",filter:"sepia(.08) saturate(.82)",scale:"1.06"},
+   {html:'一枝开弄<span class="kw" data-note="被风吹">被风吹</span>。',cap:"风过花枝，菊不失其神气。",img:JUYE4,pos:"64% 57%",filter:"sepia(.10) saturate(.86)",scale:"1.08"}
+  ],
+  notes:{
+   "霜后":"“霜后”把菊放进秋深时节：许多花木已渐衰败，菊却仍能留色，因此它不再只是“好看”，也让人想到经得住环境变化的品格。",
+   "篱下":"“篱下”让人自然想到陶渊明。它不是喧闹中心，而是安静自守之处，带出一种不争繁华、亲近自然的生活气质。",
+   "被风吹":"风中的菊不是僵硬不动，而是在摇曳中仍保有自己的姿态。这种从容，也让“清介”变得可以感受。"
+  },
+  deepTitle:"从爱菊，到清介之志",
+  lead:"“观此诗，不唯知其爱菊，其为人清介可知矣。”",
+  deep:[
+   "林洪读完这首诗，没有只停在“爱菊”。他从诗里的霜后、篱下与风中之菊，进一步看见了石元茂的为人。",
+   "菊于是从一株可食、可赏的花，成为人格的映照：秋深而色存，身处篱落而自守，风来而不失其姿。",
+   "宋人所爱的，不只是花形，更是这种清正、自持、不随俗而改的精神气象。"
+  ],
+  seal:"清介之志"
+ },
+ tao:{
+  meta:"东晋 · 陶渊明", title:"《饮酒·其五》", motif:"悠然之心",
+  lines:[
+   {html:"结庐在人境，而无车马喧。",cap:"身在人境，却没有车马喧扰。",img:DRINK1,pos:"48% 48%",filter:"sepia(.05) saturate(.86)",scale:"1.06"},
+   {html:"问君何能尔？心远地自偏。",cap:"真正的“偏”，先发生在心里。",img:DRINK2,pos:"34% 48%",filter:"sepia(.08) saturate(.80)",scale:"1.08"},
+   {html:'<span class="kw" data-note="采菊">采菊</span>东篱下，<span class="kw" data-note="悠然">悠然</span>见南山。',cap:"东篱采菊，抬眼之间，南山自然进入视野。",img:DRINK3,pos:"42% 61%",filter:"sepia(.03) saturate(.92)",scale:"1.04"},
+   {html:'山气日夕佳，<span class="kw" data-note="飞鸟相与还">飞鸟相与还</span>。',cap:"日色渐晚，山气与归鸟共同收束这一刻。",img:DRINK4,pos:"72% 32%",filter:"sepia(.12) saturate(.78) brightness(.94)",scale:"1.07"},
+   {html:"此中有真意，欲辨已忘言。",cap:"有些真正的意味，不必急着说尽。",img:DRINK5,pos:"58% 44%",filter:"sepia(.16) saturate(.72) brightness(.97)",scale:"1.09"}
+  ],
+  notes:{
+   "采菊":"“采菊”是一件平常小事。正因为菊进入了日常，诗中的安顿感才如此自然：生活不必时时向外追逐。",
+   "悠然":"“悠然”不是闲着无事，而是不再被外界追赶的状态。不是刻意去寻找南山，而是在采菊之间，山自然而然进入眼中。",
+   "飞鸟相与还":"归鸟让画面在傍晚慢慢合拢：山气渐深，鸟群归林，人心也回到与自然相安的节奏里。"
+  },
+  deepTitle:"从东篱采菊，到心有所安",
+  lead:"“采菊东篱下，悠然见南山。”",
+  deep:[
+   "陶渊明笔下的菊，并不承担刻意的宏大象征。它只是东篱边的一枝花，被诗人在日常生活中随手采下。",
+   "也正因为如此，菊才真正进入生活：采菊、见山、日夕、归鸟，一切都顺着自然发生，不需要安排，也不急着得到什么。",
+   "如果石元茂的菊让人看见“清介”，那么陶渊明的菊，则让人看见另一种价值——在平凡生活里安顿身心。"
+  ],
+  seal:"悠然之心"
+ }
+};
+let current="tao", lineIndex=0, deepIndex=0;
+
+const selectScreen=document.getElementById("selectScreen");
+const readerScreen=document.getElementById("readerScreen");
+const deepScreen=document.getElementById("deepScreen");
+const linesEl=document.getElementById("lines"), img=document.getElementById("visualImg"), cap=document.getElementById("visualCaption");
+const note=document.getElementById("notePop");
+
+function showScreen(id){[selectScreen,readerScreen,deepScreen].forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active")}
+function openPoem(id){stopPoemAudio();current=id;lineIndex=0;renderReader();showScreen("readerScreen")}
+document.querySelectorAll(".poem-ticket").forEach(b=>b.onclick=()=>openPoem(b.dataset.poem));
+document.getElementById("backSelect").onclick=()=>{stopPoemAudio();showScreen("selectScreen")};document.getElementById("backStory").onclick=()=>{stopPoemAudio();parent.SJQShow("story")};
+
+function renderReader(){
+ const p=poems[current];
+ document.getElementById("poemMeta").textContent=p.meta;
+ document.getElementById("poemTitle").textContent=p.title;
+ document.getElementById("poemMotif").textContent=p.motif;
+ linesEl.innerHTML="";
+ p.lines.forEach((l,i)=>{const d=document.createElement("div");d.className="line"+(i===lineIndex?" active":"");d.innerHTML=l.html;d.onclick=()=>{lineIndex=i;renderReader()};linesEl.appendChild(d)});
+ [...linesEl.querySelectorAll(".kw")].forEach(k=>{const open=e=>{e.stopPropagation();showNote(k,e)};k.onclick=open;k.onpointerenter=open;k.onpointerleave=()=>{clearTimeout(window.__noteTimer);window.__noteTimer=setTimeout(()=>note.classList.remove("show"),280)}});
+ const L=p.lines[lineIndex];
+ cap.textContent=L.cap;
+ img.style.opacity="0";
+ setTimeout(()=>{img.src=L.img||IMG; img.style.objectPosition="50% 50%"; img.style.filter="none"; img.style.transform="scale(1.015)"; img.style.opacity="1";},120);
+ document.getElementById("visualIndex").textContent=`${String(lineIndex+1).padStart(2,"0")} / ${String(p.lines.length).padStart(2,"0")}`;
+ document.getElementById("lineProgress").innerHTML=p.lines.map((_,i)=>`<span class="${i<=lineIndex?"on":""}"></span>`).join("");
+ document.getElementById("prevLine").disabled=lineIndex===0;
+ document.getElementById("nextLine").textContent=lineIndex===p.lines.length-1?"进入深读":"下一句";
+}
+function showNote(k,e){
+ const text=poems[current].notes[k.dataset.note]||"";
+ note.textContent=text;note.classList.add("show");
+ const r=k.getBoundingClientRect();note.style.left=Math.min(window.innerWidth-350,Math.max(18,r.left))+"px";
+ note.style.top=Math.min(window.innerHeight-170,r.bottom+10)+"px";
+ clearTimeout(window.__noteTimer);window.__noteTimer=setTimeout(()=>note.classList.remove("show"),1600)
+}
+document.getElementById("prevLine").onclick=()=>{if(lineIndex>0){lineIndex--;renderReader()}};
+document.getElementById("nextLine").onclick=()=>{const p=poems[current];if(lineIndex<p.lines.length-1){lineIndex++;renderReader()}else{openDeep()}};
+document.getElementById("audioBtn").onclick=async()=>{const b=document.getElementById("audioBtn");if(!poemAudio.paused){poemAudio.pause();b.textContent="继续听";b.classList.remove("audio-playing");return}const track=POEM_AUDIO[current];if(poemAudio.dataset.track!==track){poemAudio.src=track;poemAudio.dataset.track=track;poemAudio.currentTime=0}try{await poemAudio.play();b.textContent="暂停诵读";b.classList.add("audio-playing")}catch(e){b.textContent="听诵读"}};
+
+function openDeep(){deepIndex=0;renderDeep();showScreen("deepScreen")}
+document.getElementById("backReader").onclick=()=>showScreen("readerScreen");
+function renderDeep(){
+ const p=poems[current];
+ document.getElementById("deepMeta").textContent=p.meta+" · "+p.title;
+ document.getElementById("deepTitle").textContent=p.deepTitle;
+ document.getElementById("deepLead").textContent=p.lead;
+ document.getElementById("deepSeal").textContent=p.seal;
+ document.getElementById("deepSteps").innerHTML=p.deep.map((t,i)=>`<div class="deep-step ${i===deepIndex?"active":""}"><p>${t}</p>${i===p.deep.length-1?`<span class="deep-seal">${p.seal}</span>`:""}</div>`).join("");
+ document.getElementById("deepProgress").innerHTML=p.deep.map((_,i)=>`<span class="${i<=deepIndex?"on":""}"></span>`).join("");
+ document.getElementById("deepPrev").disabled=deepIndex===0;
+ document.getElementById("deepNext").textContent=deepIndex===p.deep.length-1?"品意蕴 →":"下一步 →";
+ document.getElementById("deepCaption").textContent=deepIndex===0?"先从诗句出发，再慢慢走向菊花背后的精神价值。":deepIndex===1?"意象并不是标签，而是在诗句与生活之间慢慢生成。":"到这里，菊已经从“可食之花”进入人的精神世界。";
+ const deepImgs=current==="tao"?[DRINK3,DRINK4,DRINK5]:[JUYE1,JUYE3,JUYE4];
+ const dimg=document.getElementById("deepImg");
+ dimg.style.opacity="0";
+ setTimeout(()=>{dimg.src=deepImgs[deepIndex];dimg.style.objectPosition="50% 50%";dimg.style.filter="none";dimg.style.transform="scale(1.015)";dimg.style.opacity="1";},120);
+}
+document.getElementById("deepPrev").onclick=()=>{if(deepIndex>0){deepIndex--;renderDeep()}};
+document.getElementById("deepNext").onclick=()=>{const p=poems[current];if(deepIndex<p.deep.length-1){deepIndex++;renderDeep()}else{stopPoemAudio();parent.postMessage({type:"sjq-section",section:"meaning"},"*")}};
+document.addEventListener("keydown",e=>{
+ if(readerScreen.classList.contains("active")){if(e.key==="ArrowRight")document.getElementById("nextLine").click();if(e.key==="ArrowLeft")document.getElementById("prevLine").click()}
+ if(deepScreen.classList.contains("active")){if(e.key==="ArrowRight")document.getElementById("deepNext").click();if(e.key==="ArrowLeft")document.getElementById("deepPrev").click()}
+});
+</script>
+<script>
+(()=>{
+  const send=section=>parent.postMessage({type:'sjq-section',section},'*');
+  const bind=(el,section)=>{if(!el||el.dataset.sjqFourBound)return;el.dataset.sjqFourBound='1';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.style.cursor='pointer';const go=e=>{e.preventDefault();e.stopImmediatePropagation();send(section)};el.addEventListener('click',go,true);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){go(e)}},true)};
+  document.querySelectorAll('.chapter-nav span,.nav span,.pill-nav button').forEach(el=>{const text=el.textContent.trim();if(text==='\u8bc6\u540d\u7269')bind(el,'identify');if(text==='\u770b\u83dc\u8c31')bind(el,'recipe');if(text==='\u8bfb\u6545\u4e8b')bind(el,'story');if(text==='\u8d4f\u8bd7\u8bcd')bind(el,'poetry')});
+  bind(document.getElementById('toRecipe'),'recipe');
+})();
+</script><script>
+(()=>{const send=section=>parent.postMessage({type:'sjq-section',section},'*');const bind=(el,section)=>{if(!el)return;el.dataset.sjqFiveBound='1';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.setAttribute('onclick',`event.preventDefault();event.stopImmediatePropagation();parent.postMessage({type:'sjq-section',section:'${section}'},'*')`);el.style.cursor='pointer';el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();send(section)}},true)};document.querySelectorAll('.chapter-nav span,.nav span,.pill-nav button').forEach(old=>{const t=old.textContent.trim(),section=t==='\u8bc6\u540d\u7269'?'identify':t==='\u770b\u83dc\u8c31'?'recipe':t==='\u8bfb\u6545\u4e8b'?'story':t==='\u8d4f\u8bd7\u8bcd'?'poetry':t==='\u54c1\u610f\u8574'?'meaning':'';if(!section)return;const el=old.cloneNode(true);old.replaceWith(el);bind(el,section)});const oldNext=document.getElementById('toRecipe');if(oldNext){const next=oldNext.cloneNode(true);oldNext.replaceWith(next);bind(next,'recipe')}})();
+</script></body>
+</html>

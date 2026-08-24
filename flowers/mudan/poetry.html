@@ -13,6 +13,8 @@
 @media (max-width:760px){html,body{overflow:auto}.app{min-height:100%}.topbar{height:auto;min-height:70px;flex-wrap:wrap;gap:10px;padding:11px 14px}.nav{order:3;width:100%;justify-content:center}.nav a,.nav button{flex:1;text-align:center;padding:8px 5px;font-size:13px}.main{padding:16px;min-height:calc(100vh - 120px)}.selection{height:auto;padding:15px 0 24px}.selection h1{font-size:36px}.poem-grid{grid-template-columns:1fr;min-height:0}.poem-card{min-height:330px}.reader{height:auto;grid-template-columns:1fr}.poem-panel{min-height:440px}.visual-panel{height:560px}.deep-panel{height:auto;grid-template-columns:1fr}.deep-art{height:420px}.deep-copy{min-height:480px}.summary-panel{min-height:600px}}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
 </style>
+<link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css">
+<script src="../../assets/ui/sjq-unified-header.js?v=20260824-2" defer></script>
 <style>
 /* 装饰圆环不能覆盖卡片操作区 */
 .app{height:100dvh}
@@ -56,7 +58,7 @@
 </head>
 <body>
 <div class="app">
-  <header class="topbar">
+  <header class="topbar sjq-unified-header">
     <a class="brand" href="../../index.html?home=1" aria-label="返回花馔图鉴">《山家清供》 · 花鉴图录</a>
     <nav class="nav" aria-label="章节导航">
       <a href="identify.html">识名物</a>
@@ -118,10 +120,10 @@
 const IMG='assets-poem/';
 const POEMS={
   liu:{meta:'唐 · 刘禹锡',title:'《赏牡丹》',theme:'国色 · 盛大赞赏',seal:'盛大而自信',deepTitle:'从“真国色”，到“动京城”',lead:'刘禹锡把牡丹从一枝花，写成一座城市共同的审美事件。',lines:[
-    {text:'庭前芍药妖无格，',kw:'妖无格',note:'这里的“妖”写艳丽，“无格”却说它少了端庄的品格。',img:'liu-01-compare.png',heading:'先写芍药作陪',caption:'艳丽并不等于真正的风骨。'},
-    {text:'池上芙蕖净少情。',kw:'净少情',note:'荷花洁净，却显得冷清；“少情”不是贬低，而是为牡丹的热烈蓄势。',img:'liu-02-contrast.png',heading:'再写芙蕖作陪',caption:'清洁之外，还少了一点动人的情致。'},
-    {text:'唯有牡丹真国色，',kw:'真国色',note:'“唯有”一转，把前两种花的优点收束到牡丹身上；“国色”是最高的赞誉。',img:'liu-03-national-color.png',heading:'牡丹真正成为主角',caption:'层层花瓣展开，华美与端庄同时抵达。'},
-    {text:'花开时节动京城。',kw:'动京城',note:'牡丹的美不只被一个人看见，而是让整座京城为之轰动。',img:'liu-04-city-bloom.png',heading:'一花惊动一城',caption:'牡丹的盛大，成为公共的春日事件。'}
+    {text:'庭前芍药妖无格，',kw:'妖无格',note:'这里的“妖”写艳丽，“无格”却说它少了端庄的品格。',img:'liu-01-compare.webp',heading:'先写芍药作陪',caption:'艳丽并不等于真正的风骨。'},
+    {text:'池上芙蕖净少情。',kw:'净少情',note:'荷花洁净，却显得冷清；“少情”不是贬低，而是为牡丹的热烈蓄势。',img:'liu-02-contrast.webp',heading:'再写芙蕖作陪',caption:'清洁之外，还少了一点动人的情致。'},
+    {text:'唯有牡丹真国色，',kw:'真国色',note:'“唯有”一转，把前两种花的优点收束到牡丹身上；“国色”是最高的赞誉。',img:'liu-03-national-color.webp',heading:'牡丹真正成为主角',caption:'层层花瓣展开，华美与端庄同时抵达。'},
+    {text:'花开时节动京城。',kw:'动京城',note:'牡丹的美不只被一个人看见，而是让整座京城为之轰动。',img:'liu-04-city-bloom.webp',heading:'一花惊动一城',caption:'牡丹的盛大，成为公共的春日事件。'}
   ],deep:[
     {title:'先以群芳作陪衬',quote:'“庭前芍药妖无格，池上芙蕖净少情。”',body:'诗人并不急着写牡丹，而是先列出两种熟悉的花：芍药有艳色，芙蕖有清姿。它们各自可爱，却都不是完整的答案。'},
     {title:'“唯有”是全诗的转折',quote:'“唯有牡丹真国色”',body:'两个字把视线从群芳收回牡丹。“国色”不只是颜色之美，更是端庄、丰盛、足以代表一国审美的气度。'},
@@ -129,10 +131,10 @@ const POEMS={
     {title:'盛大本身就是情感',quote:'“真国色” · “动京城”',body:'这首诗留下的不是孤独的赏花，而是一种明亮的自信：好花盛开，值得被看见，也值得让世界为之动容。'}
   ]},
   bai:{meta:'唐 · 白居易',title:'《惜牡丹花》',theme:'惜花 · 温柔感伤',seal:'温柔而感伤',deepTitle:'从“惆怅”，到“把火看”',lead:'白居易不写牡丹最盛的时刻，而在它将谢时留下一个人的挽留。',lines:[
-    {text:'惆怅阶前红牡丹，',kw:'惆怅',note:'“惆怅”先写心情，再写花；看花之人已经意识到盛放正在离去。',img:'bai-01-evening.png',heading:'黄昏先抵达心里',caption:'阶前的红牡丹，让人的情绪先沉了下来。'},
-    {text:'晚来唯有两枝残。',kw:'两枝残',note:'“唯有”在这里不再是赞叹，而是数清剩下的花：只剩两枝。',img:'bai-02-two-blooms.png',heading:'盛放只剩两枝',caption:'残不是败，而是曾经盛放过的证据。'},
-    {text:'明朝风起应吹尽，',kw:'吹尽',note:'明日的风还没有来，诗人却已经预见花瓣离枝。',img:'bai-03-wind.png',heading:'先替明日担心',caption:'惜花之情，来自对无可挽回的预感。'},
-    {text:'夜惜衰红把火看。',kw:'把火看',note:'夜里举灯看残红，是不肯让花在黑暗里悄然消失。',img:'bai-04-lamp.png',heading:'举灯守住残红',caption:'最后的动作很轻，却是全诗最深的挽留。'}
+    {text:'惆怅阶前红牡丹，',kw:'惆怅',note:'“惆怅”先写心情，再写花；看花之人已经意识到盛放正在离去。',img:'bai-01-evening.webp',heading:'黄昏先抵达心里',caption:'阶前的红牡丹，让人的情绪先沉了下来。'},
+    {text:'晚来唯有两枝残。',kw:'两枝残',note:'“唯有”在这里不再是赞叹，而是数清剩下的花：只剩两枝。',img:'bai-02-two-blooms.webp',heading:'盛放只剩两枝',caption:'残不是败，而是曾经盛放过的证据。'},
+    {text:'明朝风起应吹尽，',kw:'吹尽',note:'明日的风还没有来，诗人却已经预见花瓣离枝。',img:'bai-03-wind.webp',heading:'先替明日担心',caption:'惜花之情，来自对无可挽回的预感。'},
+    {text:'夜惜衰红把火看。',kw:'把火看',note:'夜里举灯看残红，是不肯让花在黑暗里悄然消失。',img:'bai-04-lamp.webp',heading:'举灯守住残红',caption:'最后的动作很轻，却是全诗最深的挽留。'}
   ],deep:[
     {title:'美正在消逝，所以惆怅',quote:'“惆怅阶前红牡丹”',body:'诗人面对的不是一朵抽象的名花，而是阶前正在衰谢的红牡丹。花的变化立刻牵动了人的情绪。'},
     {title:'“两枝残”把时间说具体',quote:'“晚来唯有两枝残。”',body:'晚来、唯有、两枝，每个词都在缩小范围。盛放的记忆越丰盛，眼前仅存的两枝就越显得珍贵。'},

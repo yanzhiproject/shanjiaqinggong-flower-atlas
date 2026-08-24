@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>第四章 · 赏诗词｜梅之美与梅之格</title>
+  <style>
+    @font-face{font-family:"ShanjiaTitle";src:url("../../assets/ui/sjq-wenyue-guti-fangsong.otf") format("opentype");font-display:swap}
+    :root{
+      --ink:#4d4438;--muted:#8b7c68;--gold:#bf9650;--gold-deep:#9f7635;
+      --paper:#f8f3e9;--paper-deep:#efe5d2;--line:rgba(196,156,80,.24);
+      --plum:#a95e66;--olive:#7d8760;--shadow:0 18px 54px rgba(61,46,30,.10);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;overflow:hidden}
+    body{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;color:var(--ink);background:#eee7d8}
+    button{font:inherit;color:inherit}
+    button:focus-visible{outline:2px solid var(--plum);outline-offset:3px}
+    .app{height:100dvh;display:grid;grid-template-rows:62px 1fr;overflow:hidden;background:#eee7d8}
+    .topbar{height:62px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(196,156,80,.16);background:rgba(250,247,240,.96);z-index:20}
+    .brand{font-family:"ShanjiaTitle","Songti SC",serif;font-size:18px;letter-spacing:.08em;white-space:nowrap}
+    .site-nav{font-size:12px;letter-spacing:.13em;color:var(--muted);white-space:nowrap}
+    .site-nav b{color:var(--plum);font-weight:400}
+    .workspace{min-height:0;display:grid;grid-template-columns:178px minmax(0,1fr) 360px;gap:18px;padding:18px 22px 20px}
+    .chapter-rail,.reading-panel{min-height:0;border:1px solid var(--line);border-radius:22px;background:rgba(251,247,238,.97);box-shadow:var(--shadow)}
+    .chapter-rail{padding:20px 14px;display:flex;flex-direction:column}
+    .rail-kicker{padding:0 10px 16px;font-size:12px;letter-spacing:.16em;color:var(--gold-deep)}
+    .rail-list{display:grid;gap:10px}
+    .rail-btn{border:0;border-radius:18px;background:transparent;padding:14px 12px;text-align:left;cursor:pointer;display:grid;grid-template-columns:35px 1fr;gap:10px;align-items:center;transition:.35s ease}
+    .rail-btn:hover{background:rgba(191,150,80,.08)}
+    .rail-btn.active{background:var(--olive);color:#fff}
+    .rail-num{width:32px;height:32px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-size:13px;opacity:.82}
+    .rail-copy strong{display:block;font-size:15px;font-weight:400;letter-spacing:.08em}
+    .rail-copy small{display:block;margin-top:4px;font-size:11px;opacity:.72;letter-spacing:.08em}
+    .rail-note{margin-top:auto;padding:18px 10px 4px;font-size:12px;line-height:1.8;color:var(--muted)}
+    .stage{position:relative;min-width:0;min-height:0;border-radius:24px;overflow:hidden;border:1px solid rgba(196,156,80,.2);box-shadow:var(--shadow);background:#e9dfcf}
+    .scene-bg{position:absolute;inset:0;background-position:center;background-size:cover;transition:opacity 1.25s ease,transform 1.8s cubic-bezier(.2,.8,.2,1);opacity:0;transform:scale(1.025)}
+    .scene-bg.show{opacity:1;transform:scale(1)}
+    .scene-bg.linbu{background-image:linear-gradient(90deg,rgba(248,241,226,.05),rgba(248,241,226,.2)),url("assets/asset-007-d113e2220e.png")}
+    .scene-bg.luyou{background-image:linear-gradient(90deg,rgba(248,241,226,.04),rgba(248,241,226,.2)),url("assets/asset-008-a8cab3e3df.png")}
+    .stage::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 90px rgba(77,56,32,.10)}
+    .poem-card{position:absolute;z-index:3;top:50%;right:6.5%;transform:translateY(-50%);width:min(520px,54%);max-height:88%;padding:28px 34px 24px;border:1px solid rgba(196,156,80,.3);border-radius:22px;background:rgba(250,247,238,.86);box-shadow:0 22px 60px rgba(62,45,27,.13);backdrop-filter:blur(12px);transition:opacity .65s ease,transform .75s ease}
+    .poem-card.swap{opacity:0;transform:translateY(-47%) translateX(22px)}
+    .poem-head{text-align:center}
+    .poem-head small{font-size:11px;letter-spacing:.22em;color:var(--gold-deep)}
+    .poem-head h1{font-family:"ShanjiaTitle","Songti SC",serif;margin:10px 0 5px;font-size:29px;font-weight:400;letter-spacing:.08em;text-wrap:balance}
+    .poem-head p{margin:0;font-size:13px;color:var(--muted);letter-spacing:.12em}
+    .poem-lines{margin:19px 0 0;padding:13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:3px}
+    .poem-line{margin:0;text-align:center;font-size:18px;line-height:1.68;letter-spacing:.08em;transition:.35s ease;border-radius:8px}
+    .poem-line.core{color:#7f4c50;font-size:20px}
+    .poem-line.playing{color:#fff;background:rgba(125,135,96,.88);transform:scale(1.015)}
+    .audio-row{margin-top:15px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+    .audio-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(183,144,76,.45);background:rgba(255,252,245,.78);cursor:pointer;display:grid;place-items:center;font-size:15px}
+    .audio-btn:hover{background:#fffaf0;border-color:var(--gold)}
+    .audio-progress{height:4px;border-radius:999px;background:rgba(139,124,104,.18);overflow:hidden;cursor:pointer}
+    .audio-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--plum));transition:width .08s linear}
+    .audio-time{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+    .poem-actions{display:flex;justify-content:center;gap:10px;margin-top:15px;flex-wrap:wrap}
+    .soft-btn,.primary-btn{min-height:40px;padding:9px 20px;border-radius:999px;cursor:pointer;letter-spacing:.08em;transition:.3s ease}
+    .soft-btn{border:1px solid rgba(183,144,76,.4);background:rgba(255,252,245,.7);color:#806a4c}
+    .soft-btn:hover{background:#fffaf0;border-color:var(--gold)}
+    .primary-btn{border:1px solid var(--olive);background:var(--olive);color:#fff}
+    .primary-btn:hover{filter:brightness(1.07)}
+    .stage-caption{position:absolute;left:24px;bottom:20px;z-index:4;padding:9px 16px;border-radius:999px;background:rgba(250,247,238,.76);font-size:12px;letter-spacing:.1em;color:#7b6b56;backdrop-filter:blur(8px)}
+    .reading-panel{padding:25px 21px 20px 27px;display:flex;flex-direction:column;overflow:hidden}
+    .panel-scroll{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-right:8px;scrollbar-gutter:stable}
+    .panel-scroll::-webkit-scrollbar{width:7px}
+    .panel-scroll::-webkit-scrollbar-track{background:rgba(139,124,104,.08);border-radius:999px}
+    .panel-scroll::-webkit-scrollbar-thumb{background:rgba(125,135,96,.48);border-radius:999px}
+    .panel-scroll{scrollbar-width:thin;scrollbar-color:rgba(125,135,96,.48) rgba(139,124,104,.08)}
+    .panel-kicker{font-size:12px;letter-spacing:.18em;color:var(--gold-deep)}
+    .reading-panel h2{font-family:"ShanjiaTitle","Songti SC",serif;margin:13px 0 10px;font-size:35px;line-height:1.18;font-weight:400;letter-spacing:.04em;text-wrap:balance}
+    .panel-lead{margin:0 0 18px;color:var(--muted);font-size:14px;line-height:1.85;text-wrap:pretty}
+    .panel-rule{height:1px;background:var(--line);margin-bottom:17px}
+    .instruction{font-size:13px;line-height:1.8;color:#746651;margin-bottom:10px}
+    .keywords{display:grid;gap:9px}
+    .keyword{border:1px solid rgba(196,156,80,.25);background:rgba(255,252,246,.82);border-radius:14px;padding:11px 14px;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.28s ease}
+    .keyword:hover,.keyword.active{border-color:rgba(169,94,102,.55);background:rgba(169,94,102,.08);color:#8c4f56}
+    .keyword.read::after{content:"✓";color:var(--olive)}
+    .note-card{margin-top:13px;min-height:112px;border-left:2px solid var(--gold);padding:13px 14px;background:rgba(247,239,221,.66);font-size:13px;line-height:1.9;color:#6e604e;opacity:0;transform:translateY(8px);transition:.4s ease}
+    .note-card.show{opacity:1;transform:none}
+    .analysis-card{display:none;margin-top:4px;animation:rise .65s ease both}
+    .analysis-card.show{display:block}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .analysis-card h3{font-size:18px;font-weight:400;margin:0 0 10px;color:#755a35;letter-spacing:.08em}
+    .analysis-card p{font-size:14px;line-height:2;margin:0;color:#6e604e}
+    .seal{width:max-content;margin-top:16px;padding:6px 10px;border:1px solid rgba(169,94,102,.58);color:var(--plum);font-size:12px;letter-spacing:.14em;transform:rotate(-2deg)}
+    .panel-footer{flex:0 0 auto;margin-top:12px;padding:12px 6px 0 0;border-top:1px solid var(--line);display:grid;gap:9px;background:rgba(251,247,238,.97);z-index:2}
+    .panel-footer .primary-btn,.panel-footer .soft-btn{width:100%}
+    .locked{opacity:.45;pointer-events:none}
+    .overview{position:absolute;inset:0;z-index:8;display:none;align-items:center;justify-content:center;padding:42px;background:radial-gradient(circle at 50% 25%,rgba(255,251,242,.94),rgba(237,226,207,.94));backdrop-filter:blur(12px)}
+    .overview.show{display:flex;animation:fade .75s ease both}
+    @keyframes fade{from{opacity:0}to{opacity:1}}
+    .overview-card{width:min(920px,90%);padding:42px 48px;border:1px solid var(--line);border-radius:26px;background:rgba(251,247,238,.92);box-shadow:var(--shadow);text-align:center}
+    .overview-card small{font-size:12px;letter-spacing:.3em;color:var(--gold-deep)}
+    .overview-card h2{font-family:"ShanjiaTitle","Songti SC",serif;margin:15px 0 8px;font-size:39px;font-weight:400;letter-spacing:.1em;text-wrap:balance}
+    .overview-card>p{margin:0;color:var(--muted);font-size:14px;line-height:1.9}
+    .compare{margin:28px 0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px}
+    .compare-item{padding:24px;border:1px solid var(--line);border-radius:20px;background:rgba(255,252,246,.75)}
+    .compare-item b{font-family:"ShanjiaTitle","Songti SC",serif;display:block;font-size:23px;font-weight:400;color:#79594a;margin-bottom:8px}
+    .compare-item span{font-size:13px;line-height:1.75;color:var(--muted)}
+    .compare-arrow{color:var(--gold);font-size:24px}
+    .bridge{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(226,216,198,.76);backdrop-filter:blur(16px);transition:.7s ease}
+    .bridge.hide{opacity:0;visibility:hidden;pointer-events:none}
+    .bridge-card{width:min(620px,88vw);padding:42px 52px;border-radius:28px;border:1px solid var(--line);background:linear-gradient(180deg,#fbf7ee,#f0e5d2);box-shadow:0 28px 80px rgba(61,46,30,.17);text-align:center}
+    .bridge-card small{font-size:12px;letter-spacing:.28em;color:var(--gold-deep)}
+    .bridge-card h1{font-family:"ShanjiaTitle","Songti SC",serif;margin:16px 0 15px;font-size:38px;font-weight:400;letter-spacing:.1em;text-wrap:balance}
+    .bridge-card p{margin:0 0 10px;font-size:15px;line-height:2;color:#746651}
+    .bridge-line{width:52px;height:1px;background:rgba(191,150,80,.5);margin:26px auto}
+    .bridge-card .primary-btn{padding:12px 30px}
+    @media(max-width:1120px){.workspace{grid-template-columns:150px minmax(0,1fr) 320px}.poem-card{right:4%;width:58%;padding:23px}.reading-panel{padding:22px}.reading-panel h2{font-size:29px}}
+    @media(max-width:900px){html,body{overflow:auto}.app{height:auto;min-height:100dvh;grid-template-rows:56px auto}.topbar{height:56px;padding:0 18px}.site-nav{display:none}.workspace{display:flex;flex-direction:column;padding:12px}.chapter-rail{order:1}.stage{order:2;height:690px}.reading-panel{order:3;min-height:520px}.rail-list{grid-template-columns:repeat(3,1fr)}.rail-btn{display:block;text-align:center;padding:10px 5px}.rail-num{margin:auto}.rail-copy small,.rail-note{display:none}.poem-card{right:4%;left:4%;width:auto;max-height:88%;padding:22px 18px}.compare{grid-template-columns:1fr}.compare-arrow{transform:rotate(90deg)}.bridge-card{padding:34px 24px}}
+  
+.essence-next{margin-left:10px;background:#737d58!important;border-color:#737d58!important;color:#fff!important}.essence-next:hover,.essence-next:active,.essence-next:focus{background:#65704a!important;color:#fff!important}
+
+/* Embedded chapter: keep all reading and annotation content visible in one screen. */
+.topbar{display:none!important}
+.app{grid-template-rows:minmax(0,1fr)!important}
+.workspace{padding:16px 22px 18px!important;grid-template-columns:180px minmax(0,1fr) 370px!important}
+.rail-note{display:none!important}
+.reading-panel{overflow:hidden!important;padding:21px 22px 17px!important}
+.panel-scroll{overflow:hidden!important;padding-right:0!important}
+.reading-panel h2{font-size:32px!important;margin:10px 0 8px!important}
+.panel-lead{font-size:14px!important;line-height:1.72!important;margin-bottom:12px!important}
+.panel-rule{margin-bottom:12px!important}
+.instruction{margin-bottom:8px!important}
+.keywords{gap:7px!important}
+.keyword{padding:9px 12px!important;min-height:40px!important}
+.note-card{min-height:88px!important;margin-top:9px!important;padding:10px 12px!important;line-height:1.72!important}
+.analysis-card p{font-size:14px!important;line-height:1.75!important}
+.panel-footer{margin-top:8px!important;padding-top:9px!important;gap:7px!important}
+.panel-footer button{min-height:42px!important;padding:9px 13px!important;white-space:nowrap!important}
+@media(max-height:690px) and (min-width:901px){
+  .workspace{padding:12px 18px 14px!important;grid-template-columns:170px minmax(0,1fr) 350px!important;gap:14px!important}
+  .chapter-rail{padding:14px 11px!important}.rail-kicker{padding-bottom:10px!important}.rail-list{gap:6px!important}.rail-btn{padding:9px!important}
+  .poem-card{padding:20px 25px 18px!important}.reading-panel{padding:15px 18px 13px!important}
+  .reading-panel h2{font-size:28px!important}.panel-lead{font-size:13px!important;line-height:1.58!important;margin-bottom:8px!important}
+  .panel-rule{margin-bottom:8px!important}.instruction{font-size:12px!important;margin-bottom:5px!important}.keywords{gap:5px!important}.keyword{padding:7px 10px!important;min-height:34px!important}
+  .note-card{min-height:70px!important;font-size:12px!important;line-height:1.55!important;margin-top:6px!important;padding:7px 10px!important}
+  .analysis-card h3{margin-bottom:6px!important}.analysis-card p{font-size:13px!important;line-height:1.55!important}.seal{margin-top:8px!important}
+  .panel-footer{margin-top:5px!important;padding-top:6px!important}.panel-footer button{min-height:36px!important;padding:7px 11px!important}
+}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">《山家清供》 花馔图鉴</div>
+    <div class="site-nav">识名物 · 看菜谱 · 读故事 · <b>赏诗词</b> · 品意蕴</div>
+  </header>
+  <div class="workspace">
+    <aside class="chapter-rail">
+      <div class="rail-kicker">第四章 · 赏诗词</div>
+      <div class="rail-list">
+        <button class="rail-btn active" data-scene="linbu"><span class="rail-num">1</span><span class="rail-copy"><strong>梅之美</strong><small>林逋 · 月下疏影</small></span></button>
+        <button class="rail-btn" data-scene="luyou"><span class="rail-num">2</span><span class="rail-copy"><strong>梅之格</strong><small>陆游 · 香如故</small></span></button>
+        <button class="rail-btn locked" data-scene="overview"><span class="rail-num">3</span><span class="rail-copy"><strong>双诗合观</strong><small>由形入神</small></span></button>
+      </div>
+      <p class="rail-note">先听诗，再点击关键词查看注释。读完解析后进入下一首；已完成的部分可以自由返回。</p>
+    </aside>
+
+    <section class="stage" aria-label="诗词意境画面">
+      <div class="scene-bg linbu show"></div>
+      <div class="scene-bg luyou"></div>
+      <article class="poem-card" id="poemCard">
+        <header class="poem-head"><small id="poemKicker">梅之美 · 月下疏影</small><h1 id="poemTitle">《山园小梅·其一》</h1><p id="poemAuthor">北宋 · 林逋</p></header>
+        <div class="poem-lines" id="poemLines"></div>
+        <div class="audio-row">
+          <button class="audio-btn" id="audioBtn" aria-label="播放朗诵">▶</button>
+          <div class="audio-progress" id="audioProgress" title="点击调整播放进度"><div class="audio-fill" id="audioFill"></div></div>
+          <span class="audio-time" id="audioTime">00:00</span>
+        </div>
+        <div class="poem-actions"><button class="soft-btn" id="replayBtn">重新播放</button><button class="soft-btn" id="focusBtn">聚焦名句</button></div>
+      </article>
+      <div class="stage-caption" id="stageCaption">月色照水，梅影横斜；请先听一遍诗。</div>
+      <section class="overview" id="overview">
+        <div class="overview-card"><small>第四章 · 合卷</small><h2>从梅之美，到梅之格</h2><p>同一枝梅，既可以成为月下清景，也可以成为不改其香的精神象征。</p><div class="compare"><div class="compare-item"><b>形与香</b><span>林逋从水影与暗香中，写出梅花清幽、疏淡的物华之美。</span></div><div class="compare-arrow">→</div><div class="compare-item"><b>骨与魂</b><span>陆游从风雨与零落中，写出梅花孤高、坚贞的品格之美。</span></div></div><button class="soft-btn" id="backPoems">返回诗卷</button><button class="soft-btn essence-next" id="enterEssence">下一章 · 品意蕴</button></div>
+      </section>
+    </section>
+
+    <aside class="reading-panel">
+      <div class="panel-scroll">
+        <div class="panel-kicker" id="panelKicker">第一卷 · 释词</div>
+        <h2 id="panelTitle">先识梅影，<br>再闻暗香</h2>
+        <p class="panel-lead" id="panelLead">点击下方关键词，理解诗人如何不直写花朵，却让梅花从水光与黄昏中显现。</p>
+        <div class="panel-rule"></div>
+        <div id="studyArea">
+          <div class="instruction">依次点击三个关键词查看注释：</div>
+          <div class="keywords" id="keywords"></div>
+          <div class="note-card" id="noteCard" aria-live="polite"></div>
+        </div>
+        <div class="analysis-card" id="analysisCard"><h3 id="analysisTitle"></h3><p id="analysisText"></p><div class="seal" id="analysisSeal"></div></div>
+      </div>
+      <div class="panel-footer"><button class="primary-btn locked" id="analysisBtn">读懂这一层诗意</button><button class="soft-btn locked" id="nextBtn">进入第二卷 · 梅之格</button></div>
+    </aside>
+  </div>
+</main>
+
+<div class="bridge" id="bridge">
+  <div class="bridge-card"><small>由第三章 · 读故事</small><h1>循香入诗</h1><p>方才，我们在孤山遇见了以梅为伴的林逋。</p><p>他眼中的梅花，究竟有着怎样的姿态与香气？</p><div class="bridge-line"></div><button class="primary-btn" id="enterPoetry">走进月下梅影</button></div>
+</div>
+
+<audio id="audioLinbu" preload="metadata" src="assets/asset-009-de8ac24db8.mp3"></audio>
+<audio id="audioLuyou" preload="metadata" src="assets/asset-010-b1520b2664.mp3"></audio>
+
+<script>
+const poems={
+  linbu:{
+    kicker:'梅之美 · 月下疏影',title:'《山园小梅·其一》',author:'北宋 · 林逋',caption:'月色照水，梅影横斜；请先听一遍诗。',
+    panelKicker:'第一卷 · 释词',panelTitle:'先识梅影，<br>再闻暗香',panelLead:'点击下方关键词，理解诗人如何不直写花朵，却让梅花从水光与黄昏中显现。',
+    lines:['众芳摇落独暄妍，占尽风情向小园。','疏影横斜水清浅，暗香浮动月黄昏。','霜禽欲下先偷眼，粉蝶如知合断魂。','幸有微吟可相狎，不须檀板共金樽。'],core:1,audio:'audioLinbu',
+    keywords:[['疏影','稀疏的梅枝投下清淡的影子。“疏”不是凋敝，而是一种留白，使枝条的姿态更加清雅。'],['横斜','梅枝不求整齐端正，而以自然斜出的姿态临水展开，写出梅树独特的风骨。'],['暗香','不易察觉、若有若无的幽香。诗人没有直接描写花朵，而让香气在黄昏中缓缓浮现。']],
+    analysisTitle:'不写梅花，处处皆是梅花',analysis:'林逋没有浓墨重彩地描绘花瓣，而是让梅花化作水中的疏影、黄昏里的暗香。视觉与嗅觉彼此交织，营造出清幽、疏淡而高洁的意境。这是梅花作为“物华”的极致之美。',seal:'梅之形与香',next:'进入第二卷 · 梅之格'
+  },
+  luyou:{
+    kicker:'梅之格 · 风雨留香',title:'《卜算子·咏梅》',author:'南宋 · 陆游',caption:'花落入泥，香气仍在；听一听诗人留住了什么。',
+    panelKicker:'第二卷 · 释词',panelTitle:'花可以零落，<br>香却仍如故',panelLead:'从风雨中的无主之梅，到碾作尘后的香如故，陆游写的已不只是花。',
+    lines:['驿外断桥边，寂寞开无主。','已是黄昏独自愁，更著风和雨。','无意苦争春，一任群芳妒。','零落成泥碾作尘，只有香如故。'],core:3,audio:'audioLuyou',
+    keywords:[['无主','无人照料，也无人欣赏。梅花独自开放，处境孤寂，却没有因此改变自己。'],['一任','完全听凭、任由。梅花无意与群芳争春，也不在意外界的嫉妒与误解。'],['香如故','即使花瓣落入泥土、化作尘埃，清香仍和从前一样。这里的“香”也象征不肯改变的品格。']],
+    analysisTitle:'写梅花，也是写自己',analysis:'陆游以梅自喻。风雨、嫉妒和零落象征现实中的打击，而“香如故”表明内在品格不因处境而改变。梅花由自然之物转化为人的精神象征，表达孤高、坚贞与不改初心。',seal:'梅之骨与魂',next:'合卷 · 看见两种梅'
+  }
+};
+let current='linbu';
+const completed={linbu:false,luyou:false};
+const readWords={linbu:new Set(),luyou:new Set()};
+const $=id=>document.getElementById(id);
+const poemCard=$('poemCard'),poemLines=$('poemLines'),keywords=$('keywords'),noteCard=$('noteCard');
+const analysisBtn=$('analysisBtn'),nextBtn=$('nextBtn'),analysisCard=$('analysisCard');
+const audioBtn=$('audioBtn'),audioFill=$('audioFill'),audioTime=$('audioTime');
+let activeAudio=null;
+
+function formatTime(v){if(!Number.isFinite(v))return'00:00';const m=Math.floor(v/60),s=Math.floor(v%60);return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+function pauseAll(){['audioLinbu','audioLuyou'].forEach(id=>{const a=$(id);a.pause()});audioBtn.textContent='▶';audioBtn.setAttribute('aria-label','播放朗诵')}
+function bindAudio(){
+  pauseAll();activeAudio=$(poems[current].audio);audioFill.style.width='0%';audioTime.textContent='00:00';
+  activeAudio.ontimeupdate=()=>{
+    const ratio=activeAudio.duration?activeAudio.currentTime/activeAudio.duration:0;audioFill.style.width=(ratio*100)+'%';audioTime.textContent=formatTime(activeAudio.currentTime);
+    const lines=[...poemLines.children];lines.forEach(x=>x.classList.remove('playing'));
+    if(!activeAudio.paused&&lines.length){lines[Math.min(lines.length-1,Math.floor(ratio*lines.length))].classList.add('playing')}
+  };
+  activeAudio.onended=()=>{audioBtn.textContent='↻';[...poemLines.children].forEach(x=>x.classList.remove('playing'));$('stageCaption').textContent='朗诵结束。现在点击右侧关键词，慢慢读懂诗意。'};
+}
+function renderScene(id,instant=false){
+  if(id==='overview'){showOverview();return}
+  current=id;const p=poems[id];
+  $('overview').classList.remove('show');
+  document.querySelectorAll('.scene-bg').forEach(x=>x.classList.toggle('show',x.classList.contains(id)));
+  document.querySelectorAll('.rail-btn').forEach(x=>x.classList.toggle('active',x.dataset.scene===id));
+  if(!instant)poemCard.classList.add('swap');
+  setTimeout(()=>{
+    $('poemKicker').textContent=p.kicker;$('poemTitle').textContent=p.title;$('poemAuthor').textContent=p.author;$('stageCaption').textContent=p.caption;
+    poemLines.innerHTML='';p.lines.forEach((line,i)=>{const e=document.createElement('p');e.className='poem-line'+(i===p.core?' core':'');e.textContent=line;poemLines.appendChild(e)});
+    $('panelKicker').textContent=p.panelKicker;$('panelTitle').innerHTML=p.panelTitle;$('panelLead').textContent=p.panelLead;
+    keywords.innerHTML='';p.keywords.forEach(([word,note])=>{const b=document.createElement('button');b.className='keyword'+(readWords[id].has(word)?' read':'');b.innerHTML='<span>'+word+'</span><span>＋</span>';b.onclick=()=>showNote(b,word,note);keywords.appendChild(b)});
+    noteCard.classList.remove('show');noteCard.textContent='';analysisCard.classList.remove('show');$('studyArea').style.display='block';
+    analysisBtn.textContent=completed[id]?'再次查看情感解析':'读懂这一层诗意';analysisBtn.classList.toggle('locked',readWords[id].size<p.keywords.length);
+    nextBtn.textContent=p.next;nextBtn.classList.toggle('locked',!completed[id]);
+    bindAudio();poemCard.classList.remove('swap');
+  },instant?0:440)
+}
+function showNote(btn,word,note){
+  document.querySelectorAll('.keyword').forEach(x=>x.classList.remove('active'));btn.classList.add('active','read');btn.lastElementChild.textContent='✓';readWords[current].add(word);noteCard.innerHTML='<strong>'+word+'</strong><br>'+note;noteCard.classList.add('show');
+  if(readWords[current].size===poems[current].keywords.length){analysisBtn.classList.remove('locked');$('stageCaption').textContent='三个关键词已经读完，可以进入情感解析。'}
+}
+function showAnalysis(){
+  if(analysisBtn.classList.contains('locked'))return;const p=poems[current];$('studyArea').style.display='none';
+  $('analysisTitle').textContent=p.analysisTitle;$('analysisText').textContent=p.analysis;$('analysisSeal').textContent=p.seal;analysisCard.classList.add('show');
+  completed[current]=true;analysisBtn.textContent='已经读懂';analysisBtn.classList.add('locked');nextBtn.classList.remove('locked');
+  if(current==='luyou')document.querySelector('[data-scene="overview"]').classList.remove('locked');
+}
+function showOverview(){
+  if(!completed.luyou)return;pauseAll();$('overview').classList.add('show');document.querySelectorAll('.rail-btn').forEach(x=>x.classList.toggle('active',x.dataset.scene==='overview'));
+}
+audioBtn.onclick=()=>{if(!activeAudio)return;if(activeAudio.paused){activeAudio.play();audioBtn.textContent='Ⅱ';audioBtn.setAttribute('aria-label','暂停朗诵')}else{activeAudio.pause();audioBtn.textContent='▶';audioBtn.setAttribute('aria-label','继续朗诵')}};
+$('replayBtn').onclick=()=>{if(!activeAudio)return;activeAudio.currentTime=0;activeAudio.play();audioBtn.textContent='Ⅱ'};
+$('focusBtn').onclick=()=>{const core=poemLines.children[poems[current].core];core.animate([{transform:'scale(1)',background:'transparent'},{transform:'scale(1.035)',background:'rgba(169,94,102,.12)'},{transform:'scale(1)',background:'transparent'}],{duration:1800,easing:'ease'});$('stageCaption').textContent=current==='linbu'?'一疏一暗，把梅花写进水光与黄昏。':'花虽零落，象征品格的清香始终未改。'};
+$('audioProgress').onclick=e=>{if(activeAudio&&activeAudio.duration){const r=e.currentTarget.getBoundingClientRect();activeAudio.currentTime=(e.clientX-r.left)/r.width*activeAudio.duration}};
+analysisBtn.onclick=showAnalysis;
+nextBtn.onclick=()=>{if(nextBtn.classList.contains('locked'))return;current==='linbu'?renderScene('luyou'):showOverview()};
+document.querySelectorAll('.rail-btn').forEach(btn=>btn.onclick=()=>{if(!btn.classList.contains('locked'))renderScene(btn.dataset.scene)});
+$('backPoems').onclick=()=>renderScene('linbu');
+$('enterEssence').onclick=()=>parent.postMessage({type:'meihua-enter-essence'},'*');
+$('enterPoetry').onclick=()=>{$('bridge').classList.add('hide');setTimeout(()=>{activeAudio=$('audioLinbu')},700)};
+renderScene('linbu',true);
+</script>
+<script>
+  window.addEventListener('message',event=>{
+    if(event.data?.type!=='meihua-prev-step')return;
+    if(document.getElementById('overview').classList.contains('show')){renderScene('luyou');return}
+    if(!document.getElementById('bridge').classList.contains('hide')){parent.postMessage({type:'meihua-request-back-chapter'},'*');return}
+    if(current==='luyou'){renderScene('linbu');return}
+    document.getElementById('bridge').classList.remove('hide');pauseAll();
+  });
+  </script></body>
+</html>
