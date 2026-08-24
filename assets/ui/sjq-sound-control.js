@@ -1,5 +1,6 @@
 (() => {
   const PREFERENCE_KEY = 'sjq-bgm-enabled-v1';
+  const PLAYBACK_KEY = 'sjq-bgm-playback-v2';
   const controls = [...document.querySelectorAll('[data-sjq-sound-toggle]')];
 
   const readPreference = () => {
@@ -12,6 +13,27 @@
     catch { /* Storage can be unavailable in strict local-file mode. */ }
   };
 
+  const readPlayback = () => {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(PLAYBACK_KEY) || 'null');
+      return saved && Number.isFinite(saved.time) && Number.isFinite(saved.savedAt)
+        ? saved
+        : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const writePlayback = audio => {
+    if (!audio || !Number.isFinite(audio.currentTime)) return;
+    try {
+      sessionStorage.setItem(PLAYBACK_KEY, JSON.stringify({
+        time: audio.currentTime,
+        savedAt: Date.now()
+      }));
+    } catch { /* Storage can be unavailable in strict local-file mode. */ }
+  };
+
   controls.forEach(control => {
     const selector = control.getAttribute('data-audio-target');
     const audio = selector ? document.querySelector(selector) : document.querySelector('[data-sjq-bgm]');
@@ -22,6 +44,8 @@
     let wanted = readPreference();
     let userPaused = false;
     let volumeFrame = 0;
+    let playbackRestored = false;
+    let lastPlaybackWrite = 0;
     const activeNarrations = new Set();
     const boundAudio = new WeakSet();
 
@@ -34,6 +58,23 @@
     }
 
     audio.volume = normalVolume;
+
+    const restorePlayback = () => {
+      if (playbackRestored) return;
+      playbackRestored = true;
+      const saved = readPlayback();
+      if (!saved) return;
+      const elapsed = readPreference() ? Math.max(0, (Date.now() - saved.savedAt) / 1000) : 0;
+      const target = saved.time + elapsed;
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        audio.currentTime = target % audio.duration;
+      } else {
+        audio.currentTime = Math.max(0, target);
+      }
+    };
+
+    if (audio.readyState >= 1) restorePlayback();
+    else audio.addEventListener('loadedmetadata', restorePlayback, { once: true });
 
     const setTip = text => { if (tip) tip.textContent = text; };
 
@@ -119,6 +160,12 @@
     audio.addEventListener('play', sync);
     audio.addEventListener('pause', sync);
     audio.addEventListener('ended', sync);
+    audio.addEventListener('timeupdate', () => {
+      const now = Date.now();
+      if (now - lastPlaybackWrite < 1000) return;
+      lastPlaybackWrite = now;
+      writePlayback(audio);
+    });
     audio.addEventListener('error', () => {
       dock?.classList.add('is-unavailable');
       setTip('清音加载失败');
@@ -131,8 +178,13 @@
     }, { capture: true });
 
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) cancelAnimationFrame(volumeFrame);
+      if (document.hidden) {
+        cancelAnimationFrame(volumeFrame);
+        writePlayback(audio);
+      }
     });
+
+    window.addEventListener('pagehide', () => writePlayback(audio));
 
     if (dock?.classList.contains('sjq-sound-dock--home')) {
       dock.classList.add('is-inviting');

@@ -692,22 +692,32 @@
     }
 
     .finish-scene.is-active .atlas-card {
-      animation: bloomUp 520ms ease-out forwards;
+      animation:
+        bloomUp 520ms ease-out forwards,
+        atlasBreathe 6.8s ease-in-out 820ms infinite alternate;
     }
 
-    .finish-scene.is-active .atlas-card:nth-child(2) { animation-delay: 60ms; }
-    .finish-scene.is-active .atlas-card:nth-child(3) { animation-delay: 120ms; }
-    .finish-scene.is-active .atlas-card:nth-child(4) { animation-delay: 180ms; }
-    .finish-scene.is-active .atlas-card:nth-child(5) { animation-delay: 240ms; }
+    .finish-scene.is-active .atlas-card:nth-child(2) { animation-delay: 60ms, 1260ms; }
+    .finish-scene.is-active .atlas-card:nth-child(3) { animation-delay: 120ms, 980ms; }
+    .finish-scene.is-active .atlas-card:nth-child(4) { animation-delay: 180ms, 1420ms; }
+    .finish-scene.is-active .atlas-card:nth-child(5) { animation-delay: 240ms, 1140ms; }
 
     @keyframes bloomUp { to { opacity: 1; transform: translateY(0); } }
 
+    @keyframes atlasBreathe {
+      from { transform: translateY(0); }
+      to { transform: translateY(-3px); }
+    }
+
     .atlas-card:hover,
     .atlas-card:focus-visible {
+      animation: none;
+      opacity: 1;
       transform: translateY(-4px);
-      border-color: var(--gold-light);
+      border-color: var(--gold);
       box-shadow: 0 16px 38px rgba(85,65,31,.08);
-      outline: none;
+      outline: 2px solid rgba(199, 155, 78, .48);
+      outline-offset: 2px;
     }
 
     .atlas-card svg {
@@ -1055,7 +1065,7 @@
     </button>
     <span class="sjq-sound-tip" data-sjq-sound-tip aria-hidden="true">启清音</span>
   </div>
-  <audio class="sjq-bgm-audio" id="siteBgm" data-sjq-bgm src="assets/audio/山林清音.m4a" loop preload="metadata"></audio>
+  <audio class="sjq-bgm-audio" id="siteBgm" data-sjq-bgm src="assets/audio/bgm.mp3" loop preload="metadata"></audio>
 
   <script>
     (() => {
