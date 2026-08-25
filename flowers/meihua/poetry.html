@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>第四章 · 赏诗词｜梅之美与梅之格</title>
   <style>
-    @font-face{font-family:"ShanjiaTitle";src:url("../../assets/ui/sjq-wenyue-guti-fangsong.otf") format("opentype");font-display:swap}
+    @font-face{font-family:"ShanjiaTitle";src:url("../../assets/ui/sjq-wenyue-guti-fangsong.woff2") format("woff2");font-display:swap}
     :root{
       --ink:#4d4438;--muted:#8b7c68;--gold:#bf9650;--gold-deep:#9f7635;
       --paper:#f8f3e9;--paper-deep:#efe5d2;--line:rgba(196,156,80,.24);
@@ -36,8 +36,8 @@
     .stage{position:relative;min-width:0;min-height:0;border-radius:24px;overflow:hidden;border:1px solid rgba(196,156,80,.2);box-shadow:var(--shadow);background:#e9dfcf}
     .scene-bg{position:absolute;inset:0;background-position:center;background-size:cover;transition:opacity 1.25s ease,transform 1.8s cubic-bezier(.2,.8,.2,1);opacity:0;transform:scale(1.025)}
     .scene-bg.show{opacity:1;transform:scale(1)}
-    .scene-bg.linbu{background-image:linear-gradient(90deg,rgba(248,241,226,.05),rgba(248,241,226,.2)),url("assets/asset-007-d113e2220e.png")}
-    .scene-bg.luyou{background-image:linear-gradient(90deg,rgba(248,241,226,.04),rgba(248,241,226,.2)),url("assets/asset-008-a8cab3e3df.png")}
+    .scene-bg.linbu{background-image:linear-gradient(90deg,rgba(248,241,226,.05),rgba(248,241,226,.2)),url("assets/asset-007-d113e2220e.webp")}
+    .scene-bg.luyou{background-image:linear-gradient(90deg,rgba(248,241,226,.04),rgba(248,241,226,.2)),url("assets/asset-008-a8cab3e3df.webp")}
     .stage::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 90px rgba(77,56,32,.10)}
     .poem-card{position:absolute;z-index:3;top:50%;right:6.5%;transform:translateY(-50%);width:min(520px,54%);max-height:88%;padding:28px 34px 24px;border:1px solid rgba(196,156,80,.3);border-radius:22px;background:rgba(250,247,238,.86);box-shadow:0 22px 60px rgba(62,45,27,.13);backdrop-filter:blur(12px);transition:opacity .65s ease,transform .75s ease}
     .poem-card.swap{opacity:0;transform:translateY(-47%) translateX(22px)}

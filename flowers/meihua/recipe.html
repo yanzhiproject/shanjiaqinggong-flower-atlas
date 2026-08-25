@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <title>梅花 · 看菜谱 · 汤绽梅</title>
   <style>
-    @font-face{font-family:"ShanjiaTitle";src:url("../../assets/ui/sjq-wenyue-guti-fangsong.otf") format("opentype");font-display:swap}
+    @font-face{font-family:"ShanjiaTitle";src:url("../../assets/ui/sjq-wenyue-guti-fangsong.woff2") format("woff2");font-display:swap}
     :root{
       --paper:#f6f1e7;--paper-2:#fbf7ef;--ink:#40372e;--muted:#8c8172;--gold:#bd9550;
       --line:rgba(189,149,80,.25);--green:#737d5b;--plum:#9b5360;--seal:#9b3c38;
@@ -35,9 +35,9 @@
     .photo{position:relative;z-index:var(--z-base);width:min(560px,100%,calc(100dvh - 178px));height:auto;aspect-ratio:1;min-height:0;flex:0 1 auto;border:1px solid rgba(189,149,80,.18);border-radius:22px;overflow:hidden;background-color:#eee7dc;box-shadow:var(--shadow)}
     .photo-layer{position:absolute;inset:0;z-index:0;background-position:center;background-size:contain;background-repeat:no-repeat;opacity:0;transform:scale(1.012);transition:opacity 1.05s ease-in-out,transform 1.1s ease-out;pointer-events:none}
     .photo-layer.active{opacity:1;transform:scale(1)}
-    .photo-layer.q0{background-image:url("assets/recipe-scene-01.png")}.photo-layer.q1{background-image:url("assets/recipe-scene-02.png")}.photo-layer.q2{background-image:url("assets/recipe-scene-03.png")}.photo-layer.q3{background-image:url("assets/recipe-scene-04.png")}
-    .photo-layer.action-sprite.a0{background-image:url("assets/recipe-scene-05.png")}.photo-layer.action-sprite.a1{background-image:url("assets/recipe-scene-06.png")}.photo-layer.action-sprite.a2{background-image:url("assets/recipe-scene-07.png")}
-    .photo-layer.season-sprite.s0{background-image:url("assets/recipe-scene-08.png")}.photo-layer.season-sprite.s1{background-image:url("assets/recipe-scene-09.png")}.photo-layer.season-sprite.s2{background-image:url("assets/recipe-scene-10.png")}
+    .photo-layer.q0{background-image:url("assets/recipe-scene-01.webp")}.photo-layer.q1{background-image:url("assets/recipe-scene-02.webp")}.photo-layer.q2{background-image:url("assets/recipe-scene-03.webp")}.photo-layer.q3{background-image:url("assets/recipe-scene-04.webp")}
+    .photo-layer.action-sprite.a0{background-image:url("assets/recipe-scene-05.webp")}.photo-layer.action-sprite.a1{background-image:url("assets/recipe-scene-06.webp")}.photo-layer.action-sprite.a2{background-image:url("assets/recipe-scene-07.webp")}
+    .photo-layer.season-sprite.s0{background-image:url("assets/recipe-scene-08.webp")}.photo-layer.season-sprite.s1{background-image:url("assets/recipe-scene-09.webp")}.photo-layer.season-sprite.s2{background-image:url("assets/recipe-scene-10.webp")}
     #stageControls{position:absolute;inset:0;z-index:2}
     .scene-tag{position:absolute;left:24px;top:22px;z-index:3;padding:9px 13px;border:1px solid var(--line);border-radius:13px;background:rgba(251,247,239,.92);font-size:12px;color:var(--gold)}
     .instruction{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 34px);padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(251,247,239,.94);font-size:13px;color:var(--muted);text-align:center}

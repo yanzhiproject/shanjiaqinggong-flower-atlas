@@ -10,7 +10,7 @@
   <style>
     @font-face {
       font-family: "ShanjiaTitle";
-      src: url("assets/asset-001-1e93a1f8c0.bin") format("opentype");
+      src: url("../../assets/ui/sjq-wenyue-guti-fangsong.woff2") format("woff2");
       font-style: normal;
       font-weight: 400;
       font-display: swap;
@@ -507,7 +507,7 @@
     <section class="learn-layer" id="learnLayer" aria-hidden="true">
       <div class="learn-shell" role="dialog" aria-modal="true" aria-labelledby="learnTitle">
         <div class="art-pane">
-          <img class="art-sheet q0" id="artSheet" src="assets/asset-002-50474552cb.png" alt="淡彩水墨梅花图">
+          <img class="art-sheet q0" id="artSheet" src="assets/asset-002-50474552cb.webp" alt="淡彩水墨梅花图">
           <div class="art-vignette"></div>
         </div>
         <div class="content-pane">
@@ -1061,7 +1061,7 @@
     let currentChapter=1,storyOpened=false,poetryOpened=false,essenceOpened=false;
 
     function sharedFontUrl(){
-      return new URL('../../assets/ui/sjq-wenyue-guti-fangsong.otf',location.href).href;
+      return new URL('../../assets/ui/sjq-wenyue-guti-fangsong.woff2',location.href).href;
     }
     function updateControls(){
       const inFirstChapter=currentChapter===1;
