@@ -1082,6 +1082,64 @@
       let timers = [];
       let activeScene = 0;
 
+      // 借用开场停留时间预热共享动效；悬停某朵花时只预热其首屏资源。
+      // 这不会改变开场、花卉动画或页面切换，只减少点击后的网络等待。
+      const warmedResources = new Set();
+      const flowerWarmups = {
+        'flowers/songhua/index.html': [
+          'flowers/songhua/index.html',
+          'flowers/songhua/assets/asset-001-733b600e6b.webp'
+        ],
+        'flowers/meihua/index.html': [
+          'flowers/meihua/index.html',
+          'flowers/meihua/assets/asset-002-50474552cb.webp',
+          'flowers/meihua/assets/asset-011-35fc6f791a.bin'
+        ],
+        'flowers/juhua/index.html': [
+          'flowers/juhua/index.html',
+          'flowers/juhua/identify.html',
+          'flowers/juhua/assets/asset-001-c0937dd895.webp',
+          'flowers/juhua/assets/asset-002-7b6e8a0e22.webp',
+          'flowers/juhua/assets/asset-003-ab92adcdb7.webp',
+          'flowers/juhua/assets/asset-004-bde03c3704.webp',
+          'flowers/juhua/assets/asset-005-bdaa74f714.webp'
+        ],
+        'flowers/guihua/index.html': [
+          'flowers/guihua/index.html',
+          'flowers/guihua/assets/asset-002-4e95634649.webp'
+        ],
+        'flowers/mudan/identify.html': [
+          'flowers/mudan/identify.html'
+        ]
+      };
+
+      function warmResource(resource, priority = 'low') {
+        if (warmedResources.has(resource)) return;
+        warmedResources.add(resource);
+        fetch(resource, { cache: 'force-cache', priority }).catch(() => {
+          warmedResources.delete(resource);
+        });
+      }
+
+      function warmFlower(card) {
+        const href = card.getAttribute('href');
+        (flowerWarmups[href] || [href]).forEach(resource => warmResource(resource, 'high'));
+        warmResource('assets/vendor/p5-2.3.2.min.js', 'high');
+      }
+
+      document.querySelectorAll('.atlas-card').forEach(card => {
+        card.addEventListener('pointerenter', () => warmFlower(card), { once: true, passive: true });
+        card.addEventListener('focus', () => warmFlower(card), { once: true, passive: true });
+        card.addEventListener('touchstart', () => warmFlower(card), { once: true, passive: true });
+      });
+
+      const warmSharedAnimation = () => warmResource('assets/vendor/p5-2.3.2.min.js');
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(warmSharedAnimation, { timeout: 1800 });
+      } else {
+        window.setTimeout(warmSharedAnimation, 900);
+      }
+
       function clearTimers() {
         timers.forEach(window.clearTimeout);
         timers = [];
