@@ -214,8 +214,9 @@ function render(i){stopStoryAudio();
   },150)
 }
 btns.forEach((b,i)=>b.addEventListener('click',()=>render(i)));
-document.getElementById('prev').addEventListener('click',()=>{if(current>0)render(current-1);else parent.SJQShow('recipe')});
-document.getElementById('next').addEventListener('click',()=>{if(current<stories.length-1)render(current+1);else parent.SJQShow('poetry')});
+const openSection=section=>parent.postMessage({type:'sjq-section',section},'*');
+document.getElementById('prev').addEventListener('click',()=>{if(current>0)render(current-1);else openSection('recipe')});
+document.getElementById('next').addEventListener('click',()=>{if(current<stories.length-1)render(current+1);else openSection('poetry')});
 document.getElementById('audioBtn').addEventListener('click',async()=>{const b=document.getElementById('audioBtn');if(!storyAudio.paused){storyAudio.pause();b.textContent='▶ 继续听';return}const track=STORY_AUDIO[current];if(storyAudio.dataset.track!==track){storyAudio.src=track;storyAudio.dataset.track=track;storyAudio.currentTime=0}try{await storyAudio.play();b.textContent='Ⅱ 暂停'}catch(e){b.textContent='▶ 听原文'}});
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&current<stories.length-1)render(current+1);if(e.key==='ArrowLeft'&&current>0)render(current-1)});
 const stage=document.getElementById('stage');

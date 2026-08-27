@@ -309,7 +309,7 @@ const note=document.getElementById("notePop");
 function showScreen(id){[selectScreen,readerScreen,deepScreen].forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active")}
 function openPoem(id){stopPoemAudio();current=id;lineIndex=0;renderReader();showScreen("readerScreen")}
 document.querySelectorAll(".poem-ticket").forEach(b=>b.onclick=()=>openPoem(b.dataset.poem));
-document.getElementById("backSelect").onclick=()=>{stopPoemAudio();showScreen("selectScreen")};document.getElementById("backStory").onclick=()=>{stopPoemAudio();parent.SJQShow("story")};
+document.getElementById("backSelect").onclick=()=>{stopPoemAudio();showScreen("selectScreen")};document.getElementById("backStory").onclick=()=>{stopPoemAudio();parent.postMessage({type:"sjq-section",section:"story"},"*")};
 
 function renderReader(){
  const p=poems[current];
