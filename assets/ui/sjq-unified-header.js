@@ -87,7 +87,11 @@
     label.classList.add('sjq-header-chapter');
     const render=()=>{label.textContent=chapterTitles[currentChapter(nav)]};
     render();
-    new MutationObserver(render).observe(nav,{subtree:true,attributes:true,attributeFilter:['class','aria-current']});
+    try{
+      new MutationObserver(render).observe(nav,{subtree:true,attributes:true,attributeFilter:['class','aria-current']});
+    }catch(error){
+      nav?.addEventListener?.('click',()=>requestAnimationFrame(render));
+    }
     normalizeSound(meta,header);
   }
 

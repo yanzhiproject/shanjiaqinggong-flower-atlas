@@ -18,7 +18,7 @@
 })();
 </script><!doctype html>
 <html lang="zh-CN">
-<head>
+<head><script src="../../assets/ui/sjq-image-loader.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f1e7">
 <title>第一章 · 识名物 · 种下一株山中花</title>
@@ -90,7 +90,7 @@ button:focus-visible{outline:2px solid var(--sjq-gold);outline-offset:3px}
 .chapter-nav>span,.nav>span,.pill-nav>button{box-sizing:border-box!important;min-width:0!important;height:40px!important;padding:0 12px!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:14px!important;line-height:1!important;white-space:nowrap!important}
 .pill-nav>.slider{top:5px!important;height:40px!important}
 @media(max-width:980px){.topbar{height:68px!important;min-height:68px!important;padding:0 18px!important;grid-template-columns:1fr auto!important;gap:12px!important}.chapter-nav,.nav,.pill-nav{display:grid!important;min-width:0!important;width:100%!important}.brand{font-size:13px!important}.chapter,.chapter-tag{display:block!important;font-size:11px!important}}
-</style><link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css"><script src="../../assets/ui/sjq-unified-header.js" defer></script><style id="sjq-shell-normalize">
+</style><link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css"><script src="../../assets/ui/sjq-unified-header.js?v=20260903-2" defer></script><style id="sjq-shell-normalize">
 html,body{overflow:hidden!important}
 .topbar{height:76px!important;min-height:76px!important;box-sizing:border-box!important}
 .guide-panel h1{white-space:nowrap!important;text-wrap:nowrap!important}
@@ -262,7 +262,7 @@ function initGarden(){
     function spawnPetal(center,w,color=[239,183,72]){const a=p.random(p.TWO_PI),radius=w*.072;petalDrops.push({x:center.x+Math.cos(a)*radius,y:center.y+Math.sin(a)*radius,vx:p.random(-.55,.75)+(p.mouseX-p.pmouseX)*.03,vy:p.random(-.25,.4),angle:a,spin:p.random(-.035,.035),alpha:220,w:w*p.random(.026,.041),h:w*.012,color});dropCount++;lastDropAt=p.millis();if(dropCount===1)setTimeout(experienceComplete,900)}
     function drawPetals(w,h){for(let i=petalDrops.length-1;i>=0;i--){const q=petalDrops[i];q.x+=q.vx+Math.sin(p.frameCount*.035+i)*.34;q.y+=q.vy;q.vy+=.018;q.vx*=.992;q.angle+=q.spin;q.alpha-=.9;p.push();p.translate(q.x,q.y);p.rotate(q.angle);p.noStroke();p.fill(q.color[0],q.color[1],q.color[2],q.alpha);p.ellipse(0,0,q.w,q.h);p.pop();if(q.alpha<=0||q.y>h+30)petalDrops.splice(i,1)}}
     function attemptDrop(center,w){if(!started||!center)return;const elapsed=(p.millis()-startTime)/6500;if(elapsed<.98||p.millis()-lastDropAt<260)return;const speed=p.dist(p.mouseX,p.mouseY,p.pmouseX,p.pmouseY);if(p.dist(p.mouseX,p.mouseY,center.x,center.y)<w*.16&&speed>4)spawnPetal(center,w)}
-    p.setup=()=>{const d=dims(),canvas=p.createCanvas(d.w,d.h);canvas.parent('p5Mount');p.pixelDensity(Math.min(window.devicePixelRatio||1,2));p.frameRate(60);gardenApi={start(){started=true;startTime=p.millis();phase=0;petalDrops.length=0;extraPlants.length=0;dropCount=0;setExperiencePhase(1)},reset(){started=false;phase=0;petalDrops.length=0;extraPlants.length=0;dropCount=0}}};
+    p.setup=()=>{const d=dims(),canvas=p.createCanvas(d.w,d.h);canvas.parent('p5Mount');p.pixelDensity(Math.min(window.devicePixelRatio||1,1.5));p.frameRate(30);gardenApi={start(){p.loop();started=true;startTime=p.millis();phase=0;petalDrops.length=0;extraPlants.length=0;dropCount=0;setExperiencePhase(1)},reset(){p.loop();started=false;phase=0;petalDrops.length=0;extraPlants.length=0;dropCount=0},pause(){p.noLoop()}}};
     p.draw=()=>{
       p.clear();const d=dims(),w=d.w,h=d.h;if(p.width!==w||p.height!==h)p.resizeCanvas(w,h);const g=started?p.constrain((p.millis()-startTime)/6500,0,1):0,breeze=Math.sin(p.millis()/1250)*w*.008+(p.mouseX-p.width/2)*.012*p.constrain(g-.75,0,1);p.noStroke();p.fill(128,101,63,started?42:58);p.ellipse(w*.5,h*.795,w*.26,h*.035);
       if(!started){p.fill(164,123,62,180);p.ellipse(w*.5,h*.775,w*.018,h*.012);return}
@@ -282,7 +282,7 @@ document.querySelectorAll('[data-answer]').forEach(button=>button.onclick=()=>{
   document.querySelectorAll('[data-answer]').forEach(item=>item.classList.remove('wrong','correct'));
   if(button.dataset.answer==='菊花'){
     button.classList.add('correct');quizFeedback.className='feedback';quizFeedback.textContent='正是菊花。';
-    setTimeout(()=>{quizOverlay.classList.remove('show');experiencePage.classList.add('fade-out');transitionNote.classList.add('show');setTimeout(()=>{transitionNote.classList.remove('show');revealPage.classList.add('show');revealPage.setAttribute('aria-hidden','false');requestAnimationFrame(()=>revealPage.classList.add('ready'));document.querySelectorAll('.reveal-item').forEach((item,index)=>setTimeout(()=>item.classList.add('visible'),300+index*160))},720)},520);
+    setTimeout(()=>{quizOverlay.classList.remove('show');experiencePage.classList.add('fade-out');gardenApi?.pause();transitionNote.classList.add('show');setTimeout(()=>{transitionNote.classList.remove('show');revealPage.classList.add('show');revealPage.setAttribute('aria-hidden','false');requestAnimationFrame(()=>revealPage.classList.add('ready'));document.querySelectorAll('.reveal-item').forEach((item,index)=>setTimeout(()=>item.classList.add('visible'),300+index*160))},720)},520);
   }else{button.classList.add('wrong');quizFeedback.className='feedback error';quizFeedback.textContent='再想想：它的花瓣层层相抱，叶缘又有明显裂缺。';}
 });
 document.getElementById('restart').onclick=()=>location.reload();

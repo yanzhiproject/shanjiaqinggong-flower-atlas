@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
+<head><script src="../../assets/ui/sjq-image-loader.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>牡丹篇 · 识名物</title>
@@ -29,7 +29,7 @@
 .guess-card .guess-status{margin-top:14px}.guess-card #enterReveal{margin-top:12px}
 </style>
 <link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css">
-<script src="../../assets/ui/sjq-unified-header.js?v=20260824-2" defer></script>
+<script src="../../assets/ui/sjq-unified-header.js?v=20260903-2" defer></script>
 </head>
 <body>
 <header class="topbar sjq-unified-header">
@@ -109,16 +109,16 @@ $('#guessBox').addEventListener('click',e=>{if(e.target===$('#guessBox'))closeGu
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#guessBox').classList.contains('show'))closeGuess();});
 $('#gardenStage').addEventListener('click',e=>{if(!state.started && (e.target.id==='gardenStage'||e.target.closest('#p5Mount')))startGrowth();});
 document.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>{const right=btn.dataset.answer==='牡丹';document.querySelectorAll('.choice').forEach(b=>b.classList.remove('correct','wrong'));btn.classList.add(right?'correct':'wrong');$('#guessStatus').textContent=right?'猜对了，这是牡丹。它的花瓣重叠、花心丰厚，正是“花王”的气度。':'再看一看花瓣层叠的形态。它和芍药、月季都有相似之处，但花心更繁复。';if(right){state.guessCorrect=true;$('#enterReveal').style.display='inline-block';}}));
-$('#enterReveal').addEventListener('click',()=>{closeGuess();$('#experiencePage').hidden=true;$('#revealPage').hidden=false;window.scrollTo(0,0);});
-$('#backToGuess').addEventListener('click',e=>{e.preventDefault();$('#revealPage').hidden=true;$('#experiencePage').hidden=false;openGuess();window.scrollTo(0,0);});
-document.querySelectorAll('.observe-tab').forEach(tab=>tab.addEventListener('click',()=>{const d=detailData[tab.dataset.part];document.querySelectorAll('.observe-tab').forEach(t=>t.classList.toggle('active',t===tab));const img=$('#detailImg');img.style.opacity='0';setTimeout(()=>{img.src=d.img;img.alt=d.alt;img.onload=()=>img.style.opacity='1';},130);$('#visualChip').textContent=d.chip;$('#detailTitle').textContent=d.title;$('#detailText').textContent=d.text;}));
+$('#enterReveal').addEventListener('click',()=>{closeGuess();sketch?.noLoop();$('#experiencePage').hidden=true;$('#revealPage').hidden=false;window.SJQImages?.warm(Object.values(detailData).map(item=>item.img));window.scrollTo(0,0);});
+$('#backToGuess').addEventListener('click',e=>{e.preventDefault();$('#revealPage').hidden=true;$('#experiencePage').hidden=false;sketch?.loop();openGuess();window.scrollTo(0,0);});
+document.querySelectorAll('.observe-tab').forEach(tab=>tab.addEventListener('click',()=>{const d=detailData[tab.dataset.part];document.querySelectorAll('.observe-tab').forEach(t=>t.classList.toggle('active',t===tab));const img=$('#detailImg');$('#visualChip').textContent=d.chip;$('#detailTitle').textContent=d.title;$('#detailText').textContent=d.text;if(window.SJQImages){window.SJQImages.swap(img,d.img,{alt:d.alt});}else{img.src=d.img;img.alt=d.alt;}}));
 $('#toRecipe').addEventListener('click',()=>{location.href='recipe.html';});
 
 
 let sketch;
 function makeSketch(){
   sketch=new p5(p=>{let growth=0,isUnlocked=false,unlockedAt=0,windForce=0,completeSent=false;const GOLDEN_ANGLE=137.5;
-    p.setup=()=>{const el=$('#p5Mount');p.createCanvas(el.clientWidth||620,el.clientHeight||620);p.colorMode(p.HSB,360,100,100,100);p.noiseSeed(99);p.pixelDensity(Math.min(window.devicePixelRatio||1,2));};
+    p.setup=()=>{const el=$('#p5Mount');p.createCanvas(el.clientWidth||620,el.clientHeight||620);p.colorMode(p.HSB,360,100,100,100);p.noiseSeed(99);p.pixelDensity(Math.min(window.devicePixelRatio||1,1.5));p.frameRate(30);};
     p.windowResized=()=>{const el=$('#p5Mount');p.resizeCanvas(el.clientWidth||620,el.clientHeight||620);};
     p.draw=()=>{p.clear();if(isUnlocked){const elapsed=Math.max(0,performance.now()-unlockedAt),t=Math.min(1,elapsed/9000);growth=1-Math.pow(1-t,2.2)}const scale=Math.min(p.width/620,p.height/600);p.push();p.translate(p.width/2,p.height*.85);const top=drawBranch(300*scale,scale);p.push();p.translate(top.x,top.y);drawPeony(scale);p.pop();p.pop();windForce=p.lerp(windForce,0,.05);if(isUnlocked&&growth>.975&&!completeSent){completeSent=true;onBloom();}};
     p.mouseMoved=()=>{const sp=p.dist(p.mouseX,p.mouseY,p.pmouseX,p.pmouseY);if(sp>8)windForce=p.constrain((p.mouseX-p.pmouseX)*.15,-12,12);};

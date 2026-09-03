@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
+<head><script src="../../assets/ui/sjq-image-loader.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f3ede0">
@@ -410,7 +410,7 @@
     }
     @media(max-width:520px){.sjq-nav button{font-size:10px}.sjq-shell{gap:4px;padding:0 5px}}
     @media(prefers-reduced-motion:reduce){.sjq-shell *{transition:none!important}}
-  </style><link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css"><script src="../../assets/ui/sjq-unified-header.js" defer></script></head>
+  </style><link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css"><script src="../../assets/ui/sjq-unified-header.js?v=20260903-2" defer></script></head>
 <body>
   <header class="sjq-shell sjq-unified-header" id="sjqShell">
     <button class="sjq-atlas-back" id="sjqAtlasBack" type="button" aria-label="返回花馔图鉴"><span aria-hidden="true">← </span><span>返回花馔图鉴</span></button>
@@ -857,7 +857,8 @@
     function setup() {
       const canvas = createCanvas(windowWidth, windowHeight);
       canvas.parent('canvas-host');
-      pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
+      pixelDensity(Math.min(window.devicePixelRatio || 1, 1.5));
+      frameRate(30);
       angleMode(DEGREES);
       colorMode(HSB, 360, 100, 100, 1);
       initTree();

@@ -1,7 +1,7 @@
 
 <!doctype html>
 <html lang="zh-CN">
-<head>
+<head><script src="../../assets/ui/sjq-image-loader.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f1e7">
 <title>《山家清供》· 菊花 · 第四章 赏诗词</title>
@@ -114,7 +114,7 @@ display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
 </style>
 <style id="sjq-poetry-polish-v1">
 .app{height:calc(100vh - 76px)!important}.select-head h1{font-size:31px!important;text-wrap:balance}.ticket-title{font-size:29px!important}.ticket-quote{font-size:18px!important}.poem-title{font-size:30px!important}.note-pop{transition:opacity .16s ease-out,transform .16s ease-out!important}.select-back-story{flex:0 0 auto}.audio-playing{color:#8a6936!important;border-color:rgba(199,159,93,.55)!important}@media(max-width:980px){.app{height:auto!important;min-height:calc(100vh - 68px)!important}.select-head h1{font-size:27px!important}}
-</style><link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css"><script src="../../assets/ui/sjq-unified-header.js" defer></script><style id="sjq-shell-normalize">
+</style><link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css"><script src="../../assets/ui/sjq-unified-header.js?v=20260903-2" defer></script><style id="sjq-shell-normalize">
 html,body{overflow:hidden!important}
 .topbar{height:76px!important;min-height:76px!important;box-sizing:border-box!important}
 .chapter,.chapter-tag,.flower-status{padding-right:58px!important}
@@ -322,7 +322,7 @@ function renderReader(){
  const L=p.lines[lineIndex];
  cap.textContent=L.cap;
  img.style.opacity="0";
- setTimeout(()=>{img.src=L.img||IMG; img.style.objectPosition="50% 50%"; img.style.filter="none"; img.style.transform="scale(1.015)"; img.style.opacity="1";},120);
+ const nextImage=L.img||IMG; img.style.objectPosition="50% 50%"; img.style.filter="none"; img.style.transform="scale(1.015)"; if(window.SJQImages){window.SJQImages.swap(img,nextImage).then(()=>img.style.opacity="1");}else{img.src=nextImage;img.style.opacity="1";}
  document.getElementById("visualIndex").textContent=`${String(lineIndex+1).padStart(2,"0")} / ${String(p.lines.length).padStart(2,"0")}`;
  document.getElementById("lineProgress").innerHTML=p.lines.map((_,i)=>`<span class="${i<=lineIndex?"on":""}"></span>`).join("");
  document.getElementById("prevLine").disabled=lineIndex===0;
@@ -355,7 +355,7 @@ function renderDeep(){
  const deepImgs=current==="tao"?[DRINK3,DRINK4,DRINK5]:[JUYE1,JUYE3,JUYE4];
  const dimg=document.getElementById("deepImg");
  dimg.style.opacity="0";
- setTimeout(()=>{dimg.src=deepImgs[deepIndex];dimg.style.objectPosition="50% 50%";dimg.style.filter="none";dimg.style.transform="scale(1.015)";dimg.style.opacity="1";},120);
+ const nextDeepImage=deepImgs[deepIndex];dimg.style.objectPosition="50% 50%";dimg.style.filter="none";dimg.style.transform="scale(1.015)";if(window.SJQImages){window.SJQImages.swap(dimg,nextDeepImage).then(()=>dimg.style.opacity="1");}else{dimg.src=nextDeepImage;dimg.style.opacity="1";}
 }
 document.getElementById("deepPrev").onclick=()=>{if(deepIndex>0){deepIndex--;renderDeep()}};
 document.getElementById("deepNext").onclick=()=>{const p=poems[current];if(deepIndex<p.deep.length-1){deepIndex++;renderDeep()}else{stopPoemAudio();parent.postMessage({type:"sjq-section",section:"meaning"},"*")}};

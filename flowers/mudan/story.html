@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
+<head><script src="../../assets/ui/sjq-image-loader.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>《山家清供》·牡丹篇·第三章 读故事</title>
@@ -23,7 +23,7 @@
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important}}
 </style>
 <link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css">
-<script src="../../assets/ui/sjq-unified-header.js?v=20260824-2" defer></script>
+<script src="../../assets/ui/sjq-unified-header.js?v=20260903-2" defer></script>
 </head>
 <body>
 <header class="site-header sjq-unified-header">
@@ -93,7 +93,7 @@
   const tabs=[...document.querySelectorAll('.story-tab')],progress=[...document.querySelectorAll('.story-progress i')],image=document.getElementById('storyImage'),title=document.getElementById('storyTitle'),subtitle=document.getElementById('storySubtitle'),tag=document.getElementById('sourceTag'),readText=document.getElementById('readText'),readSource=document.getElementById('readSource'),insight=document.getElementById('insight'),count=document.getElementById('visualCount'),sceneLabel=document.getElementById('sceneLabel'),sceneHint=document.getElementById('sceneHint'),sceneNext=document.getElementById('sceneNext'),sceneTabs=[...document.querySelectorAll('[data-scene]')],nextBtn=document.getElementById('nextBtn'),prevBtn=document.getElementById('prevBtn'),toast=document.getElementById('toast');
   const state={current:0,scene:0,visited:new Set([0]),read:'classical'};
   function showToast(t){toast.textContent=t;toast.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove('show'),1800)}
-  function render(){const story=STORIES[state.current],scene=story.scenes[state.scene];tabs.forEach((tab,i)=>{tab.classList.toggle('active',i===state.current);tab.classList.toggle('visited',state.visited.has(i))});progress.forEach((bar,i)=>bar.classList.toggle('on',state.visited.has(i)));sceneTabs.forEach((btn,i)=>{btn.classList.toggle('active',i===state.scene);btn.classList.toggle('done',i<state.scene)});image.classList.remove('active');setTimeout(()=>{image.src=scene.image;image.alt=scene.hint;image.classList.add('active')},100);title.textContent=story.title;subtitle.textContent=story.sub;tag.textContent=story.tag;readText.textContent=state.read==='classical'?scene.classical:scene.plain;readSource.textContent=state.read==='classical'?story.source:'白话释义';insight.textContent=story.insight[state.scene];count.textContent=`0${state.scene+1} / 03`;sceneLabel.textContent=scene.label;sceneHint.textContent=scene.hint;sceneNext.textContent=state.scene<2?'继续 →':state.current===0?'下一则故事 →':'故事读完';nextBtn.disabled=false;nextBtn.textContent=state.scene<2?'继续 →':state.current===0?'下一则故事 →':state.visited.size===2?'进入第四章 · 赏诗词 →':'故事读完'}
+  function render(){const story=STORIES[state.current],scene=story.scenes[state.scene];tabs.forEach((tab,i)=>{tab.classList.toggle('active',i===state.current);tab.classList.toggle('visited',state.visited.has(i))});progress.forEach((bar,i)=>bar.classList.toggle('on',state.visited.has(i)));sceneTabs.forEach((btn,i)=>{btn.classList.toggle('active',i===state.scene);btn.classList.toggle('done',i<state.scene)});image.classList.remove('active');if(window.SJQImages){window.SJQImages.swap(image,scene.image,{alt:scene.hint}).then(()=>image.classList.add('active'));}else{image.src=scene.image;image.alt=scene.hint;image.classList.add('active');}title.textContent=story.title;subtitle.textContent=story.sub;tag.textContent=story.tag;readText.textContent=state.read==='classical'?scene.classical:scene.plain;readSource.textContent=state.read==='classical'?story.source:'白话释义';insight.textContent=story.insight[state.scene];count.textContent=`0${state.scene+1} / 03`;sceneLabel.textContent=scene.label;sceneHint.textContent=scene.hint;sceneNext.textContent=state.scene<2?'继续 →':state.current===0?'下一则故事 →':'故事读完';nextBtn.disabled=false;nextBtn.textContent=state.scene<2?'继续 →':state.current===0?'下一则故事 →':state.visited.size===2?'进入第四章 · 赏诗词 →':'故事读完'}
   function goScene(index){state.scene=Math.max(0,Math.min(2,index));render()}
   tabs.forEach((tab,i)=>tab.addEventListener('click',()=>{state.current=i;state.scene=0;state.visited.add(i);render()}));sceneTabs.forEach((btn,i)=>btn.addEventListener('click',()=>goScene(i)));sceneNext.addEventListener('click',()=>{if(state.scene<2){goScene(state.scene+1);return}if(state.current===0){state.current=1;state.scene=0;state.visited.add(1);render();return}showToast('两则故事已经读完。')});
   document.querySelectorAll('[data-read]').forEach(btn=>btn.addEventListener('click',()=>{state.read=btn.dataset.read;document.querySelectorAll('[data-read]').forEach(b=>{const active=b.dataset.read===state.read;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});render()}));

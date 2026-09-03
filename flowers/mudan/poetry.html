@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
+<head><script src="../../assets/ui/sjq-image-loader.js"></script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>牡丹篇 · 赏诗词</title>
@@ -14,7 +14,7 @@
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
 </style>
 <link rel="stylesheet" href="../../assets/ui/sjq-unified-header.css">
-<script src="../../assets/ui/sjq-unified-header.js?v=20260824-2" defer></script>
+<script src="../../assets/ui/sjq-unified-header.js?v=20260903-2" defer></script>
 <style>
 /* 装饰圆环不能覆盖卡片操作区 */
 .app{height:100dvh}
@@ -157,8 +157,8 @@ function updateSelectionState(){const open=readDone.liu;$('#baiOpen').disabled=!
 function renderSelection(){pauseAudio();updateSelectionState();screen('selectionScreen')}
 function renderReader(){const p=POEMS[current];screen('readerScreen');syncAudio();$('#previousPoem').hidden=current!=='bai';$('#readerMeta').textContent=p.meta;$('#readerTitle').textContent=p.title;$('#readerTheme').textContent=p.theme;$('#visualTitle').textContent=p.title.replace(/[《》]/g,'');renderLines();setLine(lineIndex)}
 function renderLines(){const p=POEMS[current],list=$('#lineList');list.innerHTML='';p.lines.forEach((l,i)=>{const b=document.createElement('button');b.type='button';b.className='poem-line';b.innerHTML='<span class="line-index">0'+(i+1)+'</span>'+l.text.replace(l.kw,'<span class="kw">'+l.kw+'</span>');b.addEventListener('click',()=>setLine(i));b.addEventListener('mousemove',ev=>{if(ev.target.classList.contains('kw'))showNote(l.note,ev)});b.addEventListener('focus',ev=>{const k=b.querySelector('.kw');if(k)showNote(l.note,{clientX:ev.target.getBoundingClientRect().left,clientY:ev.target.getBoundingClientRect().top})});list.appendChild(b)});}
-function setLine(i){lineIndex=i;const p=POEMS[current],l=p.lines[i];$$('.poem-line').forEach((el,j)=>el.classList.toggle('active',j===i));$('#visualImage').style.opacity='0';setTimeout(()=>{$('#visualImage').src=IMG+l.img;$('#visualImage').alt=l.heading;$('#visualImage').style.opacity='1'},90);$('#visualKicker').textContent='诗意观察 · 0'+(i+1);$('#visualHeading').textContent=l.heading;$('#visualCaption').textContent=l.caption;$('#visualCount').textContent='0'+(i+1)+' / 04';$('#lineProgress').innerHTML=p.lines.map((_,j)=>'<i class="'+(j<=i?'on':'')+'"></i>').join('');}
-function renderDeep(){pauseAudio();const p=POEMS[current],d=p.deep[deepIndex];screen('deepScreen');$('#deepMeta').textContent=p.meta+' · 深层赏析';$('#deepTitle').textContent=p.deepTitle;$('#deepLead').textContent=p.lead;$('#deepImage').src=IMG+p.lines[deepIndex].img;$('#deepTag').textContent=p.seal;$('#deepQuote').textContent=d.quote;$('#deepBody').textContent=d.body;$('#deepCount').textContent='0'+(deepIndex+1)+' / 04';$('#deepSteps').innerHTML=p.deep.map((_,j)=>'<i class="'+(j<=deepIndex?'on':'')+'"></i>').join('');$('#deepNext').textContent=deepIndex===3?(current==='liu'?'读第二首 →':'完成赏诗 →'):'下一层 →';$('#deepPrev').textContent=deepIndex===0?'← 返回诗句':'← 上一步';}
+function setLine(i){lineIndex=i;const p=POEMS[current],l=p.lines[i];$$('.poem-line').forEach((el,j)=>el.classList.toggle('active',j===i));const visual=$('#visualImage');const src=IMG+l.img;if(window.SJQImages){window.SJQImages.swap(visual,src,{alt:l.heading});}else{visual.src=src;visual.alt=l.heading;}$('#visualKicker').textContent='诗意观察 · 0'+(i+1);$('#visualHeading').textContent=l.heading;$('#visualCaption').textContent=l.caption;$('#visualCount').textContent='0'+(i+1)+' / 04';$('#lineProgress').innerHTML=p.lines.map((_,j)=>'<i class="'+(j<=i?'on':'')+'"></i>').join('');}
+function renderDeep(){pauseAudio();const p=POEMS[current],d=p.deep[deepIndex];screen('deepScreen');$('#deepMeta').textContent=p.meta+' · 深层赏析';$('#deepTitle').textContent=p.deepTitle;$('#deepLead').textContent=p.lead;const deepSrc=IMG+p.lines[deepIndex].img;if(window.SJQImages){window.SJQImages.swap($('#deepImage'),deepSrc);}else{$('#deepImage').src=deepSrc;}$('#deepTag').textContent=p.seal;$('#deepQuote').textContent=d.quote;$('#deepBody').textContent=d.body;$('#deepCount').textContent='0'+(deepIndex+1)+' / 04';$('#deepSteps').innerHTML=p.deep.map((_,j)=>'<i class="'+(j<=deepIndex?'on':'')+'"></i>').join('');$('#deepNext').textContent=deepIndex===3?(current==='liu'?'读第二首 →':'完成赏诗 →'):'下一层 →';$('#deepPrev').textContent=deepIndex===0?'← 返回诗句':'← 上一步';}
 function prevDeep(){if(deepIndex>0){deepIndex--;renderDeep()}else{renderReader()}}
 function nextDeep(){if(deepIndex<3){deepIndex++;renderDeep();return}readDone[current]=true;if(current==='liu'){current='bai';lineIndex=0;deepIndex=0;renderReader()}else{pauseAudio();screen('summaryScreen')}}
 function openPoem(key){if(key==='bai'&&!readDone.liu){toast('请先读完第一首《赏牡丹》');return}pauseAudio();current=key;lineIndex=0;deepIndex=0;renderReader()}
