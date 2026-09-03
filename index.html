@@ -30,6 +30,7 @@
       --shadow: 0 24px 70px rgba(90, 70, 38, .12);
       --serif: "WenYueGuTiFangSong", "STKaiti", "KaiTi", "FangSong", serif;
       --body-serif: "WenYueGuTiFangSong", "FangSong", "STFangsong", "Songti SC", serif;
+      --readable-font: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
       --ease-out: cubic-bezier(.22, 1, .36, 1);
       --ease-in-out: cubic-bezier(.65, 0, .35, 1);
     }
@@ -856,6 +857,406 @@
       .atlas-card { height: 250px; }
     }
 
+    /* 转盘首页：只接替开场的最后一帧，其他三幕与花卉内页保持不变。 */
+    .finish-scene {
+      display: block;
+      overflow: hidden;
+      padding: 0;
+      text-align: center;
+      isolation: isolate;
+    }
+
+    .turntable-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .turntable-paper-wash {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: rgba(255, 252, 245, .1);
+      pointer-events: none;
+    }
+
+    .turntable-home {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      width: 100%;
+      height: 100%;
+      min-height: 620px;
+    }
+
+    .turntable-head {
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      padding: clamp(36px, 5.2vh, 62px) 72px 12px;
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .finish-scene.is-active .turntable-head {
+      animation: turntableHomeIn 560ms ease-out forwards;
+    }
+
+    .turntable-eyebrow {
+      margin: 0 0 2px;
+      color: #8e5c1c;
+      font-size: clamp(17px, 1.3vw, 24px);
+      line-height: 1.4;
+    }
+
+    .turntable-title {
+      margin: 0;
+      color: #2d241c;
+      font-family: var(--serif);
+      font-size: clamp(54px, 5.2vw, 94px);
+      font-weight: 400;
+      line-height: .98;
+      text-wrap: balance;
+    }
+
+    .turntable-chapters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0 clamp(15px, 1.5vw, 28px);
+      margin: 10px 0 0;
+      color: #493b2f;
+      font-size: clamp(15px, 1.15vw, 21px);
+      line-height: 1.5;
+    }
+
+    .turntable-chapters span:not(:last-child)::after {
+      content: "·";
+      display: inline-block;
+      margin-left: clamp(15px, 1.5vw, 28px);
+      color: #9a7548;
+    }
+
+    .turntable-guide {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0 0;
+      padding: 6px 14px;
+      border: 1px solid rgba(177, 125, 55, .25);
+      border-radius: 999px;
+      color: #6d553a;
+      background: rgba(255, 252, 245, .68);
+      font-family: var(--readable-font);
+      font-size: clamp(13px, .94vw, 16px);
+      line-height: 1.6;
+      white-space: normal;
+      text-wrap: pretty;
+    }
+
+    .turntable-wheel-area {
+      position: relative;
+      display: grid;
+      place-items: start center;
+      min-height: 0;
+      padding-top: clamp(24px, 3.2vh, 38px);
+    }
+
+    .turntable-wheel-stage {
+      position: relative;
+      width: min(70.5vh, 52.5vw, 760px);
+      min-width: 418px;
+      aspect-ratio: 1;
+      filter: drop-shadow(0 18px 22px rgba(83, 55, 25, .14));
+      opacity: 0;
+      transform: translateY(12px) scale(.985);
+    }
+
+    .finish-scene.is-active .turntable-wheel-stage {
+      animation: turntableWheelIn 620ms 110ms ease-out forwards;
+    }
+
+    .turntable-wheel-rotor {
+      position: absolute;
+      inset: 1.3%;
+      z-index: 1;
+      overflow: hidden;
+      border-radius: 50%;
+      transform: rotate(0deg);
+      transform-origin: 50% 50%;
+    }
+
+    .turntable-wheel-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .turntable-sector-base {
+      fill: rgba(248, 240, 224, .96);
+      stroke: rgba(158, 101, 29, .7);
+      stroke-width: 3;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .turntable-flower-art {
+      mix-blend-mode: multiply;
+      opacity: .92;
+      pointer-events: none;
+    }
+
+    .turntable-sector-veil {
+      fill: rgba(248, 246, 239, .75);
+      opacity: 1;
+      transition: opacity 180ms ease-out;
+      pointer-events: none;
+    }
+
+    .turntable-sector-veil.is-completed { opacity: .34; }
+    .turntable-sector-veil.is-selected { opacity: .06; }
+
+    .turntable-sector-glow {
+      fill: rgba(238, 184, 72, .13);
+      stroke: #d09a41;
+      stroke-width: 6;
+      opacity: 0;
+      vector-effect: non-scaling-stroke;
+      transition: opacity 180ms ease-out;
+      pointer-events: none;
+    }
+
+    .turntable-sector-glow.is-selected { opacity: 1; }
+
+    .turntable-sector-hit {
+      fill: transparent;
+      cursor: pointer;
+      pointer-events: all;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .turntable-sector-hit:focus,
+    .turntable-sector-hit:focus-visible {
+      outline: none;
+      stroke: transparent;
+    }
+
+    .turntable-sector-group:focus-within .turntable-sector-glow { opacity: .55; }
+    .turntable-wheel-stage.is-spinning .turntable-sector-hit { pointer-events: none; }
+
+    .turntable-wheel-frame {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      border: 5px solid #98611d;
+      border-radius: 50%;
+      background: transparent;
+      box-shadow: inset 0 0 0 4px #e6bd68, 0 0 0 1px rgba(126, 78, 20, .45);
+      pointer-events: none;
+    }
+
+    .turntable-wheel-labels {
+      position: absolute;
+      inset: 1.3%;
+      z-index: 4;
+      pointer-events: none;
+      transition: opacity 150ms ease-out;
+    }
+
+    .turntable-wheel-stage.is-spinning .turntable-wheel-labels { opacity: 0; }
+
+    .turntable-flower-label {
+      position: absolute;
+      display: grid;
+      justify-items: center;
+      width: 116px;
+      padding: 0;
+      color: #3b2a1d;
+      font-family: var(--serif);
+      text-align: center;
+      transform: translate(-50%, -50%);
+      text-shadow: 0 1px 0 rgba(255, 252, 244, .98), 1px 0 0 rgba(255, 252, 244, .98), -1px 0 0 rgba(255, 252, 244, .98), 0 -1px 0 rgba(255, 252, 244, .98), 0 2px 8px rgba(255, 250, 238, .95);
+    }
+
+    .turntable-flower-label strong {
+      font-size: clamp(19px, 1.44vw, 27px);
+      font-weight: 400;
+      line-height: 1.12;
+      white-space: nowrap;
+    }
+
+    .turntable-flower-label small {
+      margin-top: 4px;
+      color: #655441;
+      font-size: clamp(12px, .92vw, 17px);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .turntable-stamp {
+      display: none;
+      margin-top: 5px;
+      min-width: 34px;
+      height: 22px;
+      padding: 0 6px;
+      border: 1px solid #a94631;
+      border-radius: 2px;
+      color: #a94631;
+      background: rgba(255, 248, 235, .5);
+      font-family: var(--readable-font);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1;
+      text-shadow: none;
+    }
+
+    .turntable-flower-label.is-completed .turntable-stamp { display: grid; place-items: center; }
+    .turntable-flower-label.is-selected strong { color: #7d4d12; }
+
+    .turntable-pointer {
+      position: absolute;
+      left: 50%;
+      top: -1.8%;
+      z-index: 7;
+      width: 8.6%;
+      aspect-ratio: .54;
+      transform: translateX(-50%);
+      transform-origin: 50% 12%;
+      filter: drop-shadow(0 4px 4px rgba(80, 50, 20, .18));
+      pointer-events: none;
+    }
+
+    .turntable-pointer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #b87922, #e6ba5b 45%, #c58a2c 70%);
+      clip-path: polygon(50% 0, 83% 43%, 58% 100%, 42% 100%, 17% 43%);
+    }
+
+    .turntable-pointer::after {
+      content: "";
+      position: absolute;
+      left: 49%;
+      top: 17%;
+      width: 1px;
+      height: 66%;
+      background: rgba(112, 67, 18, .52);
+      transform: rotate(-12deg);
+      transform-origin: bottom;
+    }
+
+    .turntable-wheel-stage.is-spinning .turntable-pointer {
+      animation: turntablePointerTick 100ms ease-in-out infinite alternate;
+    }
+
+    .turntable-center-control {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 6;
+      display: grid;
+      place-items: center;
+      width: 22%;
+      aspect-ratio: 1;
+      padding: 8px;
+      border: 2px solid #b77a24;
+      border-radius: 50%;
+      color: #3d2a17;
+      font-family: var(--readable-font);
+      background: rgba(250, 238, 211, .98);
+      box-shadow: 0 3px 10px rgba(86, 59, 26, .13);
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: transform 160ms ease-out, background-color 160ms ease-out;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .turntable-center-control span {
+      display: block;
+      width: max-content;
+      max-width: none;
+      font-size: clamp(16px, 1.12vw, 21px);
+      font-weight: 400;
+      line-height: 1;
+      white-space: nowrap;
+      word-break: keep-all;
+      transition: opacity 110ms ease-out;
+    }
+
+    .turntable-wheel-stage.is-spinning .turntable-center-control span { opacity: 0; }
+    .turntable-center-control:hover { transform: translate(-50%, -50%) scale(1.025); background: #fff3d7; }
+    .turntable-center-control:active { transform: translate(-50%, -50%) scale(.985); }
+    .turntable-center-control:focus-visible { outline: 2px solid #8e5c1c; outline-offset: 5px; }
+    .turntable-center-control:disabled { cursor: wait; }
+
+    .turntable-hint {
+      position: absolute;
+      left: 50%;
+      bottom: max(17px, env(safe-area-inset-bottom));
+      z-index: 60;
+      margin: 0;
+      padding: 8px 15px;
+      border: 1px solid rgba(177, 125, 55, .28);
+      border-radius: 999px;
+      color: #6e5941;
+      background: rgba(255, 252, 245, .9);
+      box-shadow: 0 8px 20px rgba(80, 57, 32, .07);
+      font-family: var(--readable-font);
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 8px);
+      transition: opacity 180ms ease-out, transform 180ms ease-out;
+    }
+
+    .turntable-hint.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+    @keyframes turntablePointerTick {
+      from { transform: translateX(-50%) rotate(-2deg); }
+      to { transform: translateX(-50%) rotate(2deg); }
+    }
+
+    @keyframes turntableHomeIn { to { opacity: 1; transform: translateY(0); } }
+    @keyframes turntableWheelIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    @media (max-width: 900px) {
+      .turntable-head { padding-inline: 58px; }
+      .turntable-wheel-stage { width: min(65vh, 83vw, 655px); min-width: 400px; }
+      .turntable-flower-label { width: 104px; }
+    }
+
+    @media (max-height: 760px) and (min-width: 700px) {
+      .turntable-head { padding-top: 28px; padding-bottom: 7px; }
+      .turntable-eyebrow { font-size: 16px; }
+      .turntable-title { font-size: 62px; }
+      .turntable-chapters { margin-top: 6px; font-size: 15px; }
+      .turntable-guide { margin-top: 6px; padding: 5px 12px; font-size: 14px; }
+      .turntable-wheel-area { padding-top: 18px; }
+      .turntable-wheel-stage { width: min(64vh, 49vw, 640px); }
+    }
+
+    @media (max-width: 560px) {
+      .finish-scene { padding: 0; overflow: hidden; }
+      .turntable-home { min-height: 610px; }
+      .turntable-head { padding: 24px 52px 0; }
+      .turntable-title { font-size: clamp(43px, 14vw, 62px); }
+      .turntable-chapters { gap: 0 8px; margin-top: 8px; font-size: 13px; }
+      .turntable-chapters span:not(:last-child)::after { margin-left: 8px; }
+      .turntable-guide { max-width: 25em; margin-top: 6px; padding: 5px 10px; font-size: 12px; line-height: 1.45; }
+      .turntable-wheel-area { padding-top: 14px; }
+      .turntable-wheel-stage { width: min(68vh, 96vw); min-width: 350px; }
+      .turntable-flower-label { width: 80px; }
+      .turntable-flower-label strong { font-size: 19px; }
+      .turntable-flower-label small { font-size: 11px; }
+      .turntable-stamp { min-width: 30px; height: 19px; margin-top: 3px; font-size: 11px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: .01ms !important;
@@ -1016,39 +1417,27 @@
       </div>
     </section>
 
-    <section class="scene finish-scene" id="finishScene" aria-label="开场结束">
-      <div class="finish-ambience" aria-hidden="true">
-        <span class="ambient-orb"></span>
-        <span class="ambient-orb"></span>
-        <span class="ambient-orb"></span>
+    <section class="scene finish-scene" id="finishScene" aria-label="五花体验转盘">
+      <img class="turntable-backdrop" src="assets/images/ink-landscape-v1.webp" alt="" decoding="async">
+      <div class="turntable-paper-wash" aria-hidden="true"></div>
+      <div class="turntable-home">
+        <header class="turntable-head">
+          <p class="turntable-eyebrow">山家花谱</p>
+          <h1 class="turntable-title">循花入馔</h1>
+          <p class="turntable-chapters" aria-label="五章内容"><span>识名物</span><span>看菜谱</span><span>读故事</span><span>赏诗词</span><span>品意蕴</span></p>
+          <p class="turntable-guide">点击中央转动花轮，停稳后进入对应花馔</p>
+        </header>
+        <section class="turntable-wheel-area" aria-label="五花体验转盘">
+          <div class="turntable-wheel-stage" id="wheelStage">
+            <div class="turntable-wheel-rotor" id="wheelRotor"><svg class="turntable-wheel-svg" id="wheelSvg" viewBox="0 0 1000 1000" role="group" aria-label="选择花卉"></svg></div>
+            <div class="turntable-wheel-frame" aria-hidden="true"></div>
+            <div class="turntable-wheel-labels" id="wheelLabels" aria-hidden="true"></div>
+            <span class="turntable-pointer" aria-hidden="true"></span>
+            <button class="turntable-center-control" id="spinButton" type="button" aria-label="转动花轮"><span id="spinLabel">转动花轮</span></button>
+          </div>
+        </section>
       </div>
-      <div class="finish-content">
-        <p class="eyebrow">山家花谱</p>
-        <h1 class="finish-title">循花入馔</h1>
-        <p class="finish-subtitle">识名物 · 看菜谱 · 读故事 · 赏诗词 · 品意蕴</p>
-        <div class="atlas-cards" aria-label="五花图鉴">
-          <a class="atlas-card" href="flowers/songhua/index.html">
-            <svg viewBox="0 0 150 170" aria-hidden="true"><path d="M75 151V62M75 92L30 62M75 105l43-30M75 118l-37-8M75 130l38-8" fill="none" stroke="#687653" stroke-width="4" stroke-linecap="round"/><g fill="#d6aa4d"><ellipse cx="75" cy="59" rx="18" ry="29"/><ellipse cx="66" cy="67" rx="10" ry="23"/><ellipse cx="84" cy="67" rx="10" ry="23"/></g></svg>
-            <h2>松花</h2><p>松黄饼</p>
-          </a>
-          <a class="atlas-card" href="flowers/meihua/index.html">
-            <svg viewBox="0 0 150 170" aria-hidden="true"><path d="M25 145Q70 112 105 55Q117 38 135 26" fill="none" stroke="#756354" stroke-width="5" stroke-linecap="round"/><g fill="#dfa8a4" stroke="#b77e79"><circle cx="76" cy="92" r="15"/><circle cx="105" cy="56" r="16"/><circle cx="128" cy="31" r="14"/><circle cx="48" cy="121" r="13"/></g></svg>
-            <h2>梅花</h2><p>梅花汤饼</p>
-          </a>
-          <a class="atlas-card" href="flowers/juhua/index.html">
-            <svg viewBox="0 0 150 170" aria-hidden="true"><path d="M75 155V83M75 116Q50 103 36 119M75 105q24-18 39-4" fill="none" stroke="#6c7d58" stroke-width="5"/><g transform="translate(75 61)" fill="#e0ae44"><ellipse rx="10" ry="28" transform="rotate(0) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(30) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(60) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(90) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(120) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(150) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(180) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(210) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(240) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(270) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(300) translate(0 -14)"/><ellipse rx="10" ry="28" transform="rotate(330) translate(0 -14)"/><circle r="21" fill="#c8912e"/></g></svg>
-            <h2>菊花</h2><p>菊苗煎</p>
-          </a>
-          <a class="atlas-card" href="flowers/guihua/index.html">
-            <svg viewBox="0 0 150 170" aria-hidden="true"><path d="M75 154V34" stroke="#6e7d5d" stroke-width="5"/><g fill="#e2b54f"><circle cx="59" cy="61" r="8"/><circle cx="89" cy="72" r="8"/><circle cx="55" cy="100" r="8"/><circle cx="93" cy="118" r="8"/></g><g fill="#90a279"><ellipse cx="47" cy="79" rx="21" ry="10" transform="rotate(-25 47 79)"/><ellipse cx="101" cy="92" rx="22" ry="10" transform="rotate(24 101 92)"/><ellipse cx="50" cy="124" rx="21" ry="10" transform="rotate(-27 50 124)"/></g></svg>
-            <h2>桂花</h2><p>广寒糕</p>
-          </a>
-          <a class="atlas-card" href="flowers/mudan/identify.html">
-            <svg viewBox="0 0 150 170" aria-hidden="true"><path d="M75 155V104M75 129l-29-16M75 122l29-17" fill="none" stroke="#6d7d58" stroke-width="5"/><g transform="translate(75 69)" fill="#e5b7b1" stroke="#cc958e"><ellipse rx="25" ry="42"/><ellipse rx="25" ry="42" transform="rotate(60)"/><ellipse rx="25" ry="42" transform="rotate(120)"/><circle r="19" fill="#e2b45c" stroke="none"/></g></svg>
-            <h2>牡丹</h2><p>牡丹生菜</p>
-          </a>
-        </div>
-      </div>
+      <p class="turntable-hint" id="wheelHint" role="status" aria-live="polite"></p>
     </section>
 
     <nav class="progress" aria-label="开场进度">
@@ -1066,6 +1455,290 @@
     <span class="sjq-sound-tip" data-sjq-sound-tip aria-hidden="true">启清音</span>
   </div>
   <audio class="sjq-bgm-audio" id="siteBgm" data-sjq-bgm src="assets/audio/bgm.mp3" loop preload="metadata"></audio>
+
+  <script>
+    (() => {
+      const flowers = [
+        { id: 'songhua', name: '松花', dish: '松黄饼', art: 'assets/images/pine-botanical-v1.webp', href: 'flowers/songhua/index.html' },
+        { id: 'juhua', name: '菊花', dish: '菊苗煎', art: 'assets/images/chrysanthemum-botanical-v1.webp', href: 'flowers/juhua/index.html' },
+        { id: 'meihua', name: '梅花', dish: '梅花汤饼', art: 'assets/images/plum-botanical-v1.webp', href: 'flowers/meihua/index.html' },
+        { id: 'mudan', name: '牡丹', dish: '牡丹生菜', art: 'assets/images/peony-botanical-v1.webp', href: 'flowers/mudan/identify.html' },
+        { id: 'guihua', name: '桂花', dish: '广寒糕', art: 'assets/images/osmanthus-botanical-v1.webp', href: 'flowers/guihua/index.html' }
+      ];
+      const stage = document.getElementById('wheelStage');
+      const rotor = document.getElementById('wheelRotor');
+      const svg = document.getElementById('wheelSvg');
+      const labels = document.getElementById('wheelLabels');
+      const button = document.getElementById('spinButton');
+      const buttonLabel = document.getElementById('spinLabel');
+      const hint = document.getElementById('wheelHint');
+      if (!stage || !rotor || !svg || !labels || !button || !buttonLabel || !hint) return;
+
+      const svgNamespace = 'http://www.w3.org/2000/svg';
+      const completedKey = 'sjq-wheel-completed-v1';
+      const cycleKey = 'sjq-wheel-cycle-v1';
+      const pendingKey = 'sjq-wheel-pending-v1';
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const navigationEntry = performance.getEntriesByType('navigation')[0];
+      const isPageReload = navigationEntry?.type === 'reload';
+
+      try {
+        // “已品”只记录本次浏览过程；主动刷新首页即重新开始。
+        if (isPageReload) {
+          sessionStorage.removeItem(completedKey);
+          sessionStorage.removeItem(cycleKey);
+          sessionStorage.removeItem(pendingKey);
+        }
+        // 清理旧版本曾写入的长期记录。
+        localStorage.removeItem(completedKey);
+        localStorage.removeItem(cycleKey);
+      } catch (error) {}
+
+      let completed = readList(completedKey);
+      let cycleSeen = readList(cycleKey);
+      let selected = null;
+      let currentAngle = 0;
+      let state = 'idle';
+      let hintTimer = 0;
+
+      function isFlowerId(id) {
+        return flowers.some(flower => flower.id === id);
+      }
+
+      function readList(key) {
+        try {
+          const value = JSON.parse(sessionStorage.getItem(key) || '[]');
+          return Array.isArray(value) ? [...new Set(value.filter(isFlowerId))] : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveList(key, value) {
+        try { sessionStorage.setItem(key, JSON.stringify(value)); } catch (error) {}
+      }
+
+      function addCompleted(id) {
+        if (!isFlowerId(id)) return false;
+        if (!completed.includes(id)) completed.push(id);
+        if (!cycleSeen.includes(id)) cycleSeen.push(id);
+        saveList(completedKey, completed);
+        saveList(cycleKey, cycleSeen);
+        return true;
+      }
+
+      const pageParams = new URLSearchParams(window.location.search);
+      let returnedFlower = pageParams.get('completed');
+      try {
+        if (!returnedFlower && pageParams.has('home')) returnedFlower = sessionStorage.getItem(pendingKey);
+        if (returnedFlower && addCompleted(returnedFlower)) sessionStorage.removeItem(pendingKey);
+      } catch (error) {}
+
+      if (pageParams.has('completed')) {
+        pageParams.delete('completed');
+        const cleanedQuery = pageParams.toString();
+        history.replaceState(null, '', `${window.location.pathname}${cleanedQuery ? `?${cleanedQuery}` : ''}${window.location.hash}`);
+      }
+
+      function polar(cx, cy, radius, angle) {
+        const radians = (angle - 90) * Math.PI / 180;
+        return { x: cx + radius * Math.cos(radians), y: cy + radius * Math.sin(radians) };
+      }
+
+      function sectorPath(start, end, radius = 485) {
+        const first = polar(500, 500, radius, start);
+        const second = polar(500, 500, radius, end);
+        return `M 500 500 L ${first.x} ${first.y} A ${radius} ${radius} 0 0 1 ${second.x} ${second.y} Z`;
+      }
+
+      function svgElement(tag, attributes = {}) {
+        const node = document.createElementNS(svgNamespace, tag);
+        Object.entries(attributes).forEach(([key, value]) => node.setAttribute(key, value));
+        return node;
+      }
+
+      const definitions = svgElement('defs');
+      svg.appendChild(definitions);
+
+      flowers.forEach((flower, index) => {
+        const start = index * 72 - 36;
+        const end = index * 72 + 36;
+        const pathData = sectorPath(start, end);
+        const group = svgElement('g', { class: 'turntable-sector-group', 'data-flower': flower.id });
+        const clipId = `turntable-clip-${flower.id}`;
+        const clip = svgElement('clipPath', { id: clipId });
+        clip.appendChild(svgElement('path', { d: pathData }));
+        definitions.appendChild(clip);
+        group.appendChild(svgElement('path', { class: 'turntable-sector-base', d: pathData }));
+
+        const artPoint = polar(500, 500, 278, index * 72);
+        const artSize = 440;
+        group.appendChild(svgElement('image', {
+          class: 'turntable-flower-art',
+          href: flower.art,
+          x: artPoint.x - artSize / 2,
+          y: artPoint.y - artSize / 2,
+          width: artSize,
+          height: artSize,
+          preserveAspectRatio: 'xMidYMid meet',
+          transform: `rotate(${index * 72} ${artPoint.x} ${artPoint.y})`,
+          'clip-path': `url(#${clipId})`
+        }));
+
+        const veil = svgElement('path', { class: 'turntable-sector-veil', d: pathData });
+        veil.dataset.flower = flower.id;
+        group.appendChild(veil);
+        const glow = svgElement('path', { class: 'turntable-sector-glow', d: pathData });
+        glow.dataset.flower = flower.id;
+        group.appendChild(glow);
+        const hit = svgElement('path', {
+          class: 'turntable-sector-hit',
+          d: pathData,
+          role: 'button',
+          tabindex: '0',
+          'aria-label': `选择${flower.name}，对应${flower.dish}`,
+          'data-href': flower.href
+        });
+        hit.dataset.flower = flower.id;
+        hit.addEventListener('click', () => chooseSector(flower));
+        hit.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            chooseSector(flower);
+          }
+        });
+        group.appendChild(hit);
+        svg.appendChild(group);
+
+        const label = document.createElement('div');
+        label.className = 'turntable-flower-label';
+        label.dataset.flower = flower.id;
+        label.innerHTML = `<strong>${flower.name}</strong><small>${flower.dish}</small><span class="turntable-stamp">已品</span>`;
+        labels.appendChild(label);
+      });
+
+      function placeLabels() {
+        flowers.forEach((flower, index) => {
+          const label = labels.querySelector(`[data-flower="${flower.id}"]`);
+          const point = polar(50, 50, 32.5, index * 72 + currentAngle);
+          label.style.left = `${point.x}%`;
+          label.style.top = `${point.y}%`;
+        });
+      }
+
+      function renderState() {
+        flowers.forEach(flower => {
+          const done = completed.includes(flower.id);
+          const active = selected === flower.id;
+          const veil = svg.querySelector(`.turntable-sector-veil[data-flower="${flower.id}"]`);
+          const glow = svg.querySelector(`.turntable-sector-glow[data-flower="${flower.id}"]`);
+          const label = labels.querySelector(`[data-flower="${flower.id}"]`);
+          veil.classList.toggle('is-completed', done && !active);
+          veil.classList.toggle('is-selected', active);
+          glow.classList.toggle('is-selected', active);
+          label.classList.toggle('is-completed', done);
+          label.classList.toggle('is-selected', active);
+        });
+        placeLabels();
+      }
+
+      function showHint(message) {
+        window.clearTimeout(hintTimer);
+        hint.textContent = message;
+        hint.classList.add('is-visible');
+        hintTimer = window.setTimeout(() => hint.classList.remove('is-visible'), 2800);
+      }
+
+      function selectTarget() {
+        let pool = flowers.filter(flower => !cycleSeen.includes(flower.id));
+        if (!pool.length) {
+          cycleSeen = [];
+          saveList(cycleKey, cycleSeen);
+          pool = flowers;
+          showHint('五花已经遍历，新一轮寻花开始。');
+        }
+        return pool[Math.floor(Math.random() * pool.length)];
+      }
+
+      function clockwiseDelta(targetAngle) {
+        return -(((currentAngle - targetAngle) % 360 + 360) % 360);
+      }
+
+      async function rotateTo(target, turns, duration) {
+        state = 'spinning';
+        selected = null;
+        button.disabled = true;
+        stage.classList.add('is-spinning');
+        renderState();
+        const targetIndex = flowers.findIndex(flower => flower.id === target.id);
+        const endBase = -targetIndex * 72;
+        const start = currentAngle;
+        const end = start + clockwiseDelta(endBase) - turns * 360;
+
+        if (reduceMotion.matches) {
+          currentAngle = end;
+          rotor.style.transform = `rotate(${currentAngle}deg)`;
+        } else {
+          rotor.style.willChange = 'transform';
+          const animation = rotor.animate(
+            [{ transform: `rotate(${start}deg)` }, { transform: `rotate(${end}deg)` }],
+            { duration, easing: 'cubic-bezier(.12,.62,.18,1)', fill: 'forwards' }
+          );
+          try { await animation.finished; } catch (error) {}
+          currentAngle = end;
+          rotor.style.transform = `rotate(${currentAngle}deg)`;
+          animation.cancel();
+          rotor.style.willChange = '';
+        }
+
+        selected = target.id;
+        state = 'selected';
+        stage.classList.remove('is-spinning');
+        button.disabled = false;
+        buttonLabel.textContent = '进入体验';
+        button.setAttribute('aria-label', `进入${target.name}篇`);
+        renderState();
+        fetch(target.href, { cache: 'force-cache', priority: 'high' }).catch(() => {});
+        showHint(`花轮停在${target.name}，点击中央进入体验。`);
+      }
+
+      function chooseSector(flower) {
+        if (state !== 'spinning') rotateTo(flower, 0, 680);
+      }
+
+      function enterSelected() {
+        const flower = flowers.find(item => item.id === selected);
+        if (!flower) return;
+        try {
+          sessionStorage.setItem(pendingKey, flower.id);
+          const returnUrl = new URL(window.location.href);
+          returnUrl.searchParams.set('home', '1');
+          returnUrl.searchParams.delete('completed');
+          history.replaceState(null, '', `${returnUrl.pathname}${returnUrl.search}${returnUrl.hash}`);
+        } catch (error) {}
+        window.location.href = flower.href;
+      }
+
+      function refresh() {
+        completed = readList(completedKey);
+        cycleSeen = readList(cycleKey);
+        renderState();
+        if (returnedFlower && isFlowerId(returnedFlower)) {
+          const flower = flowers.find(item => item.id === returnedFlower);
+          showHint(`${flower.name}已点亮。本轮寻花将继续循访其余花馔。`);
+          returnedFlower = null;
+        }
+      }
+
+      button.addEventListener('click', () => {
+        if (state === 'idle') rotateTo(selectTarget(), 4, 3000);
+        else if (state === 'selected') enterSelected();
+      });
+      window.addEventListener('resize', placeLabels, { passive: true });
+      renderState();
+      window.SJQTurntable = { refresh, returningFromFlower: Boolean(returnedFlower) };
+    })();
+  </script>
 
   <script>
     (() => {
@@ -1121,16 +1794,17 @@
         });
       }
 
-      function warmFlower(card) {
-        const href = card.getAttribute('href');
+      function warmFlower(target) {
+        const href = target.dataset.href || target.getAttribute('href');
+        if (!href) return;
         (flowerWarmups[href] || [href]).forEach(resource => warmResource(resource, 'high'));
         warmResource('assets/vendor/p5-2.3.2.min.js', 'high');
       }
 
-      document.querySelectorAll('.atlas-card').forEach(card => {
-        card.addEventListener('pointerenter', () => warmFlower(card), { once: true, passive: true });
-        card.addEventListener('focus', () => warmFlower(card), { once: true, passive: true });
-        card.addEventListener('touchstart', () => warmFlower(card), { once: true, passive: true });
+      document.querySelectorAll('.turntable-sector-hit').forEach(target => {
+        target.addEventListener('pointerenter', () => warmFlower(target), { once: true, passive: true });
+        target.addEventListener('focus', () => warmFlower(target), { once: true, passive: true });
+        target.addEventListener('touchstart', () => warmFlower(target), { once: true, passive: true });
       });
 
       const warmSharedAnimation = () => warmResource('assets/vendor/p5-2.3.2.min.js');
@@ -1166,6 +1840,7 @@
         updateProgress(index);
 
         if (index === 3) {
+          window.SJQTurntable?.refresh?.();
           try {
             sessionStorage.setItem('sjq-opening-seen-v3', '1');
           } catch (error) {
@@ -1228,8 +1903,13 @@
 
       // Only an explicit return from a flower chapter skips the opening.
       // Opening the site directly always plays the prologue again.
-      if (openingParams.has('home')) {
+      if (openingParams.has('home') || window.SJQTurntable?.returningFromFlower) {
         showScene(3);
+        if (openingParams.has('home')) {
+          openingParams.delete('home');
+          const cleanedQuery = openingParams.toString();
+          history.replaceState(null, '', `${window.location.pathname}${cleanedQuery ? `?${cleanedQuery}` : ''}${window.location.hash}`);
+        }
       } else {
         playOpening();
       }
