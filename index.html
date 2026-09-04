@@ -1217,6 +1217,41 @@
 
     .turntable-hint.is-visible { opacity: 1; transform: translate(-50%, 0); }
 
+    .competition-preview-note {
+      position: absolute;
+      left: max(84px, calc(env(safe-area-inset-left) + 60px));
+      bottom: max(20px, env(safe-area-inset-bottom));
+      z-index: 50;
+      max-width: calc(100% - 108px);
+      color: var(--ink-soft);
+      font-family: var(--readable-font);
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.8;
+      text-align: left;
+      text-wrap: pretty;
+    }
+
+    .competition-preview-note p { margin: 0; }
+
+    @media (max-width: 900px) {
+      .competition-preview-note {
+        left: max(16px, env(safe-area-inset-left));
+        right: max(16px, env(safe-area-inset-right));
+        bottom: max(64px, calc(env(safe-area-inset-bottom) + 52px));
+        max-width: none;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      .finish-scene .turntable-wheel-stage {
+        width: min(65vh, 83vw, 655px, calc(100dvh - 330px));
+        min-width: 0;
+      }
+
+      .turntable-hint { bottom: max(138px, calc(env(safe-area-inset-bottom) + 126px)); }
+    }
+
     @keyframes turntablePointerTick {
       from { transform: translateX(-50%) rotate(-2deg); }
       to { transform: translateX(-50%) rotate(2deg); }
@@ -1438,6 +1473,10 @@
         </section>
       </div>
       <p class="turntable-hint" id="wheelHint" role="status" aria-live="polite"></p>
+      <footer class="competition-preview-note" aria-label="参赛作品预览说明">
+        <p>第三届中国研究生“文化中国”两创大赛 · 参赛作品预览版</p>
+        <p>仅供参赛准备、功能测试与评审展示，请勿转载或传播。</p>
+      </footer>
     </section>
 
     <nav class="progress" aria-label="开场进度">
